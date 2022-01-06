@@ -1,0 +1,32 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.symxchange.generated.symitar.com/account" xmlns:tns="http://www.symxchange.generated.symitar.com/common/dto/common">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <acc:getAccountSelectFieldsFilterChildren>
+            <Request MessageId="Test">
+                <AccountNumber>518907</AccountNumber>
+                <Credentials>
+                    <AdministrativeCredentials>
+                        <Password>BB1234-4321</Password>
+                    </AdministrativeCredentials>
+                </Credentials>
+                <DeviceInformation DeviceType="BACKBASE" DeviceNumber="20672"/>
+                <SelectableFields>
+                    <ExternalLoanSelectableFields>
+                        <IncludeAllExternalLoanFields>false</IncludeAllExternalLoanFields>
+                        <ExternalLoanFields>
+                            <AccountNumber>true</AccountNumber>
+                            <CloseDate>true</CloseDate>
+                            <Description>true</Description>
+                            <Service>0</Service>
+                        </ExternalLoanFields>
+                    </ExternalLoanSelectableFields>
+                </SelectableFields>
+                <ChildrenSearchFilter>
+                    <ExternalLoanFilter>
+                        <Query>Type = 2 AND Status = 0</Query>
+                    </ExternalLoanFilter>
+                </ChildrenSearchFilter>
+            </Request>
+        </acc:getAccountSelectFieldsFilterChildren>
+    </soapenv:Body>
+</soapenv:Envelope>

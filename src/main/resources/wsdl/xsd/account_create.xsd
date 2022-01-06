@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:update="http://www.symxchange.generated.symitar.com/account/dto/update" xmlns:create="http://www.symxchange.generated.symitar.com/account/dto/create" targetNamespace="http://www.symxchange.generated.symitar.com/account/dto/create" version="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="account_update.xsd" namespace="http://www.symxchange.generated.symitar.com/account/dto/update" />
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014-2019 Jack Henry Software</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="AccountCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:AccountUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Number" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:NameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LookupCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LookupUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CommentCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CommentUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareHoldCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareHoldUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareTransferCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareTransferUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareCheckOrderCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareCheckOrderUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareNoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareAnalysisCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareAnalysisUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareAnalysisPlanCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareAnalysisPlanUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ShareAnalysisGroupCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ShareAnalysisGroupUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IrsCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:IrsUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IrsNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:IrsNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IrsDistributionCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:IrsDistributionUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanHoldCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanHoldUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanPledgeCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanPledgeUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanPledgeNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanPledgeNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanTransferCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanTransferUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanCheckOrderCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanCheckOrderUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanNoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanBillingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanBillingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanRateChangeCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanRateChangeUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="RateChangeDate" nillable="true" type="xsd:date" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanBankruptcyCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanBankruptcyUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanBankruptcyPrepetitionBalCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanBankruptcyPrepetitionBalUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanEscrowAnalysisCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanEscrowAnalysisUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanEscrowCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanEscrowUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanScheduleCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanScheduleUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanLnSegmentCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanLnSegmentUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanLnSegmentBillingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanLnSegmentBillingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EftCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:EftUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EftNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:EftNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EftTransferCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:EftTransferUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EftAddendaInfoCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:EftAddendaInfoUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CardCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CardUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CardNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CardNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CardNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CardNoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CardAccessCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CardAccessUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="HouseholdCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:HouseholdUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppPersonCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppPersonUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppFinanceCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppFinanceUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppNoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppScheduleCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppScheduleUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppLnSegmentCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppLnSegmentUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppEscrowAnalysisCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppEscrowAnalysisUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppEscrowCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppEscrowUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAppPledgeCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:LoanAppPledgeUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CpWorkCardCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CpWorkCardUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CpWorkCardTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CpWorkCardTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CpWorkCardNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:CpWorkCardNoteUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Code" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="EnterDate" nillable="true" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="EnterTime" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IdType" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="50" name="Text">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+                <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserId" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="VoidFlag" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="VoidedBy" type="xsd:short" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PortfolioCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:PortfolioUpdateableFields">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PortfolioNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:PortfolioNoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PortfolioTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:PortfolioTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PreferenceCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:PreferenceUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PreferenceAccessCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:PreferenceAccessUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:TrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:NoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SiteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:SiteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SiteCashOrderTypeCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:SiteCashOrderTypeUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalAccountCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ExternalAccountUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:PledgeUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BatchAchOrigCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:BatchAchOrigUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalLoanCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ExternalLoanUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalLoanTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ExternalLoanTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalLoanNoteCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ExternalLoanNoteUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalLoanNameCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ExternalLoanNameUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalLoanTransferCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:ExternalLoanTransferUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

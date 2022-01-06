@@ -1,0 +1,34 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.symxchange.generated.symitar.com/account" xmlns:tns="http://www.symxchange.generated.symitar.com/common/dto/common">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <acc:getAccountSelectFieldsFilterChildren>
+            <Request MessageId="Test">
+                <AccountNumber>621585</AccountNumber>
+                <Credentials>
+                    <AdministrativeCredentials>
+                        <Password>BB1234-4321</Password>
+                    </AdministrativeCredentials>
+                </Credentials>
+                <DeviceInformation DeviceType="BACKBASE" DeviceNumber="20672"/>
+                <SelectableFields>
+                    <NameSelectableFields>
+                        <IncludeAllNameFields>false</IncludeAllNameFields>
+                        <NameFields>
+                            <BirthDate>true</BirthDate>
+                            <Email>true</Email>
+                            <First>true</First>
+                            <HomePhone>true</HomePhone>
+                            <Last>true</Last>
+                            <MobilePhone>true</MobilePhone>
+                            <Ssn>true</Ssn>
+                            <Type>true</Type>
+                            <UserChar2>true</UserChar2>
+                            <WorkPhone>true</WorkPhone>
+                        </NameFields>
+                    </NameSelectableFields>
+                </SelectableFields>
+                <ChildrenSearchFilter/>
+            </Request>
+        </acc:getAccountSelectFieldsFilterChildren>
+    </soapenv:Body>
+</soapenv:Envelope>

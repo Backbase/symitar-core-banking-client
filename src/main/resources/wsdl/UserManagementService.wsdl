@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.symxchange.generated.symitar.com/usermanagement" xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:usermanagementdto="http://www.symxchange.generated.symitar.com/usermanagement/dto" name="UserManagementService" targetNamespace="http://www.symxchange.generated.symitar.com/usermanagement" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>Copyright 2014-2017 Jack Henry Software
+	</wsdl:documentation>
+  <xsd:documentation>Version 1.0</xsd:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.symxchange.generated.symitar.com/usermanagement">
+      <xsd:import schemaLocation="xsd/common.xsd" namespace="http://www.symxchange.generated.symitar.com/common/dto/common" />
+      <xsd:import schemaLocation="xsd/usermanagement.xsd" namespace="http://www.symxchange.generated.symitar.com/usermanagement/dto" />
+      <xsd:element name="verifyUser">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="usermanagementdto:VerifyUserRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyUserResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="usermanagementdto:VerifyUserResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="resetUserPassword">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="usermanagementdto:ResetUserPasswordRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="resetUserPasswordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="usermanagementdto:ResetUserPasswordResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setUserPassword">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="usermanagementdto:SetUserPasswordRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setUserPasswordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="usermanagementdto:SetUserPasswordResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="logon">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="usermanagementdto:EpisysUserLogonRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="logonResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="usermanagementdto:EpisysUserLogonResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="logoff">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="usermanagementdto:EpisysUserLogoffRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="logoffResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="usermanagementdto:EpisysUserLogoffResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="setUserPasswordResponse">
+    <wsdl:part name="parameters" element="tns:setUserPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="logoffRequest">
+    <wsdl:part name="parameters" element="tns:logoff" />
+  </wsdl:message>
+  <wsdl:message name="verifyUserResponse">
+    <wsdl:part name="parameters" element="tns:verifyUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="resetUserPasswordRequest">
+    <wsdl:part name="parameters" element="tns:resetUserPassword" />
+  </wsdl:message>
+  <wsdl:message name="resetUserPasswordResponse">
+    <wsdl:part name="parameters" element="tns:resetUserPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="setUserPasswordRequest">
+    <wsdl:part name="parameters" element="tns:setUserPassword" />
+  </wsdl:message>
+  <wsdl:message name="logonRequest">
+    <wsdl:part name="parameters" element="tns:logon" />
+  </wsdl:message>
+  <wsdl:message name="verifyUserRequest">
+    <wsdl:part name="parameters" element="tns:verifyUser" />
+  </wsdl:message>
+  <wsdl:message name="logonResponse">
+    <wsdl:part name="parameters" element="tns:logonResponse" />
+  </wsdl:message>
+  <wsdl:message name="logoffResponse">
+    <wsdl:part name="parameters" element="tns:logoffResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UserManagementService">
+    <wsdl:operation name="verifyUser">
+      <wsdl:input message="tns:verifyUserRequest" />
+      <wsdl:output message="tns:verifyUserResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="resetUserPassword">
+      <wsdl:input message="tns:resetUserPasswordRequest" />
+      <wsdl:output message="tns:resetUserPasswordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setUserPassword">
+      <wsdl:input message="tns:setUserPasswordRequest" />
+      <wsdl:output message="tns:setUserPasswordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="logon">
+      <wsdl:input message="tns:logonRequest" />
+      <wsdl:output message="tns:logonResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="logoff">
+      <wsdl:input message="tns:logoffRequest" />
+      <wsdl:output message="tns:logoffResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserManagementServiceBinding" type="tns:UserManagementService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="verifyUser">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/usermanagement/verifyUser" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="resetUserPassword">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/usermanagement/resetUserPassword" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setUserPassword">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/usermanagement/setUserPassword" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logon">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/usermanagement/logon" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logoff">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/usermanagement/logoff" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserManagementService">
+    <wsdl:port name="UserManagementServicePort" binding="tns:UserManagementServiceBinding">
+<!--      <soap:address location="http://symdev1:8182/SymXchange/2019.01/usermanagement" />-->
+      <soap:address location="http://symdev1:8087/SymXchange/2020.00/usermanagement" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

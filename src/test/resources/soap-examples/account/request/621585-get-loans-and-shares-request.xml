@@ -1,0 +1,63 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.symxchange.generated.symitar.com/account" xmlns:tns="http://www.symxchange.generated.symitar.com/common/dto/common">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <acc:getAccountSelectFieldsFilterChildren>
+            <Request MessageId="Test">
+                <AccountNumber>621585</AccountNumber>
+                <Credentials>
+                    <AdministrativeCredentials>
+                        <Password>BB1234-4321</Password>
+                    </AdministrativeCredentials>
+                </Credentials>
+                <DeviceInformation DeviceType="BACKBASE" DeviceNumber="20672"/>
+                <SelectableFields>
+                    <LoanSelectableFields>
+                        <IncludeAllLoanFields>false</IncludeAllLoanFields>
+                        <LoanFields>
+                            <AvailableCredit>true</AvailableCredit>
+                            <Balance>true</Balance>
+                            <CreditLimit>true</CreditLimit>
+                            <Description>true</Description>
+                            <DueDate>true</DueDate>
+                            <Id>true</Id>
+                            <InterestRate>true</InterestRate>
+                            <InterestYtd>true</InterestYtd>
+                            <LastPaymentDate>true</LastPaymentDate>
+                            <MicrAcctNumber>true</MicrAcctNumber>
+                            <OpenDate>true</OpenDate>
+                            <Payment>true</Payment>
+                            <PaymentDue>true</PaymentDue>
+                            <Service>0</Service>
+                            <Type>true</Type>
+                        </LoanFields>
+                    </LoanSelectableFields>
+                    <ShareSelectableFields>
+                        <IncludeAllShareFields>false</IncludeAllShareFields>
+                        <ShareFields>
+                            <AvailableBalance>true</AvailableBalance>
+                            <Balance>true</Balance>
+                            <Description>true</Description>
+                            <DivRate>true</DivRate>
+                            <Id>true</Id>
+                            <MaturityDate>true</MaturityDate>
+                            <MicrAcctNumber>true</MicrAcctNumber>
+                            <OpenDate>true</OpenDate>
+                            <RegDCheckCount>true</RegDCheckCount>
+                            <RegDTransferCount>true</RegDTransferCount>
+                            <Service>0</Service>
+                            <Type>true</Type>
+                        </ShareFields>
+                    </ShareSelectableFields>
+                </SelectableFields>
+                <ChildrenSearchFilter>
+                    <LoanFilter>
+                        <Query>CloseDate &lt; {date: '1900-01-01'} AND ChargeOffDate &lt; {date: '1900-01-01'}</Query>
+                    </LoanFilter>
+                    <ShareFilter>
+                        <Query>CloseDate &lt; {date: '1900-01-01'} AND ChargeOffDate &lt; {date: '1900-01-01'}</Query>
+                    </ShareFilter>
+                </ChildrenSearchFilter>
+            </Request>
+        </acc:getAccountSelectFieldsFilterChildren>
+    </soapenv:Body>
+</soapenv:Envelope>

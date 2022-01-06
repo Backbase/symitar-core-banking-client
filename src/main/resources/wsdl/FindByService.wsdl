@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:findbydto="http://www.symxchange.generated.symitar.com/findby/dto" xmlns:tns="http://www.symxchange.generated.symitar.com/findby" xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="FindByService" targetNamespace="http://www.symxchange.generated.symitar.com/findby" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>Copyright 2014-2019 Jack Henry Software</wsdl:documentation>
+  <xsd:documentation>Version 1.3</xsd:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.symxchange.generated.symitar.com/findby">
+      <xsd:import schemaLocation="xsd/common.xsd" namespace="http://www.symxchange.generated.symitar.com/common/dto/common" />
+      <xsd:import schemaLocation="xsd/findby.xsd" namespace="http://www.symxchange.generated.symitar.com/findby/dto" />
+      <xsd:element name="findByActiveCard">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="findbydto:LookupByActiveCardRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByActiveCardResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="findbydto:LookupByActiveCardResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByAnyCard">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="findbydto:LookupByAnyCardRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByAnyCardResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="findbydto:LookupByAnyCardResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByHomeUser">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="findbydto:LookupByHomeUserRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByHomeUserResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="findbydto:LookupByHomeUserResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByMICR">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="findbydto:LookupByMICRRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByMICRResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="findbydto:LookupByMICRResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByLookup">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="findbydto:LookupByLookupRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByLookupResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="findbydto:LookupByLookupResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findBySSN">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="findbydto:LookupBySSNRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findBySSNResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="findbydto:LookupBySSNResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByShortName">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Request" type="findbydto:LookupByShortNameRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="findByShortNameResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="findbydto:LookupByShortNameResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="findByHomeUserRequest">
+    <wsdl:part name="parameters" element="tns:findByHomeUser" />
+  </wsdl:message>
+  <wsdl:message name="findByAnyCardRequest">
+    <wsdl:part name="parameters" element="tns:findByAnyCard" />
+  </wsdl:message>
+  <wsdl:message name="findByShortNameResponse">
+    <wsdl:part name="parameters" element="tns:findByShortNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="findByMICRResponse">
+    <wsdl:part name="parameters" element="tns:findByMICRResponse" />
+  </wsdl:message>
+  <wsdl:message name="findBySSNRequest">
+    <wsdl:part name="parameters" element="tns:findBySSN" />
+  </wsdl:message>
+  <wsdl:message name="findByActiveCardResponse">
+    <wsdl:part name="parameters" element="tns:findByActiveCardResponse" />
+  </wsdl:message>
+  <wsdl:message name="findByAnyCardResponse">
+    <wsdl:part name="parameters" element="tns:findByAnyCardResponse" />
+  </wsdl:message>
+  <wsdl:message name="findByLookupRequest">
+    <wsdl:part name="parameters" element="tns:findByLookup" />
+  </wsdl:message>
+  <wsdl:message name="findByHomeUserResponse">
+    <wsdl:part name="parameters" element="tns:findByHomeUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="findBySSNResponse">
+    <wsdl:part name="parameters" element="tns:findBySSNResponse" />
+  </wsdl:message>
+  <wsdl:message name="findByActiveCardRequest">
+    <wsdl:part name="parameters" element="tns:findByActiveCard" />
+  </wsdl:message>
+  <wsdl:message name="findByLookupResponse">
+    <wsdl:part name="parameters" element="tns:findByLookupResponse" />
+  </wsdl:message>
+  <wsdl:message name="findByMICRRequest">
+    <wsdl:part name="parameters" element="tns:findByMICR" />
+  </wsdl:message>
+  <wsdl:message name="findByShortNameRequest">
+    <wsdl:part name="parameters" element="tns:findByShortName" />
+  </wsdl:message>
+  <wsdl:portType name="FindByService">
+    <wsdl:operation name="findByActiveCard">
+      <wsdl:input message="tns:findByActiveCardRequest" />
+      <wsdl:output message="tns:findByActiveCardResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findByAnyCard">
+      <wsdl:input message="tns:findByAnyCardRequest" />
+      <wsdl:output message="tns:findByAnyCardResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findByHomeUser">
+      <wsdl:input message="tns:findByHomeUserRequest" />
+      <wsdl:output message="tns:findByHomeUserResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findByMICR">
+      <wsdl:input message="tns:findByMICRRequest" />
+      <wsdl:output message="tns:findByMICRResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findByLookup">
+      <wsdl:input message="tns:findByLookupRequest" />
+      <wsdl:output message="tns:findByLookupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findBySSN">
+      <wsdl:input message="tns:findBySSNRequest" />
+      <wsdl:output message="tns:findBySSNResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findByShortName">
+      <wsdl:input message="tns:findByShortNameRequest" />
+      <wsdl:output message="tns:findByShortNameResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FindByServiceSOAPBinding" type="tns:FindByService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="findByActiveCard">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findByActiveCard" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findByAnyCard">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findByAnyCard" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findByHomeUser">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findByHomeUser" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findByMICR">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findByMICR" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findByLookup">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findByLookup" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findBySSN">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findBySSN" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findByShortName">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/findby/findByShortName" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FindByService">
+    <wsdl:port name="FindByServicePort" binding="tns:FindByServiceSOAPBinding">
+      <soap:address location="http://symdev1:8087/SymXchange/2020.00/findby" />    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

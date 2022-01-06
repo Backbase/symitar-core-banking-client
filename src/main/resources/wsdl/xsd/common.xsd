@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://www.symxchange.generated.symitar.com/common/dto/common" targetNamespace="http://www.symxchange.generated.symitar.com/common/dto/common" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014-2019 Jack Henry Software
+		</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="Status">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusCode" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Message" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeviceInformation">
+    <xsd:attribute name="DeviceType" use="required">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="20" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="DeviceNumber" type="xsd:short" use="required" />
+  </xsd:complexType>
+  <xsd:complexType name="UpdateStatus">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="isAllFieldsUpdateSuccess">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:boolean" />
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="FailedUpdateStatus" type="tns:FailedUpdateStatus" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="FailedUpdateStatus">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Record">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string" />
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="ErrorCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string" />
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="ErrorMessage">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string" />
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="unbounded" name="PrimaryKeyField" type="tns:PrimaryKeyField" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PrimaryKeyField">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Name">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string" />
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string" />
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Identification">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="HomeBankingUserName">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="LoginAccountNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PrimaryVerification">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="AudioAccessCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="15" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="HomeBankingPassword">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SecondaryVerification">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SocialSecurityNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="9" />
+            <xsd:minLength value="9" />
+            <xsd:pattern value="[0-9]+" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SSNLastFourDigits">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4" />
+            <xsd:minLength value="4" />
+            <xsd:pattern value="[0-9]+" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SecondaryHomeBankingPassword">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SecondaryAudioAccessCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="15" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AdministrativeCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Password">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PagingRequestContext">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="NumberOfRecordsToReturn">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="NumberOfRecordsToSkip">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="0" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CredentialsChoice">
+    <xsd:choice>
+      <xsd:element minOccurs="0" maxOccurs="1" name="AccountNumberCredentials" type="tns:AccountNumberCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="HomeBankingCredentials" type="tns:HomeBankingCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CardCredentials" type="tns:CardCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="MICRCredentials" type="tns:MICRCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="LookupCredentials" type="tns:LookupCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserNumberCredentials" type="tns:UserNumberCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="AdministrativeCredentials" type="tns:AdministrativeCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TokenCredentials" type="tns:TokenCredentials" />
+    </xsd:choice>
+    <xsd:attribute ref="tns:ProcessorUser" />
+  </xsd:complexType>
+  <xsd:complexType name="AccountNumberCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="AccountNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="10" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="OptionalUserCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:choice>
+        <xsd:element minOccurs="0" maxOccurs="1" name="HomeBankingPassword">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="0" />
+              <xsd:maxLength value="20" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element minOccurs="0" maxOccurs="1" name="AudioAccessCode">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="0" />
+              <xsd:maxLength value="15" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+      </xsd:choice>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SecondaryVerification" type="tns:SecondaryVerification" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="HomeBankingCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserName">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Password">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SecondaryVerification" type="tns:SecondaryVerification" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CardCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="CardNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="30" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MICRCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="MICRNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="30" />
+            <xsd:pattern value="\d*" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="LookupCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Type" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="20" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="OptionalUserCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:choice>
+        <xsd:element minOccurs="0" maxOccurs="1" name="HomeBankingPassword">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="0" />
+              <xsd:maxLength value="20" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element minOccurs="0" maxOccurs="1" name="AudioAccessCode">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="0" />
+              <xsd:maxLength value="15" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+      </xsd:choice>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SecondaryVerification" type="tns:SecondaryVerification" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AdminCredentialsChoice">
+    <xsd:choice>
+      <xsd:element minOccurs="0" maxOccurs="1" name="AdministrativeCredentials" type="tns:AdministrativeCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserNumberCredentials" type="tns:UserNumberCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TokenCredentials" type="tns:TokenCredentials" />
+    </xsd:choice>
+    <xsd:attribute ref="tns:ProcessorUser" />
+  </xsd:complexType>
+  <xsd:complexType name="BaseResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusMessage" type="xsd:string" />
+    </xsd:sequence>
+    <xsd:attribute name="MessageId" type="xsd:string" />
+    <xsd:attribute name="StatusCode" type="xsd:int" />
+  </xsd:complexType>
+  <xsd:complexType name="TransactionsBaseRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="tns:CredentialsChoice" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="tns:DeviceInformation" />
+    </xsd:sequence>
+    <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+    <xsd:attribute ref="tns:BranchId" />
+  </xsd:complexType>
+  <xsd:complexType name="UserNumberCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="9999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Password" type="tns:Password" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TokenCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="TokenId">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="512" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="AccountNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="UserNumber">
+    <xsd:restriction base="xsd:short">
+      <xsd:minInclusive value="0" />
+      <xsd:maxInclusive value="9999" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="Password">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:attribute name="ProcessorUser">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:short">
+        <xsd:minInclusive value="0" />
+        <xsd:maxInclusive value="9999" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:attribute>
+  <xsd:attribute name="MessageId" type="xsd:string" />
+  <xsd:attribute name="BranchId">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:short">
+        <xsd:minInclusive value="0" />
+        <xsd:maxInclusive value="9999" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:attribute>
+</xsd:schema>

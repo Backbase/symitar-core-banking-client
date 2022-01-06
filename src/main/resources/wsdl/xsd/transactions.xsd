@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://www.symxchange.generated.symitar.com/transactions/dto" xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" targetNamespace="http://www.symxchange.generated.symitar.com/transactions/dto" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="common.xsd" namespace="http://www.symxchange.generated.symitar.com/common/dto/common" />
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014-2015 Jack Henry Software
+		</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="LoanPaymentRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecipientAccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecipientId" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PaymentAmounts" type="tns:AmountInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RemitInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PrincipalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:LoanPaymentType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAddonRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:LoanId" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckIssuer" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Amounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Payee" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TracerNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DraftNumber" />
+          <xsd:element minOccurs="0" maxOccurs="2" ref="tns:Printer" />
+          <xsd:element minOccurs="0" maxOccurs="10" ref="tns:Dispenser" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CalculateCheck" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="StopCheckPaymentRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorId" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Payee" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DraftNumbers" type="tns:DraftNumbers" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransferRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorAccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorId" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecipientAccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecipientId" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecipientType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TransferAmount" type="tns:AmountType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RemitInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PrincipalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:LoanPaymentType" />
+          <xsd:element minOccurs="0" maxOccurs="1" form="qualified" name="RegulationDLimited" nillable="true" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="WithdrawFeeRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorId" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:FeeCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="WithdrawalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ShareId" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="WithdrawalAmounts" type="tns:AmountInfo" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckIssuer" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckAccountCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckReference" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Payee" />
+          <xsd:element minOccurs="0" maxOccurs="1" form="qualified" name="RegulationDLimited" nillable="true" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TracerNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DraftNumber" />
+          <xsd:element minOccurs="0" maxOccurs="2" ref="tns:Printer" />
+          <xsd:element minOccurs="0" maxOccurs="10" ref="tns:Dispenser" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CashDevice" type="tns:CashDeviceType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CalculateCheck" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="nonZeroPositiveInt">
+    <xsd:restriction base="xsd:int">
+      <xsd:minInclusive value="1" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="nonNegativeInt">
+    <xsd:restriction base="xsd:int">
+      <xsd:minInclusive value="0" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="DenominationType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Unit" type="tns:nonZeroPositiveInt" />
+      <xsd:element minOccurs="0" name="Count" type="tns:nonNegativeInt" />
+      <xsd:element minOccurs="0" name="Status" type="tns:StatusType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="StatusType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Ok" />
+      <xsd:enumeration value="Low" />
+      <xsd:enumeration value="Empty" />
+      <xsd:enumeration value="NotInstalled" />
+      <xsd:enumeration value="IdNotRead" />
+      <xsd:enumeration value="Full" />
+      <xsd:enumeration value="Busy" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CashDeviceType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Denominations">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="6" name="Denomination" type="tns:DenominationType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="Coin" type="tns:CoinType" />
+      <xsd:element minOccurs="0" name="Orientation">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Left" />
+            <xsd:enumeration value="Right" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" />
+  </xsd:complexType>
+  <xsd:complexType name="CoinType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Value" type="tns:nonNegativeInt" />
+      <xsd:element minOccurs="0" name="Status" type="tns:StatusType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ShareDepositRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ShareId" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DepositAmounts" type="tns:AmountInfo" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TaxDeferredContributionCode" type="tns:TaxDeferredContributionCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CashDevice" type="tns:CashDeviceType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NewLoanRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:LoanId" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LoanAmounts" type="tns:AmountInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckIssuer" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckAccountCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Payee" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckReference" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TracerNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DraftNumber" />
+          <xsd:element minOccurs="0" maxOccurs="2" ref="tns:Printer" />
+          <xsd:element minOccurs="0" maxOccurs="10" ref="tns:Dispenser" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CalculateCheck" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BillPaymentRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="tns:DonorId" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IdType" type="tns:DonorIdType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PaymentAmount" type="tns:AmountType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckIssuer" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLAccounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:GLCodes" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:AuthorizationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:ForcePostRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" form="qualified" name="RegulationDLimited" nillable="true" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GLToGLPostingRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:DonorAccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecipientAccountNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Amounts" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckIssuer" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Comment" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Payee" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:SourceCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:EffectiveDate" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CommentCode" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckReference" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:RecurrenceRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CalculateCheck" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DepositReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:ShareDepositRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="WithdrawalReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:WithdrawalRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NewLoanReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:NewLoanRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BillPaymentReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:BillPaymentRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="WithdrawFeeReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:WithdrawFeeRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransferReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:TransferRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanAddonReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:LoanAddonRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LoanPaymentReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:LoanPaymentRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GLToGLPostingReversalRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:GLToGLPostingRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:PartialReversalRequested" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalTotalAmount" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OriginalConfirmation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransactionsBaseResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:BaseResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckAccountCode" />
+        </xsd:sequence>
+        <xsd:attribute name="Confirmation" type="xsd:string" />
+        <xsd:attribute name="SequenceFrom" type="xsd:int" />
+        <xsd:attribute name="SequenceTo" type="xsd:int" />
+        <xsd:attribute name="TransactionPostDate" type="tns:TransactionPostDate" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransactionsFeesResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:TransactionsBaseResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="TransactionFees" type="tns:TransactionFee" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransactionsOverdrawInformationResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:TransactionsFeesResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" ref="tns:OverdrawInformation" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Printer">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="PrinterId">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="2" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Amount" type="tns:AmountType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CashAmount">
+    <xsd:simpleContent>
+      <xsd:extension base="tns:AmountType">
+        <xsd:attribute name="PureUSCash" type="xsd:boolean" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AmountInformation">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TotalAmount" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CheckAmount" type="tns:AmountType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CashAmount" type="tns:AmountType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AmountInfo">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" ref="tns:TotalAmount" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CheckAmount" type="tns:AmountType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CashAmount" type="tns:CashAmount" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TransactionFee">
+    <xsd:attribute name="Fee" type="tns:MinZeroAmountType" />
+    <xsd:attribute name="Type" type="tns:FeeTypeType" />
+  </xsd:complexType>
+  <xsd:complexType name="GLAccounts">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="ClearingAccount" type="tns:GLAccountType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CheckDisbursedAccount" type="tns:GLAccountType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExternalAccount" type="tns:GLAccountType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GLCodes">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="ClearingCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="CheckDisbursedCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExternalCode">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PayeeInformation">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="5" name="PayeeLine" type="tns:PayeeLine" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PayeeLine">
+    <xsd:sequence>
+      <xsd:element name="LineValue">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="40" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute ref="tns:PayeeLineNumber" use="required" />
+  </xsd:complexType>
+  <xsd:attribute name="PayeeLineNumber">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:short">
+        <xsd:minInclusive value="1" />
+        <xsd:maxInclusive value="5" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:attribute>
+  <xsd:complexType name="OverdrawInformation">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="10" name="OverdrawProtectionEntry" type="tns:OverdrawProtectionEntry" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OverdrawToleranceAmount" type="tns:MinZeroAmountType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OverdrawProtectionEntry">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SourceAccount" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="SourceId">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SourceType">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SHARE" />
+            <xsd:enumeration value="LOAN" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SourceAmount" type="tns:MinZeroAmountType" />
+    </xsd:sequence>
+    <xsd:attribute name="EntryNumber">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:short">
+          <xsd:minInclusive value="1" />
+          <xsd:maxInclusive value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:simpleType name="CheckNumberType">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+      <xsd:minLength value="1" />
+      <xsd:pattern value="[0-9]+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="AccountNumberType">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="14" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DonorId">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DonorIdType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SHARE" />
+      <xsd:enumeration value="LOAN" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RecipientId">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RecipientIdType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SHARE" />
+      <xsd:enumeration value="LOAN" />
+      <xsd:enumeration value="EXTERNAL" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="AmountType">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:fractionDigits value="2" />
+      <xsd:minInclusive value="0.01" />
+      <xsd:maxInclusive value="90000000000000.00" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="MinZeroAmountType">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:fractionDigits value="2" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="AuthorizationType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NO_HOLD" />
+      <xsd:enumeration value="ONE_DAY_GENERAL_HOLD" />
+      <xsd:enumeration value="MERCHANT_VERIFICATION_HOLD" />
+      <xsd:enumeration value="MERCHANT_INFORMATION_HOLD" />
+      <xsd:enumeration value="MERCHANT_VERIFICATION_WITHOUT_HOLD" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CheckIssuerType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SYMITAR" />
+      <xsd:enumeration value="CLIENT_SYSTEM" />
+      <xsd:enumeration value="THIRD_PARTY" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="RemitInformation">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RemitCode" type="tns:RemitTransactionCodeType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="FundType" type="tns:RemitFundType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Payer" type="tns:RemitPayerType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="RemitTransactionCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RemitFundType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CASH" />
+      <xsd:enumeration value="CHECK" />
+      <xsd:enumeration value="CERTIFIED_CHECK" />
+      <xsd:enumeration value="EFT" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RemitPayerType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BORROWER" />
+      <xsd:enumeration value="COBORROWER" />
+      <xsd:enumeration value="GARNISHMENT" />
+      <xsd:enumeration value="TRUST_OFFICER" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="DraftNumbers">
+    <xsd:choice>
+      <xsd:element minOccurs="0" maxOccurs="1" ref="tns:CheckNumber" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="CheckNumberRange" type="tns:CheckNumberRange" />
+    </xsd:choice>
+  </xsd:complexType>
+  <xsd:simpleType name="LoanPaymentType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SCHEDULED" />
+      <xsd:enumeration value="ADDITIONAL" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CheckNumberRange">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="BeginningCheckNumber" type="tns:CheckNumberType" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="EndingCheckNumber" type="tns:CheckNumberType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="TaxDeferredContributionCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CURRENT_YEAR" />
+      <xsd:enumeration value="PRIOR_YEAR" />
+      <xsd:enumeration value="ROLLOVER_CURRENT_YEAR" />
+      <xsd:enumeration value="TRANSFER_EXTERNAL_CURRENT_YEAR" />
+      <xsd:enumeration value="TRANSFER_INTERNAL" />
+      <xsd:enumeration value="ROTH_CURRENT_YEAR" />
+      <xsd:enumeration value="RECHARACTERIZATION" />
+      <xsd:enumeration value="REPAYMENT_QUALIFIED_RESERVIST_DIST" />
+      <xsd:enumeration value="REPAYMENT_DESIGNATED_DISASTER_DIST" />
+      <xsd:enumeration value="LATE_ROLLOVER" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="FeeTypeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="GENERAL" />
+      <xsd:enumeration value="LATE" />
+      <xsd:enumeration value="OVERDRAW_TRANSFER" />
+      <xsd:enumeration value="OVERDRAW_COURTESY" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="GLAccountType">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="14" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TransactionPostDate">
+    <xsd:restriction base="xsd:date">
+      <xsd:minInclusive value="1900-01-01" />
+      <xsd:maxInclusive value="2078-12-31" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:element name="DonorAccountNumber" type="tns:AccountNumberType" />
+  <xsd:element name="DonorId" type="tns:DonorId" />
+  <xsd:element name="DonorType" type="tns:DonorIdType" />
+  <xsd:element name="ShareId" type="tns:DonorId" />
+  <xsd:element name="LoanId" type="tns:DonorId" />
+  <xsd:element name="RecipientAccountNumber" type="tns:AccountNumberType" />
+  <xsd:element name="RecipientId" type="tns:RecipientId" />
+  <xsd:element name="RecipientType" type="tns:RecipientIdType" />
+  <xsd:element name="Amounts" type="tns:AmountInformation" />
+  <xsd:element name="TotalAmount" type="tns:AmountType" />
+  <xsd:element name="GLAccounts" type="tns:GLAccounts" />
+  <xsd:element name="GLCodes" type="tns:GLCodes" />
+  <xsd:element name="RemitInformation" type="tns:RemitInformation" />
+  <xsd:element name="PrincipalAmount" type="tns:AmountType" />
+  <xsd:element name="CheckIssuer" type="tns:CheckIssuerType" />
+  <xsd:element name="AuthorizationType" type="tns:AuthorizationType" />
+  <xsd:element name="LoanPaymentType" type="tns:LoanPaymentType" />
+  <xsd:element name="CheckNumber" type="tns:CheckNumberType" />
+  <xsd:element name="SourceCode">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="2" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="ForcePostRequested" type="xsd:boolean" />
+  <xsd:element name="RecurrenceRequested" type="xsd:boolean" />
+  <xsd:element name="PartialReversalRequested" type="xsd:boolean" />
+  <xsd:element name="OriginalTotalAmount" type="tns:AmountType" />
+  <xsd:element name="Payee" type="tns:PayeeInformation" />
+  <xsd:element name="OriginalConfirmation">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="14" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="AccountNumber">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="10" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="getdonorResponse" type="tns:GetDonorRecipientAccountsResponse" />
+  <xsd:element name="Comment">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:minLength value="1" />
+        <xsd:maxLength value="132" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="EffectiveDate">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:date">
+        <xsd:minInclusive value="1900-01-01" />
+        <xsd:maxInclusive value="2078-12-31" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="CommentCode">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:short">
+        <xsd:minInclusive value="0" />
+        <xsd:maxInclusive value="9999" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="CheckAccountCode">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:int">
+        <xsd:minInclusive value="0" />
+        <xsd:maxInclusive value="99" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="CheckReference">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="100" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="FeeCode" type="xsd:short" />
+  <xsd:element name="Sequence" type="xsd:string" />
+  <xsd:element name="Confirmation" type="xsd:string" />
+  <xsd:element name="OverdrawInformation" type="tns:OverdrawInformation" />
+  <xsd:element name="CalculateCheck" type="xsd:boolean" />
+  <xsd:element name="TracerNumber">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="15" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="DraftNumber">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="10" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="Printer" type="tns:Printer" />
+  <xsd:complexType name="Dispenser">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="DispenserId">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="10" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Amount" type="tns:AmountType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="Dispenser" type="tns:Dispenser" />
+  <xsd:complexType name="ProductDetails">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Id" type="xsd:string" />
+      <xsd:element minOccurs="0" name="IdType" type="tns:IdType" />
+      <xsd:element minOccurs="0" name="Balance" type="tns:MinZeroAmountType" />
+      <xsd:element minOccurs="0" name="AvailableBalance" type="tns:MinZeroAmountType" />
+      <xsd:element minOccurs="0" name="Description" type="xsd:string" />
+      <xsd:element minOccurs="0" name="AccountNumber" type="tns:AccountNumberType" />
+      <xsd:element minOccurs="0" name="Name" type="xsd:string" />
+      <xsd:element minOccurs="0" name="AccountTrackingType" type="xsd:int" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Donor">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:ProductDetails" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Recipient">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:ProductDetails" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="IdType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Share" />
+      <xsd:enumeration value="Loan" />
+      <xsd:enumeration value="ExternalLoan" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="GetDonorRecipientAccountsResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:BaseResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Donor" type="tns:Donor" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Recipient" type="tns:Recipient" />
+          <xsd:element minOccurs="0" name="TransferToAnyAccount" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GetDonorRecipientAccountsRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:TransactionsBaseRequest" />
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

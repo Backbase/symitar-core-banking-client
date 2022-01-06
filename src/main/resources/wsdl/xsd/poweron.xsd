@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://www.symxchange.generated.symitar.com/poweron/dto" xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" targetNamespace="http://www.symxchange.generated.symitar.com/poweron/dto" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="common.xsd" namespace="http://www.symxchange.generated.symitar.com/common/dto/common" />
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014 Jack Henry Software</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="PowerOnExecutionRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:CredentialsChoice" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Header" type="tns:ExecutionHeader" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Body" type="tns:ExecutionRequestBody" />
+    </xsd:sequence>
+    <xsd:attribute name="BranchId" type="xsd:short" />
+  </xsd:complexType>
+  <xsd:complexType name="ExecutionHeader">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="MessageID" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGState">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="132" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ExecutionRequestBody">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="File" type="tns:FileType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGSession">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="128" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserDefinedParameters" type="tns:UserDefinedParameters" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PromptResponse" type="tns:PromptResponse" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="User">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="32767" />
+            <xsd:minInclusive value="0" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserDefinedParameters">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="5" name="RGUserChr" type="tns:UserChr" />
+      <xsd:element minOccurs="0" maxOccurs="5" name="RGUserNum" type="tns:UserNum" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserChr">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="50" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="132" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserNum">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="1" />
+            <xsd:maxInclusive value="15" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value" type="xsd:int" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PromptResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGAnsText">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="132" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGAnsRate">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="3" />
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="999.999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGAnsDate">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:date">
+            <xsd:minInclusive value="1900-01-01" />
+            <xsd:maxInclusive value="2078-12-31" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGAnsNum" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGAnsAmount">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="2" />
+            <xsd:minInclusive value="-999999999999.99" />
+            <xsd:maxInclusive value="999999999999.99" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PowerOnExecutionReturnArrayResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Header" type="tns:ExecutionHeader" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Body" type="tns:ExecutionReturnArrayResponseBody" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ExecutionBaseResponseBody">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="PromptRequest" type="tns:Prompt" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserDefinedParameters" type="tns:UserDefinedParameters" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGScreenClear" type="xsd:boolean" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusCode" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusMessage" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ExecutionReturnArrayResponseBody">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:ExecutionBaseResponseBody">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="10000" name="RGLine" type="tns:RGLine" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Prompt">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGMaxCodeWidth" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGDataType">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="NO_INPUT_REQUIRED" />
+            <xsd:enumeration value="STRING" />
+            <xsd:enumeration value="RATE" />
+            <xsd:enumeration value="DATE" />
+            <xsd:enumeration value="NUMBER" />
+            <xsd:enumeration value="CODE" />
+            <xsd:enumeration value="YES_NO" />
+            <xsd:enumeration value="MONEY" />
+            <xsd:enumeration value="BIG_MONEY" />
+            <xsd:enumeration value="END" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RequiredInputDefault" type="tns:RequiredInputDefaultValue" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGPrompt" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RequiredInputDefaultValue">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGDefText" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGDefRate">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="3" />
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="999.999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGDefDate">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:date">
+            <xsd:minInclusive value="1900-01-01" />
+            <xsd:maxInclusive value="2078-12-31" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGDefNum" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RGDefAmount">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="2" />
+            <xsd:minInclusive value="-999999999999.99" />
+            <xsd:maxInclusive value="999999999999.99" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RGLine">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="LineValue">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="132" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="lineNumber" type="xsd:int" />
+  </xsd:complexType>
+  <xsd:complexType name="PowerOnExecutionResponse">
+    <xsd:sequence>
+      <xsd:element name="Header" type="tns:ExecutionHeader" />
+      <xsd:element name="Body" type="tns:ExecutionResponseBody" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ExecutionResponseBody">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:ExecutionBaseResponseBody">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="RGLines" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="MCWPowerOnExecutionRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:CredentialsChoice" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Header" type="tns:MCWExecutionHeader" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Body" type="tns:MCWExecutionRequestBody" />
+    </xsd:sequence>
+    <xsd:attribute name="BranchId" type="xsd:short" />
+  </xsd:complexType>
+  <xsd:complexType name="MCWPowerOnExecutionReturnArrayResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Header" type="tns:MCWExecutionHeader" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Body" type="tns:MCWExecutionReturnArrayResponseBody" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWPowerOnExecutionResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Header" type="tns:MCWExecutionHeader" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Body" type="tns:MCWExecutionResponseBody" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWExecutionHeader">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="MessageID" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="MCWState">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="132" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWExecutionRequestBody">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="File" type="tns:FileType" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="InputLetterFile">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="132" />
+            <xsd:minLength value="0" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="MCWSessionNumber">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="128" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="User">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="32767" />
+            <xsd:minInclusive value="0" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserDefinedParameters" type="tns:MCWUserDefinedParameters" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWExecutionReturnArrayResponseBody">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:MCWExecutionBaseResponseBody">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="10000" name="RGLine" type="tns:RGLine" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="MCWExecutionResponseBody">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:MCWExecutionBaseResponseBody">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="RGLine" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="MCWUserDefinedParameters">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="15" name="MCWUserNumber" type="tns:UserNum" />
+      <xsd:element minOccurs="0" maxOccurs="50" name="MCWUserChr" type="tns:UserChr" />
+      <xsd:element minOccurs="0" maxOccurs="15" name="MCWUserDate" type="tns:UserDate" />
+      <xsd:element minOccurs="0" maxOccurs="15" name="MCWUserRate" type="tns:UserRate" />
+      <xsd:element minOccurs="0" maxOccurs="15" name="MCWUserCode" type="tns:UserCode" />
+      <xsd:element minOccurs="0" maxOccurs="15" name="MCWUserAmount" type="tns:UserAmount" />
+      <xsd:element minOccurs="0" maxOccurs="15" name="MCWUserFloat" type="tns:UserFloat" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserRate">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="15" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="3" />
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="999.999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserDate">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="15" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:date">
+            <xsd:minInclusive value="1900-01-01" />
+            <xsd:maxInclusive value="2078-12-31" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserCode">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="15" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="9999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserAmount">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="15" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="2" />
+            <xsd:minInclusive value="-999999999999.99" />
+            <xsd:maxInclusive value="999999999999.99" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserFloat">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="15" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value" type="xsd:double" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWExecutionBaseResponseBody">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserDefinedParameters" type="tns:MCWUserDefinedParameters" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusCode" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusMessage" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="MCWDataType">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SINGLE_STATE" />
+            <xsd:enumeration value="MULTIPLE_STATE" />
+            <xsd:enumeration value="MULTIPLE_STATE_END" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="DataParameters" type="tns:MCWDataParameters" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWNumData">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="10" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value" type="xsd:int" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWMoneyData">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="10" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="2" />
+            <xsd:minInclusive value="-999999999999.99" />
+            <xsd:maxInclusive value="999999999999.99" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWChrData">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="10" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="132" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWRateData">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="5" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="3" />
+            <xsd:minInclusive value="0" />
+            <xsd:maxInclusive value="999.999" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWDateData">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="ID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:short">
+            <xsd:maxInclusive value="5" />
+            <xsd:minInclusive value="1" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="1" maxOccurs="1" name="Value">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:date">
+            <xsd:minInclusive value="1900-01-01" />
+            <xsd:maxInclusive value="2078-12-31" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MCWDataParameters">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="10" name="MCWNumData" type="tns:MCWNumData" />
+      <xsd:element minOccurs="0" maxOccurs="10" name="MCWMoneyData" type="tns:MCWMoneyData" />
+      <xsd:element minOccurs="0" maxOccurs="10" name="MCWChrData" type="tns:MCWChrData" />
+      <xsd:element minOccurs="0" maxOccurs="5" name="MCWRateData" type="tns:MCWRateData" />
+      <xsd:element minOccurs="0" maxOccurs="5" name="MCWDateData" type="tns:MCWDateData" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="FileType">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="32" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

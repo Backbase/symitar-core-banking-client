@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:update="http://www.symxchange.generated.symitar.com/user/dto/update" xmlns:create="http://www.symxchange.generated.symitar.com/user/dto/create" targetNamespace="http://www.symxchange.generated.symitar.com/user/dto/create" version="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="user_update.xsd" namespace="http://www.symxchange.generated.symitar.com/user/dto/update" />
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014-2019 Jack Henry Software</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="UserTrackingCreatableFields">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="update:UserTrackingUpdateableFields">
+        <xsd:sequence />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

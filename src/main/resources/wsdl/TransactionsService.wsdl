@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:transactionsdto="http://www.symxchange.generated.symitar.com/transactions/dto" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.symxchange.generated.symitar.com/transactions" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TransactionsService" targetNamespace="http://www.symxchange.generated.symitar.com/transactions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>Copyright 2014 Jack Henry Software</wsdl:documentation>
+  <xsd:documentation>Version 1.0</xsd:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.symxchange.generated.symitar.com/transactions">
+      <xsd:import schemaLocation="xsd/transactions.xsd" namespace="http://www.symxchange.generated.symitar.com/transactions/dto" />
+      <xsd:element name="deposit">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:ShareDepositRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="depositResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsFeesResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="withdraw">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:WithdrawalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="withdrawResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsOverdrawInformationResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="newLoan">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:NewLoanRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="newLoanResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsFeesResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="payBill">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:BillPaymentRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="payBillResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsOverdrawInformationResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="withdrawFee">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:WithdrawFeeRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="withdrawFeeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="transfer">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:TransferRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="transferResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsOverdrawInformationResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="stopCheckPayment">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:StopCheckPaymentRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="stopCheckPaymentResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="loanAddon">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:LoanAddonRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="loanAddonResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsFeesResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="payLoan">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:LoanPaymentRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="payLoanResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsOverdrawInformationResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseDeposit">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:DepositReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseDepositResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseWithdraw">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:WithdrawalReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseWithdrawResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseNewLoan">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:NewLoanReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseNewLoanResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reversePayBill">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:BillPaymentReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reversePayBillResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseWithdrawFee">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:WithdrawFeeReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseWithdrawFeeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseTransfer">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:TransferReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseTransferResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseLoanAddon">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:LoanAddonReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseLoanAddonResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reversePayLoan">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:LoanPaymentReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reversePayLoanResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GLToGLPost">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:GLToGLPostingRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GLToGLPostResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseGLToGLPost">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="transactionsdto:GLToGLPostingReversalRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reverseGLToGLPostResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Response" type="transactionsdto:TransactionsBaseResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getDonorRecipientAccounts">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Request" type="transactionsdto:GetDonorRecipientAccountsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getDonorRecipientAccountsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Response" type="transactionsdto:GetDonorRecipientAccountsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="transferResponse">
+    <wsdl:part name="parameters" element="tns:transferResponse" />
+  </wsdl:message>
+  <wsdl:message name="reverseGLToGLPostResponse">
+    <wsdl:part name="parameters" element="tns:reverseGLToGLPostResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDonorRecipientAccountsRequest">
+    <wsdl:part name="parameters" element="tns:getDonorRecipientAccounts" />
+  </wsdl:message>
+  <wsdl:message name="reversePayBillRequest">
+    <wsdl:part name="parameters" element="tns:reversePayBill" />
+  </wsdl:message>
+  <wsdl:message name="newLoanRequest">
+    <wsdl:part name="parameters" element="tns:newLoan" />
+  </wsdl:message>
+  <wsdl:message name="reverseDepositResponse">
+    <wsdl:part name="parameters" element="tns:reverseDepositResponse" />
+  </wsdl:message>
+  <wsdl:message name="reverseWithdrawFeeRequest">
+    <wsdl:part name="parameters" element="tns:reverseWithdrawFee" />
+  </wsdl:message>
+  <wsdl:message name="reversePayLoanResponse">
+    <wsdl:part name="parameters" element="tns:reversePayLoanResponse" />
+  </wsdl:message>
+  <wsdl:message name="reverseNewLoanResponse">
+    <wsdl:part name="parameters" element="tns:reverseNewLoanResponse" />
+  </wsdl:message>
+  <wsdl:message name="reverseWithdrawRequest">
+    <wsdl:part name="parameters" element="tns:reverseWithdraw" />
+  </wsdl:message>
+  <wsdl:message name="reverseTransferResponse">
+    <wsdl:part name="parameters" element="tns:reverseTransferResponse" />
+  </wsdl:message>
+  <wsdl:message name="reverseWithdrawResponse">
+    <wsdl:part name="parameters" element="tns:reverseWithdrawResponse" />
+  </wsdl:message>
+  <wsdl:message name="reverseTransferRequest">
+    <wsdl:part name="parameters" element="tns:reverseTransfer" />
+  </wsdl:message>
+  <wsdl:message name="stopCheckPaymentResponse">
+    <wsdl:part name="parameters" element="tns:stopCheckPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="GLToGLPostResponse">
+    <wsdl:part name="parameters" element="tns:GLToGLPostResponse" />
+  </wsdl:message>
+  <wsdl:message name="newLoanResponse">
+    <wsdl:part name="parameters" element="tns:newLoanResponse" />
+  </wsdl:message>
+  <wsdl:message name="withdrawFeeResponse">
+    <wsdl:part name="parameters" element="tns:withdrawFeeResponse" />
+  </wsdl:message>
+  <wsdl:message name="transferRequest">
+    <wsdl:part name="parameters" element="tns:transfer" />
+  </wsdl:message>
+  <wsdl:message name="payLoanRequest">
+    <wsdl:part name="parameters" element="tns:payLoan" />
+  </wsdl:message>
+  <wsdl:message name="withdrawFeeRequest">
+    <wsdl:part name="parameters" element="tns:withdrawFee" />
+  </wsdl:message>
+  <wsdl:message name="loanAddonResponse">
+    <wsdl:part name="parameters" element="tns:loanAddonResponse" />
+  </wsdl:message>
+  <wsdl:message name="depositRequest">
+    <wsdl:part name="parameters" element="tns:deposit" />
+  </wsdl:message>
+  <wsdl:message name="withdrawResponse">
+    <wsdl:part name="parameters" element="tns:withdrawResponse" />
+  </wsdl:message>
+  <wsdl:message name="reversePayBillResponse">
+    <wsdl:part name="parameters" element="tns:reversePayBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="stopCheckPaymentRequest">
+    <wsdl:part name="parameters" element="tns:stopCheckPayment" />
+  </wsdl:message>
+  <wsdl:message name="reverseLoanAddonRequest">
+    <wsdl:part name="parameters" element="tns:reverseLoanAddon" />
+  </wsdl:message>
+  <wsdl:message name="reverseLoanAddonResponse">
+    <wsdl:part name="parameters" element="tns:reverseLoanAddonResponse" />
+  </wsdl:message>
+  <wsdl:message name="reversePayLoanRequest">
+    <wsdl:part name="parameters" element="tns:reversePayLoan" />
+  </wsdl:message>
+  <wsdl:message name="depositResponse">
+    <wsdl:part name="parameters" element="tns:depositResponse" />
+  </wsdl:message>
+  <wsdl:message name="GLToGLPostRequest">
+    <wsdl:part name="parameters" element="tns:GLToGLPost" />
+  </wsdl:message>
+  <wsdl:message name="payBillRequest">
+    <wsdl:part name="parameters" element="tns:payBill" />
+  </wsdl:message>
+  <wsdl:message name="reverseGLToGLPostRequest">
+    <wsdl:part name="parameters" element="tns:reverseGLToGLPost" />
+  </wsdl:message>
+  <wsdl:message name="loanAddonRequest">
+    <wsdl:part name="parameters" element="tns:loanAddon" />
+  </wsdl:message>
+  <wsdl:message name="reverseNewLoanRequest">
+    <wsdl:part name="parameters" element="tns:reverseNewLoan" />
+  </wsdl:message>
+  <wsdl:message name="reverseDepositRequest">
+    <wsdl:part name="parameters" element="tns:reverseDeposit" />
+  </wsdl:message>
+  <wsdl:message name="reverseWithdrawFeeResponse">
+    <wsdl:part name="parameters" element="tns:reverseWithdrawFeeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDonorRecipientAccountsResponse">
+    <wsdl:part name="parameters" element="tns:getDonorRecipientAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="withdrawRequest">
+    <wsdl:part name="parameters" element="tns:withdraw" />
+  </wsdl:message>
+  <wsdl:message name="payBillResponse">
+    <wsdl:part name="parameters" element="tns:payBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="payLoanResponse">
+    <wsdl:part name="parameters" element="tns:payLoanResponse" />
+  </wsdl:message>
+  <wsdl:portType name="TransactionsService">
+    <wsdl:operation name="deposit">
+      <wsdl:input message="tns:depositRequest" />
+      <wsdl:output message="tns:depositResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="withdraw">
+      <wsdl:input message="tns:withdrawRequest" />
+      <wsdl:output message="tns:withdrawResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="newLoan">
+      <wsdl:input message="tns:newLoanRequest" />
+      <wsdl:output message="tns:newLoanResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="payBill">
+      <wsdl:input message="tns:payBillRequest" />
+      <wsdl:output message="tns:payBillResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="withdrawFee">
+      <wsdl:input message="tns:withdrawFeeRequest" />
+      <wsdl:output message="tns:withdrawFeeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="transfer">
+      <wsdl:input message="tns:transferRequest" />
+      <wsdl:output message="tns:transferResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="stopCheckPayment">
+      <wsdl:input message="tns:stopCheckPaymentRequest" />
+      <wsdl:output message="tns:stopCheckPaymentResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="loanAddon">
+      <wsdl:input message="tns:loanAddonRequest" />
+      <wsdl:output message="tns:loanAddonResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="payLoan">
+      <wsdl:input message="tns:payLoanRequest" />
+      <wsdl:output message="tns:payLoanResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseDeposit">
+      <wsdl:input message="tns:reverseDepositRequest" />
+      <wsdl:output message="tns:reverseDepositResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseWithdraw">
+      <wsdl:input message="tns:reverseWithdrawRequest" />
+      <wsdl:output message="tns:reverseWithdrawResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseNewLoan">
+      <wsdl:input message="tns:reverseNewLoanRequest" />
+      <wsdl:output message="tns:reverseNewLoanResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reversePayBill">
+      <wsdl:input message="tns:reversePayBillRequest" />
+      <wsdl:output message="tns:reversePayBillResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseWithdrawFee">
+      <wsdl:input message="tns:reverseWithdrawFeeRequest" />
+      <wsdl:output message="tns:reverseWithdrawFeeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseTransfer">
+      <wsdl:input message="tns:reverseTransferRequest" />
+      <wsdl:output message="tns:reverseTransferResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseLoanAddon">
+      <wsdl:input message="tns:reverseLoanAddonRequest" />
+      <wsdl:output message="tns:reverseLoanAddonResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reversePayLoan">
+      <wsdl:input message="tns:reversePayLoanRequest" />
+      <wsdl:output message="tns:reversePayLoanResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="GLToGLPost">
+      <wsdl:input message="tns:GLToGLPostRequest" />
+      <wsdl:output message="tns:GLToGLPostResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reverseGLToGLPost">
+      <wsdl:input message="tns:reverseGLToGLPostRequest" />
+      <wsdl:output message="tns:reverseGLToGLPostResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDonorRecipientAccounts">
+      <wsdl:input message="tns:getDonorRecipientAccountsRequest" />
+      <wsdl:output message="tns:getDonorRecipientAccountsResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TransactionsServiceBinding" type="tns:TransactionsService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="deposit">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/deposit" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="withdraw">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/withdraw" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="newLoan">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/newLoan" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="payBill">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/payBill" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="withdrawFee">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/withdrawFee" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transfer">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/transfer" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stopCheckPayment">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/stopCheckPayment" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loanAddon">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/loanAddon" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="payLoan">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/payLoan" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseDeposit">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseDeposit" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseWithdraw">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseWithdraw" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseNewLoan">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseNewLoan" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reversePayBill">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reversePayBill" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseWithdrawFee">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseWithdrawFee" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseTransfer">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseTransfer" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseLoanAddon">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseLoanAddon" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reversePayLoan">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reversePayLoan" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GLToGLPost">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/GLToGLPost" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reverseGLToGLPost">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/reverseGLToGLPost" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDonorRecipientAccounts">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/transactions/getDonorRecipientAccounts" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TransactionsService">
+    <wsdl:port name="TransactionsServicePort" binding="tns:TransactionsServiceBinding">
+<!--      <soap:address location="http://symdev1:8181/SymXchange/2019.01/transactions" />-->
+      <soap:address location="http://symdev1:8087/SymXchange/2020.00/transactions" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

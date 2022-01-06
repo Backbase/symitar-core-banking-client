@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:update="http://www.symxchange.generated.symitar.com/wire/dto/update" targetNamespace="http://www.symxchange.generated.symitar.com/wire/dto/update" version="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014-2019 Jack Henry Software</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="WireUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireSequenceNumber" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireUpdateableFields" type="update:WireUpdateableFields" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireBeneficiaryAdvUpdateRequest" type="update:WireBeneficiaryAdvUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireBeneficiaryFiAdvUpdateRequest" type="update:WireBeneficiaryFiAdvUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireBeneficiaryFiInfoUpdateRequest" type="update:WireBeneficiaryFiInfoUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireBeneficiaryInfoUpdateRequest" type="update:WireBeneficiaryInfoUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireDrawdownDebitAcctAdvUpdateRequest" type="update:WireDrawdownDebitAcctAdvUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireFiToFiInfoUpdateRequest" type="update:WireFiToFiInfoUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireIntermedFiAdvUpdateRequest" type="update:WireIntermedFiAdvUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireIntermedFiInfoUpdateRequest" type="update:WireIntermedFiInfoUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireOfacDetailsUpdateRequest" type="update:WireOfacDetailsUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireReceiverFiInfoUpdateRequest" type="update:WireReceiverFiInfoUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireServiceMessageUpdateRequest" type="update:WireServiceMessageUpdateRequest" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="WireUscAuditInfoUpdateRequest" type="update:WireUscAuditInfoUpdateRequest" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="AcceptanceDate" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="AcceptanceTime" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="AdjustmentDate" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="AdjustmentReason" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Amount" type="xsd:decimal" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ApplicationId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BatchNumber" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="BeneficiaryAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryAdviceCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="BeneficiaryFiAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryFiAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryFiAdviceCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryFiId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryFiIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryFiIntrnatlId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryFiName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BeneficiaryReference" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="BusinessFunctionCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="4" name="ChargesCurrencyCode">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="ChargesCurrencyCode" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="CommentCode" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Destination" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DetailOfCharges" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Direction" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DrawdownCreditAccount" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="DrawdownDebitAccountAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="DrawdownDebitAccountAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="DrawdownDebitAccountId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DrawdownDebitAccountIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DrawdownDebitAccountName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DrawdownDebitAcctAdviceCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="EffectiveDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="EnteredByCorporateUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="EnteredByMemberUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="EnteredDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="EnteredTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="EnteredValidationMethod" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ErrorCategory" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExchangeRate" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExtractDestination" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExtractedByCorporateUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExtractedDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ExtractedTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="FormatVersion" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="GlAccount" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="GlCommentAddlInfo" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="GlOffset" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Imad" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="InstructIngFiAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="InstructIngFiAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="InstructIngFiId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="InstructIngFiIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="InstructedAmount" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="InstructedAmtCurrencyCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="InstructingFiName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="IntermediaryFiAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="IntermediaryFiAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="IntermediaryFiAdviceCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="IntermediaryFiId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="IntermediaryFiIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="IntermediaryFiName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="MessageDuplicationCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="MessageStatusIndicator" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="NotificationDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="NotificationMethod" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="NotificationStatus" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="NotificationTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="NotificationUser" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OfacStatus" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Omad" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="OriginatorAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="3" name="OriginatorFiAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorFiAddress" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorFiId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorFiIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorFiName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorIdCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorIdF" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="3" name="OriginatorLineCodeF">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorLineCodeF" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="3" name="OriginatorLineF">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorLineF" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorNameF" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorPartyIdF" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="4" name="OriginatorToBeneficiaryInfo">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="OriginatorToBeneficiaryInfo" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="OtherAddLinFo" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PaymentLimitation" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PaymentMethod" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PaymentMethodCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PostingError" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PreAuthTemplateName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PreAuthTemplateNumber" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="PreviousMessageImad" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReceiverFi" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReceiverName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="RegETran" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReleasedByCorporateUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReleasedDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReleasedReason" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReleasedTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReturnRejectByCorpUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReturnRejectDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReturnRejectReason" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ReturnRejectTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="4" name="SenderCharges">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="SenderCharges" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="SenderFi" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="SenderName" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="SenderReferenceNumber" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ShareId" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatementDescription" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Status" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TestProductionCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TranTypeCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TransactionSequenceNumber" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Type" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TypeCode" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="UpLoadedTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="UploadedDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="UrcData" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerificationMemberContact" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerifiedByCorpUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerifiedByMemberUser" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerifiedDate" nillable="true" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerifiedTime" type="xsd:short" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerifiedValidationMethod" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="VerifiedValidationReason" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireOfacDetailsUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireOfacDetailsLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireOfacDetailsUpdateableFields" type="update:WireOfacDetailsUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireOfacDetailsUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireUscAuditInfoUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireUscAuditInfoLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireUscAuditInfoUpdateableFields" type="update:WireUscAuditInfoUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireUscAuditInfoUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireReceiverFiInfoUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireReceiverFiInfoLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireReceiverFiInfoUpdateableFields" type="update:WireReceiverFiInfoUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireReceiverFiInfoUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireDrawdownDebitAcctAdvUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireDrawdownDebitAcctAdvLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireDrawdownDebitAcctAdvUpdateableFields" type="update:WireDrawdownDebitAcctAdvUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireDrawdownDebitAcctAdvUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireIntermedFiInfoUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireIntermedFiInfoLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireIntermedFiInfoUpdateableFields" type="update:WireIntermedFiInfoUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireIntermedFiInfoUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireIntermedFiAdvUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireIntermedFiAdvLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireIntermedFiAdvUpdateableFields" type="update:WireIntermedFiAdvUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireIntermedFiAdvUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryFiInfoUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireBeneficiaryFiInfoLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireBeneficiaryFiInfoUpdateableFields" type="update:WireBeneficiaryFiInfoUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryFiInfoUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryFiAdvUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireBeneficiaryFiAdvLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireBeneficiaryFiAdvUpdateableFields" type="update:WireBeneficiaryFiAdvUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryFiAdvUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryInfoUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireBeneficiaryInfoLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireBeneficiaryInfoUpdateableFields" type="update:WireBeneficiaryInfoUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryInfoUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryAdvUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireBeneficiaryAdvLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireBeneficiaryAdvUpdateableFields" type="update:WireBeneficiaryAdvUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireBeneficiaryAdvUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireFiToFiInfoUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireFiToFiInfoLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireFiToFiInfoUpdateableFields" type="update:WireFiToFiInfoUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireFiToFiInfoUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireServiceMessageUpdateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="WireServiceMessageLocator" type="xsd:int" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="WireServiceMessageUpdateableFields" type="update:WireServiceMessageUpdateableFields" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="WireServiceMessageUpdateableFields">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="20" name="Text">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EntryId" type="xsd:short" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Text" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

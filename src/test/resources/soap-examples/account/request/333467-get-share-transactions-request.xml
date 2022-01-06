@@ -1,0 +1,25 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.symxchange.generated.symitar.com/account" xmlns:tns="http://www.symxchange.generated.symitar.com/common/dto/common">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <acc:searchShareTransactionPagedSelectFields>
+            <Request MessageId="Test">
+                <AccountNumber>333467</AccountNumber>
+                <ShareId>0060</ShareId>
+                <Credentials>
+                    <AdministrativeCredentials>
+                        <Password>BB1234-4321</Password>
+                    </AdministrativeCredentials>
+                </Credentials>
+                <DeviceInformation DeviceType="BACKBASE" DeviceNumber="20672"/>
+                <PagingRequestContext>
+                    <NumberOfRecordsToReturn>20</NumberOfRecordsToReturn>
+                    <Token></Token>
+                </PagingRequestContext>
+                <SelectableFields>
+                    <IncludeAllShareTransactionFields>true</IncludeAllShareTransactionFields>
+                </SelectableFields>
+                <Query></Query>
+            </Request>
+        </acc:searchShareTransactionPagedSelectFields>
+    </soapenv:Body>
+</soapenv:Envelope>

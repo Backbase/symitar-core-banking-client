@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://www.symxchange.generated.symitar.com/usermanagement/dto" xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" targetNamespace="http://www.symxchange.generated.symitar.com/usermanagement/dto" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="common.xsd" namespace="http://www.symxchange.generated.symitar.com/common/dto/common" />
+  <xsd:annotation>
+    <xsd:documentation>Copyright 2014-2015 Jack Henry Software</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="UserManagementBaseRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+    </xsd:sequence>
+    <xsd:attribute ref="common:MessageId" use="required" />
+  </xsd:complexType>
+  <xsd:complexType name="UserManagementBaseResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Status" type="tns:Status" />
+    </xsd:sequence>
+    <xsd:attribute ref="common:MessageId" />
+  </xsd:complexType>
+  <xsd:complexType name="VerifyUserRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:UserManagementBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserToVerify" type="common:UserNumberCredentials" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyUserResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:UserManagementBaseResponse" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ResetUserPasswordRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:UserManagementBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="common:UserNumber" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ResetUserPasswordResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:UserManagementBaseResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Password" type="common:Password" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SetUserPasswordRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:UserManagementBaseRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="common:UserNumber" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Password" type="common:Password" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SetUserPasswordResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:UserManagementBaseResponse" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="UserNumberCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="UserNumberCredentials" type="common:UserNumberCredentials" />
+    </xsd:sequence>
+    <xsd:attribute ref="common:ProcessorUser" />
+  </xsd:complexType>
+  <xsd:complexType name="EpisysUserBaseRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="tns:UserNumberCredentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+    </xsd:sequence>
+    <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+  </xsd:complexType>
+  <xsd:complexType name="EpisysUserLogonRequest">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="tns:EpisysUserBaseRequest" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EpisysUserLogonResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:BaseResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="TokenId" type="tns:TokenId" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TokenCredentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="TokenId">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="512" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Credentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="TokenCredentials" type="tns:TokenCredentials" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="EpisysUserLogoffRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="tns:Credentials" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+    </xsd:sequence>
+    <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+  </xsd:complexType>
+  <xsd:complexType name="EpisysUserLogoffResponse">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:BaseResponse" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Status">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="StatusCode" type="xsd:int" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Message" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="TokenId">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+</xsd:schema>

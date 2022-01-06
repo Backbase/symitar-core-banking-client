@@ -1,0 +1,28 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <tns:getAccountSelectFieldsFilterChildrenResponse xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" xmlns:tns="http://www.symxchange.generated.symitar.com/account" xmlns:create="http://www.symxchange.generated.symitar.com/account/dto/create" xmlns:retrieve="http://www.symxchange.generated.symitar.com/account/dto/retrieve" xmlns:update="http://www.symxchange.generated.symitar.com/account/dto/update">
+            <SingleResponse MessageId="Test">
+                <Account>
+                    <NameList>
+                        <hasReachedMaximumListSize>false</hasReachedMaximumListSize>
+                        <Name>
+                            <BirthDate>2020-06-11</BirthDate>
+                            <HomePhone>688-5669</HomePhone>
+                            <Last>RANDOM SAMPLE INFORMATION CORPORATION NE</Last>
+                            <Ssn>204687746</Ssn>
+                            <Type>0</Type>
+                        </Name>
+                        <Name>
+                            <BirthDate>1962-06-11</BirthDate>
+                            <First>OEDIPUS</First>
+                            <HomePhone>427-5956</HomePhone>
+                            <Last>LINCOLN</Last>
+                            <Ssn>442833805</Ssn>
+                            <Type>1</Type>
+                        </Name>
+                    </NameList>
+                </Account>
+            </SingleResponse>
+        </tns:getAccountSelectFieldsFilterChildrenResponse>
+    </soap:Body>
+</soap:Envelope>

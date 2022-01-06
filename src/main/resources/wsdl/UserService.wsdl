@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.symxchange.generated.symitar.com/user" xmlns:common="http://www.symxchange.generated.symitar.com/common/dto/common" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:create="http://www.symxchange.generated.symitar.com/user/dto/create" xmlns:retrieve="http://www.symxchange.generated.symitar.com/user/dto/retrieve" xmlns:update="http://www.symxchange.generated.symitar.com/user/dto/update" name="UserService" targetNamespace="http://www.symxchange.generated.symitar.com/user" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>Copyright 2014-2019 Jack Henry Software</wsdl:documentation>
+  <xsd:documentation>Version 2.0</xsd:documentation>
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" targetNamespace="http://www.symxchange.generated.symitar.com/user">
+      <xsd:import schemaLocation="xsd/common.xsd" namespace="http://www.symxchange.generated.symitar.com/common/dto/common" />
+      <xsd:import schemaLocation="xsd/user_retrieve.xsd" namespace="http://www.symxchange.generated.symitar.com/user/dto/retrieve" />
+      <xsd:import schemaLocation="xsd/user_update.xsd" namespace="http://www.symxchange.generated.symitar.com/user/dto/update" />
+      <xsd:import schemaLocation="xsd/user_create.xsd" namespace="http://www.symxchange.generated.symitar.com/user/dto/create" />
+      <xsd:complexType name="UserRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="User" type="retrieve:User" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserSelectableFields" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="User" type="retrieve:User" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserSelectFieldsFilterChildrenRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserSelectableFields" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ChildrenSearchFilter" type="retrieve:UserChildrenFilter" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserSelectFieldsFilterChildrenResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="User" type="retrieve:User" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivityPagedListRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PagingRequestContext" type="common:PagingRequestContext" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivityPagedListResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Activity" type="retrieve:Activity" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivityListSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:ActivitySelectableFields" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivityListSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ActivityList" type="retrieve:ActivityList" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivitySearchSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:ActivitySelectableFields" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SearchFilter" type="retrieve:ActivityFilter" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivitySearchSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ActivityList" type="retrieve:ActivityList" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivityPagedListSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PagingRequestContext" type="common:PagingRequestContext" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:ActivitySingleSelectableFields" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivityPagedListSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Activity" type="retrieve:Activity" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivitySearchPagedSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PagingRequestContext" type="common:PagingRequestContext" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:ActivitySingleSelectableFields" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Query" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="ActivitySearchPagedSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Activity" type="retrieve:Activity" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingLocator" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTracking" type="retrieve:UserTracking" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingLocator" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserTrackingSelectableFields" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTracking" type="retrieve:UserTracking" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingPagedListRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PagingRequestContext" type="common:PagingRequestContext" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingPagedListResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="UserTracking" type="retrieve:UserTracking" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingListSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserTrackingSelectableFields" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingListSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingList" type="retrieve:UserTrackingList" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingSearchSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserTrackingSelectableFields" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SearchFilter" type="retrieve:UserTrackingFilter" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingSearchSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingList" type="retrieve:UserTrackingList" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingPagedListSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PagingRequestContext" type="common:PagingRequestContext" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserTrackingSingleSelectableFields" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingPagedListSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="UserTracking" type="retrieve:UserTracking" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingSearchPagedSelectFieldsRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PagingRequestContext" type="common:PagingRequestContext" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SelectableFields" type="retrieve:UserTrackingSingleSelectableFields" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Query" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingSearchPagedSelectFieldsResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="UserTracking" type="retrieve:UserTracking" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UpdateUserByIDRequest">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="update:UserUpdateRequest">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+            </xsd:sequence>
+            <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+            <xsd:attribute ref="tns:BranchId" />
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="UserUpdateByIDResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdateStatus" type="common:UpdateStatus" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="UpdateUserTrackingByIDRequest">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="update:UserTrackingUpdateRequest">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+            </xsd:sequence>
+            <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+            <xsd:attribute ref="tns:BranchId" />
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingUpdateByIDResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdateStatus" type="common:UpdateStatus" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="CreateUserTrackingRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingCreatableFields" type="create:UserTrackingCreatableFields" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingCreateResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingLocator" type="xsd:int" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="DeleteUserTrackingRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserNumber" type="xsd:short" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UserTrackingLocator" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Credentials" type="common:AdminCredentialsChoice" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DeviceInformation" type="common:DeviceInformation" />
+        </xsd:sequence>
+        <xsd:attribute name="MessageId" type="xsd:string" use="required" />
+        <xsd:attribute ref="tns:BranchId" />
+      </xsd:complexType>
+      <xsd:complexType name="UserTrackingDeleteResponse">
+        <xsd:attribute name="MessageId" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:element name="getUser">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="tns:UserResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="tns:UserSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserSelectFieldsFilterChildren">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserSelectFieldsFilterChildrenRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserSelectFieldsFilterChildrenResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="tns:UserSelectFieldsFilterChildrenResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getActivityPagedList">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ActivityPagedListRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getActivityPagedListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PagedResponse" type="tns:ActivityPagedListResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getActivityListSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ActivityListSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getActivityListSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="tns:ActivityListSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchActivitySelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ActivitySearchSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchActivitySelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="tns:ActivitySearchSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getActivityPagedListSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ActivityPagedListSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getActivityPagedListSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PagedResponse" type="tns:ActivityPagedListSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchActivityPagedSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:ActivitySearchPagedSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchActivityPagedSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PagedResponse" type="tns:ActivitySearchPagedSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTracking">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="tns:UserTrackingResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="SingleResponse" type="tns:UserTrackingSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingPagedList">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingPagedListRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingPagedListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PagedResponse" type="tns:UserTrackingPagedListResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingListSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingListSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingListSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="tns:UserTrackingListSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchUserTrackingSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingSearchSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchUserTrackingSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PluralResponse" type="tns:UserTrackingSearchSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingPagedListSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingPagedListSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserTrackingPagedListSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PagedResponse" type="tns:UserTrackingPagedListSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchUserTrackingPagedSelectFields">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UserTrackingSearchPagedSelectFieldsRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="searchUserTrackingPagedSelectFieldsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="PagedResponse" type="tns:UserTrackingSearchPagedSelectFieldsResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateUserByID">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UpdateUserByIDRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateUserByIDResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="UpdateResponse" type="tns:UserUpdateByIDResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateUserTrackingByID">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:UpdateUserTrackingByIDRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateUserTrackingByIDResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="UpdateResponse" type="tns:UserTrackingUpdateByIDResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="createUserTracking">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:CreateUserTrackingRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="createUserTrackingResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="CreateResponse" type="tns:UserTrackingCreateResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteUserTracking">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="Request" type="tns:DeleteUserTrackingRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteUserTrackingResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="DeleteResponse" type="tns:UserTrackingDeleteResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:attribute name="BranchId" type="xsd:short" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="searchActivityPagedSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:searchActivityPagedSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchActivitySelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:searchActivitySelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingListSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:getUserTrackingListSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchUserTrackingSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:searchUserTrackingSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="updateUserTrackingByIDRequest">
+    <wsdl:part name="parameters" element="tns:updateUserTrackingByID" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingResponse">
+    <wsdl:part name="parameters" element="tns:getUserTrackingResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchUserTrackingPagedSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:searchUserTrackingPagedSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingPagedListSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:getUserTrackingPagedListSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingPagedListRequest">
+    <wsdl:part name="parameters" element="tns:getUserTrackingPagedList" />
+  </wsdl:message>
+  <wsdl:message name="searchUserTrackingSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:searchUserTrackingSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchActivityPagedSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:searchActivityPagedSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getUserSelectFieldsFilterChildrenResponse">
+    <wsdl:part name="parameters" element="tns:getUserSelectFieldsFilterChildrenResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserSelectFieldsFilterChildrenRequest">
+    <wsdl:part name="parameters" element="tns:getUserSelectFieldsFilterChildren" />
+  </wsdl:message>
+  <wsdl:message name="searchActivitySelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:searchActivitySelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserRequest">
+    <wsdl:part name="parameters" element="tns:getUser" />
+  </wsdl:message>
+  <wsdl:message name="getUserSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:getUserSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getActivityListSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:getActivityListSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingPagedListSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:getUserTrackingPagedListSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivityPagedListSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:getActivityPagedListSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getActivityPagedListSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:getActivityPagedListSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="createUserTrackingRequest">
+    <wsdl:part name="parameters" element="tns:createUserTracking" />
+  </wsdl:message>
+  <wsdl:message name="createUserTrackingResponse">
+    <wsdl:part name="parameters" element="tns:createUserTrackingResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivityListSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:getActivityListSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingPagedListResponse">
+    <wsdl:part name="parameters" element="tns:getUserTrackingPagedListResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingRequest">
+    <wsdl:part name="parameters" element="tns:getUserTracking" />
+  </wsdl:message>
+  <wsdl:message name="updateUserByIDResponse">
+    <wsdl:part name="parameters" element="tns:updateUserByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:getUserSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:getUserTrackingSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="getUserResponse">
+    <wsdl:part name="parameters" element="tns:getUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivityPagedListResponse">
+    <wsdl:part name="parameters" element="tns:getActivityPagedListResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:getUserTrackingSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserTrackingListSelectFieldsRequest">
+    <wsdl:part name="parameters" element="tns:getUserTrackingListSelectFields" />
+  </wsdl:message>
+  <wsdl:message name="updateUserByIDRequest">
+    <wsdl:part name="parameters" element="tns:updateUserByID" />
+  </wsdl:message>
+  <wsdl:message name="deleteUserTrackingRequest">
+    <wsdl:part name="parameters" element="tns:deleteUserTracking" />
+  </wsdl:message>
+  <wsdl:message name="getActivityPagedListRequest">
+    <wsdl:part name="parameters" element="tns:getActivityPagedList" />
+  </wsdl:message>
+  <wsdl:message name="deleteUserTrackingResponse">
+    <wsdl:part name="parameters" element="tns:deleteUserTrackingResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchUserTrackingPagedSelectFieldsResponse">
+    <wsdl:part name="parameters" element="tns:searchUserTrackingPagedSelectFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateUserTrackingByIDResponse">
+    <wsdl:part name="parameters" element="tns:updateUserTrackingByIDResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UserService">
+    <wsdl:operation name="getUser">
+      <wsdl:input message="tns:getUserRequest" />
+      <wsdl:output message="tns:getUserResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserSelectFields">
+      <wsdl:input message="tns:getUserSelectFieldsRequest" />
+      <wsdl:output message="tns:getUserSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserSelectFieldsFilterChildren">
+      <wsdl:input message="tns:getUserSelectFieldsFilterChildrenRequest" />
+      <wsdl:output message="tns:getUserSelectFieldsFilterChildrenResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getActivityPagedList">
+      <wsdl:input message="tns:getActivityPagedListRequest" />
+      <wsdl:output message="tns:getActivityPagedListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getActivityListSelectFields">
+      <wsdl:input message="tns:getActivityListSelectFieldsRequest" />
+      <wsdl:output message="tns:getActivityListSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchActivitySelectFields">
+      <wsdl:input message="tns:searchActivitySelectFieldsRequest" />
+      <wsdl:output message="tns:searchActivitySelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getActivityPagedListSelectFields">
+      <wsdl:input message="tns:getActivityPagedListSelectFieldsRequest" />
+      <wsdl:output message="tns:getActivityPagedListSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchActivityPagedSelectFields">
+      <wsdl:input message="tns:searchActivityPagedSelectFieldsRequest" />
+      <wsdl:output message="tns:searchActivityPagedSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserTracking">
+      <wsdl:input message="tns:getUserTrackingRequest" />
+      <wsdl:output message="tns:getUserTrackingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingSelectFields">
+      <wsdl:input message="tns:getUserTrackingSelectFieldsRequest" />
+      <wsdl:output message="tns:getUserTrackingSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingPagedList">
+      <wsdl:input message="tns:getUserTrackingPagedListRequest" />
+      <wsdl:output message="tns:getUserTrackingPagedListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingListSelectFields">
+      <wsdl:input message="tns:getUserTrackingListSelectFieldsRequest" />
+      <wsdl:output message="tns:getUserTrackingListSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchUserTrackingSelectFields">
+      <wsdl:input message="tns:searchUserTrackingSelectFieldsRequest" />
+      <wsdl:output message="tns:searchUserTrackingSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingPagedListSelectFields">
+      <wsdl:input message="tns:getUserTrackingPagedListSelectFieldsRequest" />
+      <wsdl:output message="tns:getUserTrackingPagedListSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchUserTrackingPagedSelectFields">
+      <wsdl:input message="tns:searchUserTrackingPagedSelectFieldsRequest" />
+      <wsdl:output message="tns:searchUserTrackingPagedSelectFieldsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateUserByID">
+      <wsdl:input message="tns:updateUserByIDRequest" />
+      <wsdl:output message="tns:updateUserByIDResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateUserTrackingByID">
+      <wsdl:input message="tns:updateUserTrackingByIDRequest" />
+      <wsdl:output message="tns:updateUserTrackingByIDResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createUserTracking">
+      <wsdl:input message="tns:createUserTrackingRequest" />
+      <wsdl:output message="tns:createUserTrackingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteUserTracking">
+      <wsdl:input message="tns:deleteUserTrackingRequest" />
+      <wsdl:output message="tns:deleteUserTrackingResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserServiceSOAPBinding" type="tns:UserService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getUser">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUser" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserSelectFieldsFilterChildren">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserSelectFieldsFilterChildren" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActivityPagedList">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getActivityPagedList" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActivityListSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getActivityListSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchActivitySelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/searchActivitySelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActivityPagedListSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getActivityPagedListSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchActivityPagedSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/searchActivityPagedSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTracking">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserTracking" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserTrackingSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingPagedList">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserTrackingPagedList" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingListSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserTrackingListSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchUserTrackingSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/searchUserTrackingSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTrackingPagedListSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/getUserTrackingPagedListSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchUserTrackingPagedSelectFields">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/searchUserTrackingPagedSelectFields" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserByID">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/updateUserByID" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserTrackingByID">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/updateUserTrackingByID" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createUserTracking">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/createUserTracking" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUserTracking">
+      <soap:operation soapAction="http://www.symxchange.generated.symitar.com/user/deleteUserTracking" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserService">
+    <wsdl:port name="UserServicePort" binding="tns:UserServiceSOAPBinding">
+<!--      <soap:address location="http://symdev1:8182/SymXchange/2019.01/user" />-->
+      <soap:address location="http://symdev1:8087/SymXchange/2020.00/user" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
