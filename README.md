@@ -102,9 +102,9 @@ public class SymitarCoreBankingClientConfiguration {
     @SneakyThrows
     public TransferClient transferClient(SymitarCoreBankingClientProperties symitarCoreBankingClientProperties) {
         return new TransferClient(
-                getAccountService(symxProperties),
-                getTransactionsService(symxProperties),
-                SymitarCoreBankingClientProperties.toSymitarRequestSettings());
+                getAccountService(symitarCoreBankingClientProperties),
+                getTransactionsService(symitarCoreBankingClientProperties),
+                symitarCoreBankingClientProperties.toSymitarRequestSettings());
     }
 
     @SneakyThrows
