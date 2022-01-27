@@ -4,6 +4,7 @@ import com.backbase.accelerators.symitar.client.TestData
 import com.backbase.accelerators.symitar.client.name.model.GetNameRecordsResponse
 import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest
 import com.symitar.generated.symxchange.account.AccountService
+import com.symitar.generated.symxchange.account.NameDeleteResponse
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse
 import com.symitar.generated.symxchange.account.dto.retrieve.Name
 import com.symitar.generated.symxchange.account.dto.retrieve.NameList
@@ -22,7 +23,7 @@ class NameClientSpec extends Specification {
         String memberId = '621585'
         String nameFilter = ''
 
-        when: 'The account client is invoked'
+        when: 'The nameClient client is invoked'
         GetNameRecordsResponse result = nameClient.getNameRecords(memberId, nameFilter)
 
         then: 'The account service mock calls getAccountSelectFieldsFilterChildren exactly 1 time'
@@ -32,11 +33,11 @@ class NameClientSpec extends Specification {
         verifyMemberProfile(result.nameRecords)
     }
 
-    void 'updateMemberProfile adds/updates attributes of a member profile'() {
-        given: 'An updateMemberProfileRequest'
+    void 'updateNameRecord adds/updates attributes of a member profile'() {
+        given: 'An updateNameRecordRequest'
         UpdateNameRecordRequest updateNameRecordRequest = TestData.updateNameRecordRequest
 
-        when: 'The account client is invoked'
+        when: 'The nameClient client is invoked'
         NameUpdateByIDResponse result =  nameClient.updateNameRecord(updateNameRecordRequest)
 
         then: 'The account service mock calls updateNameByID exactly 1 time'
@@ -44,6 +45,21 @@ class NameClientSpec extends Specification {
 
         and: 'The expected results are returned'
         result.updateStatus.isAllFieldsUpdateSuccess
+    }
+
+    void 'deleteNameRecord deletes a member profile from the core'() {
+        given: 'An accountNumber and nameLocator'
+        String accountNumber = '518907'
+        Integer nameLocator = 137
+
+        when: 'The nameClient client is invoked'
+        NameDeleteResponse result =  nameClient.deleteNameRecord(accountNumber, nameLocator)
+
+        then: 'The account service mock calls deleteName exactly 1 time'
+        1 * accountService.deleteName(_) >> TestData.nameDeleteResponse
+
+        and: 'The expected results are returned'
+        result.messageId == 'Test'
     }
 
     private void verifyMemberProfile(NameList nameList) {

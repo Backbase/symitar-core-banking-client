@@ -9,12 +9,15 @@ import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildre
 import com.symitar.generated.symxchange.account.ExternalLoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.LoanHoldCreateResponse
 import com.symitar.generated.symxchange.account.LoanHoldSearchPagedSelectFieldsResponse
+import com.symitar.generated.symxchange.account.LoanResponse
 import com.symitar.generated.symxchange.account.LoanTransactionSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.LoanTransferUpdateByIDResponse
+import com.symitar.generated.symxchange.account.NameDeleteResponse
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareHoldCreateResponse
 import com.symitar.generated.symxchange.account.ShareHoldSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.ShareHoldUpdateByIDResponse
+import com.symitar.generated.symxchange.account.ShareResponse
 import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
@@ -43,6 +46,7 @@ import com.symitar.generated.symxchange.common.dto.common.AdministrativeCredenti
 import com.symitar.generated.symxchange.common.dto.common.CredentialsChoice
 import com.symitar.generated.symxchange.common.dto.common.DeviceInformation
 import com.symitar.generated.symxchange.common.dto.common.UpdateStatus
+import com.symitar.generated.symxchange.findby.dto.LookupByActiveCardResponse
 import com.symitar.generated.symxchange.findby.dto.LookupBySSNResponse
 import com.symitar.generated.symxchange.poweron.dto.ExecutionResponseBody
 import com.symitar.generated.symxchange.poweron.dto.PowerOnExecutionResponse
@@ -186,6 +190,80 @@ class TestData {
         )
     )
 
+    static ShareResponse shareResponse = new ShareResponse(
+        messageId: 'Test',
+        share: new Share(
+            id: '00001',
+            description: 'Fake share account',
+            type: 0,
+            balance: 120.00,
+            availableBalance: 100.00,
+            micrAcctNumber: '01',
+            openDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+            regDCheckCount: 1,
+            regDTransferCount: 1,
+            divRate: 2.00,
+            maturityDate: null,
+            shareTransferList: new ShareTransferList(
+                shareTransfer: [
+                    new ShareTransfer(
+                        accountNumber: '621585',
+                        amount: 50.00,
+                        day1: 15,
+                        effectiveDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2021-02-02').toString()),
+                        expirationDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2022-02-02').toString()),
+                        frequency: 4,
+                        id: '00001',
+                        idType: 0,
+                        locator: 1,
+                        lastDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2022-02-15').toString()),
+                        nextDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2022-03-15').toString()),
+                        type: 3
+                    )
+                ]
+            )
+        )
+    )
+
+    static LoanResponse loanResponse = new LoanResponse(
+        messageId: 'Test',
+        loan: new Loan(
+            id: '00002',
+            description: 'Fake loan account',
+            type: 1,
+            balance: 1000.00,
+            payment: 100.00,
+            paymentDue: 100.00,
+            dueDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+            lastPaymentDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+            openDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+            interestRate: 6.00,
+            interestYtd: 50.00,
+            creditLimit: null,
+            availableCredit: null,
+            micrAcctNumber: '02',
+            maturityDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+            loanTransferList: new LoanTransferList(
+                loanTransfer: [
+                    new LoanTransfer(
+                        accountNumber: '621585',
+                        amount: 500.00,
+                        day1: 15,
+                        effectiveDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2021-02-02').toString()),
+                        expirationDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2022-02-02').toString()),
+                        frequency: 4,
+                        id: '00002',
+                        idType: 1,
+                        locator: 1,
+                        lastDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2022-02-15').toString()),
+                        nextDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2022-03-15').toString()),
+                        type: 3
+                    )
+                ]
+            )
+        )
+    )
+
     static AccountSelectFieldsFilterChildrenResponse accountSelectFieldsFilterChildrenResponse_withNameRecords = new AccountSelectFieldsFilterChildrenResponse(
         messageId: 'Test',
         account: new Account(
@@ -288,6 +366,11 @@ class TestData {
             '12121212121',
             '32323232323'
         ]
+    )
+
+    static LookupByActiveCardResponse lookupByActiveCardResponse = new LookupByActiveCardResponse(
+        messageId: 'Test',
+        accountNumber: '12121212121'
     )
 
     static PowerOnExecutionResponse powerOnExecutionResponse = new PowerOnExecutionResponse(
@@ -420,6 +503,10 @@ class TestData {
         updateStatus: new UpdateStatus(
             isAllFieldsUpdateSuccess: true
         )
+    )
+
+    static NameDeleteResponse nameDeleteResponse = new NameDeleteResponse(
+        messageId: 'Test'
     )
 
     static StopCheckPaymentRequest stopCheckPaymentRequest = new StopCheckPaymentRequest(

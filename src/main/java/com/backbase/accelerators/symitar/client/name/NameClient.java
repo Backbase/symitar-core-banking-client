@@ -7,6 +7,8 @@ import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
 import com.symitar.generated.symxchange.account.AccountService;
+import com.symitar.generated.symxchange.account.DeleteNameRequest;
+import com.symitar.generated.symxchange.account.NameDeleteResponse;
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.UpdateNameByIDRequest;
 import com.symitar.generated.symxchange.account.dto.retrieve.Account;
@@ -102,6 +104,19 @@ public class NameClient {
 
         log.debug("Invoking updateNameByID with request: {}", SymitarUtils.toXmlString(updateNameByIdRequest));
         return accountService.updateNameByID(updateNameByIdRequest);
+    }
+
+    public NameDeleteResponse deleteNameRecord(String accountNumber, Integer nameLocator) {
+
+        DeleteNameRequest deleteNameRequest = new DeleteNameRequest();
+        deleteNameRequest.setNameLocator(nameLocator);
+        deleteNameRequest.setAccountNumber(accountNumber);
+        deleteNameRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        deleteNameRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        deleteNameRequest.setMessageId(symitarRequestSettings.getMessageId());
+
+        log.debug("Invoking deleteName with request: {}", SymitarUtils.toXmlString(deleteNameRequest));
+        return accountService.deleteName(deleteNameRequest);
     }
 
     private void setNameFilterQuery(String nameFilter, AccountSelectFieldsFilterChildrenRequest request) {

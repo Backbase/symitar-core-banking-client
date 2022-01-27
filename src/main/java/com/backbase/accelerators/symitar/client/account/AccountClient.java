@@ -7,11 +7,15 @@ import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
 import com.symitar.generated.symxchange.account.AccountService;
+import com.symitar.generated.symxchange.account.LoanRequest;
 import com.symitar.generated.symxchange.account.LoanUpdateByIDResponse;
+import com.symitar.generated.symxchange.account.ShareRequest;
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.UpdateLoanByIDRequest;
 import com.symitar.generated.symxchange.account.UpdateShareByIDRequest;
 import com.symitar.generated.symxchange.account.dto.retrieve.Account;
+import com.symitar.generated.symxchange.account.dto.retrieve.Card;
+import com.symitar.generated.symxchange.account.dto.retrieve.CardList;
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoan;
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoanFilter;
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoanList;
@@ -22,6 +26,9 @@ import com.symitar.generated.symxchange.account.dto.retrieve.LoanFilter;
 import com.symitar.generated.symxchange.account.dto.retrieve.LoanList;
 import com.symitar.generated.symxchange.account.dto.retrieve.LoanSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.LoanTransferSelectableFields;
+import com.symitar.generated.symxchange.account.dto.retrieve.Preference;
+import com.symitar.generated.symxchange.account.dto.retrieve.PreferenceList;
+import com.symitar.generated.symxchange.account.dto.retrieve.PreferenceSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.Share;
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareFilter;
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareList;
@@ -57,8 +64,13 @@ public class AccountClient {
     }
 
     /**
+     * <pre>
      * Retrieves a list of share, loan, and external loan products for the given member account number.
+     * This method will also return:
      *
+     * - A list of card records
+     * - Account-level preferences
+     * </pre>
      * @param accountNumber the member account number
      * @param shareFilter filter parameter to restrict which share products are returned
      * @param loanFilter filter parameter to restrict which loan products are returned
@@ -116,8 +128,49 @@ public class AccountClient {
 
         request.getSelectableFields().setExternalLoanSelectableFields(externalLoanSelectableFields);
 
+        PreferenceSelectableFields preferenceSelectableFields = new PreferenceSelectableFields();
+        preferenceSelectableFields.setIncludeAllPreferenceFields(true);
+
+        request.getSelectableFields().setPreferenceSelectableFields(preferenceSelectableFields);
+
         log.debug("Invoking getAccountSelectFieldsFilterChildren with request: {}", SymitarUtils.toXmlString(request));
         return mapToGetProductsResponse(accountService.getAccountSelectFieldsFilterChildren(request));
+    }
+
+    /**
+     * Returns a single share with the given account number and share ID.
+     * @param accountNumber the member account number
+     * @param shareId the ID of the share
+     * @return
+     */
+    public Share getShare(String accountNumber, String shareId) {
+        ShareRequest shareRequest = new ShareRequest();
+        shareRequest.setAccountNumber(accountNumber);
+        shareRequest.setShareId(shareId);
+        shareRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        shareRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        shareRequest.setMessageId(symitarRequestSettings.getMessageId());
+
+        log.debug("Invoking getShare with request: {}", SymitarUtils.toXmlString(shareRequest));
+        return accountService.getShare(shareRequest).getShare();
+    }
+
+    /**
+     * Returns a single loan with the given account number and loan ID.
+     * @param accountNumber the member account number
+     * @param loanId the ID of the loan
+     * @return
+     */
+    public Loan getLoan(String accountNumber, String loanId) {
+        LoanRequest loanRequest = new LoanRequest();
+        loanRequest.setAccountNumber(accountNumber);
+        loanRequest.setLoanId(loanId);
+        loanRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        loanRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        loanRequest.setMessageId(symitarRequestSettings.getMessageId());
+
+        log.debug("Invoking getLoan with request: {}", SymitarUtils.toXmlString(loanRequest));
+        return accountService.getLoan(loanRequest).getLoan();
     }
 
     /**
@@ -232,11 +285,21 @@ public class AccountClient {
             .map(ExternalLoanList::getExternalLoan)
             .orElse(Collections.emptyList());
 
+        List<Card> cards = account.map(Account::getCardList)
+            .map(CardList::getCard)
+            .orElse(Collections.emptyList());
+
+        List<Preference> preferences = account.map(Account::getPreferenceList)
+            .map(PreferenceList::getPreference)
+            .orElse(Collections.emptyList());
+
         GetProductsResponse getProductsResponse = new GetProductsResponse();
         getProductsResponse.setAccountType(accountType);
         getProductsResponse.setShares(shares);
         getProductsResponse.setLoans(loans);
         getProductsResponse.setExternalLoans(externalLoans);
+        getProductsResponse.setPreferences(preferences);
+        getProductsResponse.setCards(cards);
 
         return getProductsResponse;
     }

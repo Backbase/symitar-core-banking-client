@@ -3,6 +3,8 @@ package com.backbase.accelerators.symitar.client.findby;
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.findby.FindByService;
+import com.symitar.generated.symxchange.findby.dto.LookupByActiveCardRequest;
+import com.symitar.generated.symxchange.findby.dto.LookupByActiveCardResponse;
 import com.symitar.generated.symxchange.findby.dto.LookupBySSNRequest;
 import com.symitar.generated.symxchange.findby.dto.LookupBySSNResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -42,5 +44,21 @@ public class FindByClient {
 
         log.debug("Invoking findBySsn with request: {}", SymitarUtils.toXmlString(lookupBySsnRequest));
         return findByService.findBySSN(lookupBySsnRequest);
+    }
+
+    /**
+     * Returns the member account number associated with the given card number.
+     * @param cardNumber the card  number of the user
+     * @return the member account number associated with the given card number
+     */
+    public LookupByActiveCardResponse findByActiveCardNumber(String cardNumber)  {
+        LookupByActiveCardRequest lookupByActiveCardRequest = new LookupByActiveCardRequest();
+        lookupByActiveCardRequest.setCredentials(symitarRequestSettings.getAdminCredentialsChoice());
+        lookupByActiveCardRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        lookupByActiveCardRequest.setMessageId(symitarRequestSettings.getMessageId());
+        lookupByActiveCardRequest.setCardNumber(cardNumber);
+
+        log.debug("Invoking findByActiveCard");
+        return findByService.findByActiveCard(lookupByActiveCardRequest);
     }
 }

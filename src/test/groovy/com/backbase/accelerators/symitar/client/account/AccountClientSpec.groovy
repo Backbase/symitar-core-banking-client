@@ -4,6 +4,8 @@ import com.backbase.accelerators.symitar.client.TestData
 import com.backbase.accelerators.symitar.client.account.model.GetProductsResponse
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest
 import com.symitar.generated.symxchange.account.AccountService
+import com.symitar.generated.symxchange.account.LoanRequest
+import com.symitar.generated.symxchange.account.ShareRequest
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse
 import com.symitar.generated.symxchange.account.UpdateShareByIDRequest
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoan
@@ -44,12 +46,12 @@ class AccountClientSpec extends Specification {
     }
 
     void 'updateShareProductName updates the name of a share' () {
-        given: 'A memberId, a shareId'
-        String memberId = '621585'
+        given: 'An accountNumber, a shareId'
+        String accountNumber = '621585'
         String shareId = '0010'
 
         when: 'The account client is invoked'
-        ShareUpdateByIDResponse result = accountClient.updateShareName(memberId, shareId, 'Fake Name')
+        ShareUpdateByIDResponse result = accountClient.updateShareName(accountNumber, shareId, 'Fake Name')
 
         then: 'The account service mock calls updateShareByID exactly 1 time'
         1 * accountService.updateShareByID(_ as UpdateShareByIDRequest) >> TestData.updateShareByIDResponse
@@ -61,6 +63,63 @@ class AccountClientSpec extends Specification {
         }
     }
 
+    void 'getShare returns a share with the given accountNumber and shareId' () {
+        given: 'An accountNumber, a shareId'
+        String accountNumber = '621585'
+        String shareId = '0010'
+
+        when: 'The account client is invoked'
+        Share result = accountClient.getShare(accountNumber, shareId)
+
+        then: 'The account service mock calls getShare exactly 1 time'
+        1 * accountService.getShare(_ as ShareRequest) >> TestData.shareResponse
+
+        and: 'The expected results are returned'
+        verifyAll(result) {
+            id == '00001'
+            description == 'Fake share account'
+            type == 0
+            balance == 120.00
+            availableBalance == 100.00
+            micrAcctNumber == '01'
+            openDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
+            regDCheckCount == 1
+            regDTransferCount == 1
+            divRate == 2.00
+            maturityDate == null
+        }
+    }
+
+    void 'getLoan returns a loan with the given accountNumber and loanId' () {
+        given: 'An accountNumber, a loanId'
+        String accountNumber = '621585'
+        String loanId = '0010'
+
+        when: 'The account client is invoked'
+        Loan result = accountClient.getLoan(accountNumber, loanId)
+
+        then: 'The account service mock calls getLoan exactly 1 time'
+        1 * accountService.getLoan(_ as LoanRequest) >> TestData.loanResponse
+
+        and: 'The expected results are returned'
+        verifyAll(result) {
+            id == '00002'
+            description == 'Fake loan account'
+            type == 1
+            balance == 1000.00
+            payment == 100.00
+            paymentDue == 100.00
+            dueDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
+            lastPaymentDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
+            openDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
+            interestRate == 6.00
+            interestYtd == 50.00
+            creditLimit == null
+            availableCredit == null
+            micrAcctNumber == '02'
+            maturityDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
+        }
+    }
 
     private void verifyShares(List<Share> shareList) {
         verifyAll(shareList) {
