@@ -1,13 +1,14 @@
 package com.backbase.accelerators.symitar.client.name
 
 import com.backbase.accelerators.symitar.client.TestData
+import com.backbase.accelerators.symitar.client.name.model.CreateNameRecordRequest
 import com.backbase.accelerators.symitar.client.name.model.GetNameRecordsResponse
 import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest
 import com.symitar.generated.symxchange.account.AccountService
+import com.symitar.generated.symxchange.account.NameCreateResponse
 import com.symitar.generated.symxchange.account.NameDeleteResponse
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse
 import com.symitar.generated.symxchange.account.dto.retrieve.Name
-import com.symitar.generated.symxchange.account.dto.retrieve.NameList
 import spock.lang.Specification
 
 import javax.xml.datatype.DatatypeFactory
@@ -23,21 +24,35 @@ class NameClientSpec extends Specification {
         String memberId = '621585'
         String nameFilter = ''
 
-        when: 'The nameClient client is invoked'
+        when: 'The nameClient is invoked'
         GetNameRecordsResponse result = nameClient.getNameRecords(memberId, nameFilter)
 
         then: 'The account service mock calls getAccountSelectFieldsFilterChildren exactly 1 time'
         1 * accountService.getAccountSelectFieldsFilterChildren(_) >> TestData.accountSelectFieldsFilterChildrenResponse_withNameRecords
 
         and: 'The expected results are returned'
-        verifyMemberProfile(result.nameRecords)
+        verifyNameRecords(result.nameRecords)
     }
 
-    void 'updateNameRecord adds/updates attributes of a member profile'() {
+    void 'createNameRecord adds a new name record in the core'() {
+        given: 'An createNameRecordRequest'
+        CreateNameRecordRequest createNameRecordRequest = TestData.createNameRecordRequest
+
+        when: 'The nameClient is invoked'
+        NameCreateResponse result =  nameClient.createNameRecord(createNameRecordRequest)
+
+        then: 'The account service mock calls createName exactly 1 time'
+        1 * accountService.createName(_) >> TestData.nameCreateResponse
+
+        and: 'The expected results are returned'
+        result.nameLocator == 137
+    }
+
+    void 'updateNameRecord adds/updates attributes of a name record'() {
         given: 'An updateNameRecordRequest'
         UpdateNameRecordRequest updateNameRecordRequest = TestData.updateNameRecordRequest
 
-        when: 'The nameClient client is invoked'
+        when: 'The nameClient is invoked'
         NameUpdateByIDResponse result =  nameClient.updateNameRecord(updateNameRecordRequest)
 
         then: 'The account service mock calls updateNameByID exactly 1 time'
@@ -47,12 +62,12 @@ class NameClientSpec extends Specification {
         result.updateStatus.isAllFieldsUpdateSuccess
     }
 
-    void 'deleteNameRecord deletes a member profile from the core'() {
+    void 'deleteNameRecord deletes a name record from the core'() {
         given: 'An accountNumber and nameLocator'
         String accountNumber = '518907'
         Integer nameLocator = 137
 
-        when: 'The nameClient client is invoked'
+        when: 'The nameClient is invoked'
         NameDeleteResponse result =  nameClient.deleteNameRecord(accountNumber, nameLocator)
 
         then: 'The account service mock calls deleteName exactly 1 time'
@@ -62,23 +77,7 @@ class NameClientSpec extends Specification {
         result.messageId == 'Test'
     }
 
-    private void verifyMemberProfile(NameList nameList) {
-        verifyAll(nameList) {
-            name[0].ssn == '555-55-5555'
-            name[0].birthDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
-            name[0].homePhone == '555-555-5555'
-            name[0].mobilePhone == '444-444-4444'
-            name[0].workPhone == '333-333-3333'
-            name[0].email == 'user@email.com'
-            name[0].first == 'John'
-            name[0].last == 'Doe'
-            name[0].userChar2 == 'test'
-            name[0].type == 0
-
-        }
-    }
-
-    private void verifyMemberProfile(List<Name> nameRecords) {
+    private void verifyNameRecords(List<Name> nameRecords) {
         verifyAll(nameRecords) {
             it[0].ssn == '555-55-5555'
             it[0].birthDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())

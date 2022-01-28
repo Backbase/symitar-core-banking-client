@@ -1,16 +1,20 @@
 package com.backbase.accelerators.symitar.client.name;
 
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
+import com.backbase.accelerators.symitar.client.name.model.CreateNameRecordRequest;
 import com.backbase.accelerators.symitar.client.name.model.GetNameRecordsResponse;
 import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
 import com.symitar.generated.symxchange.account.AccountService;
+import com.symitar.generated.symxchange.account.CreateNameRequest;
 import com.symitar.generated.symxchange.account.DeleteNameRequest;
+import com.symitar.generated.symxchange.account.NameCreateResponse;
 import com.symitar.generated.symxchange.account.NameDeleteResponse;
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.UpdateNameByIDRequest;
+import com.symitar.generated.symxchange.account.dto.create.NameCreatableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.Account;
 import com.symitar.generated.symxchange.account.dto.retrieve.Name;
 import com.symitar.generated.symxchange.account.dto.retrieve.NameFilter;
@@ -46,6 +50,14 @@ public class NameClient {
         this.symitarRequestSettings = symitarRequestSettings;
     }
 
+    /**
+     * Returns a list of name records for the provided account number. Name records represent profiles of
+     * person and non-person entities associated with the account.
+     *
+     * @param accountNumber the member account number
+     * @param nameFilter an optional query string for filtering the returned results
+     * @return A list of name records
+     */
     public GetNameRecordsResponse getNameRecords(String accountNumber, String nameFilter) {
 
         AccountSelectFieldsFilterChildrenRequest request =
@@ -61,6 +73,46 @@ public class NameClient {
 
         log.debug("Invoking getAccountSelectFieldsFilterChildren with request: {}", SymitarUtils.toXmlString(request));
         return mapToGetNameRecordsResponse(accountService.getAccountSelectFieldsFilterChildren(request));
+    }
+
+    /**
+     * Creates a new name record in the core.
+     * @param request a CreateNameRecordRequest
+     * @return a NameCreateResponse containing the name locator of the newly-created record
+     */
+    public NameCreateResponse createNameRecord(CreateNameRecordRequest request) {
+
+        NameCreatableFields nameCreatableFields = new NameCreatableFields();
+        nameCreatableFields.setWorkPhone(request.getWorkPhoneNumber());
+        nameCreatableFields.setWorkPhoneExtension(request.getWorkPhoneNumberExtension());
+        nameCreatableFields.setHomePhone(request.getHomePhoneNumber());
+        nameCreatableFields.setMobilePhone(request.getMobilePhoneNumber());
+        nameCreatableFields.setEmail(request.getEmailAddress());
+        nameCreatableFields.setAltEmail(request.getAlternateEmailAddress());
+        nameCreatableFields.setStreet(truncate(request.getStreetAddress(), 40));
+        nameCreatableFields.setExtraAddress(truncate(request.getStreetAddressLine2(), 40));
+        nameCreatableFields.setCity(truncate(request.getCity(), 40));
+        nameCreatableFields.setState(truncate(request.getState(), 10));
+        nameCreatableFields.setZipCode(truncate(request.getZipCode(), 10));
+        nameCreatableFields.setCountry(request.getCountry());
+        nameCreatableFields.setCountryCode(request.getCountryCode());
+        nameCreatableFields.setType(request.getType());
+        nameCreatableFields.setAddressType(request.getAddressType());
+        nameCreatableFields.setPreferredContactMethod(request.getPreferredContactMethod());
+
+        nameCreatableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(
+            request.getNamedRecordExpirationDate(),
+            NAME_UPDATABLE_FIELDS_EXPIRATION_DATE));
+
+        CreateNameRequest createNameRequest = new CreateNameRequest();
+        createNameRequest.setAccountNumber(request.getAccountNumber());
+        createNameRequest.setMessageId(symitarRequestSettings.getMessageId());
+        createNameRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        createNameRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        createNameRequest.setNameCreatableFields(nameCreatableFields);
+
+        log.debug("Invoking createName with request: {}", SymitarUtils.toXmlString(createNameRequest));
+        return accountService.createName(createNameRequest);
     }
 
     /**

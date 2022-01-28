@@ -9,6 +9,10 @@ public class UpdateNameRecordRequest {
 
     private int nameLocator;
     private String accountNumber;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String mothersMaidenName;
     private String workPhoneNumber;
     private String workPhoneNumberExtension;
     private String homePhoneNumber;

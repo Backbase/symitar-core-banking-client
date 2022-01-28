@@ -1,5 +1,6 @@
 package com.backbase.accelerators.symitar.client
 
+import com.backbase.accelerators.symitar.client.name.model.CreateNameRecordRequest
 import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopPayCode
@@ -12,6 +13,7 @@ import com.symitar.generated.symxchange.account.LoanHoldSearchPagedSelectFieldsR
 import com.symitar.generated.symxchange.account.LoanResponse
 import com.symitar.generated.symxchange.account.LoanTransactionSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.LoanTransferUpdateByIDResponse
+import com.symitar.generated.symxchange.account.NameCreateResponse
 import com.symitar.generated.symxchange.account.NameDeleteResponse
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareHoldCreateResponse
@@ -482,6 +484,25 @@ class TestData {
         updateStatus: new UpdateStatus(
             isAllFieldsUpdateSuccess: true
         )
+    )
+
+    static CreateNameRecordRequest createNameRecordRequest = new CreateNameRecordRequest(
+        accountNumber: '000012323',
+        workPhoneNumber: '111-11-1111',
+        homePhoneNumber: '222-22-2222',
+        mobilePhoneNumber: '333-33-3333',
+        emailAddress: 'fake.user@email.com',
+        streetAddress: '123 Main ST',
+        city: 'Atlanta',
+        state: 'GA',
+        preferredContactMethod: 3,
+        zipCode: '36579',
+        type: 1,
+    )
+
+    static NameCreateResponse nameCreateResponse = new NameCreateResponse(
+        messageId: 'Test',
+        nameLocator: 137
     )
 
     static UpdateNameRecordRequest updateNameRecordRequest = new UpdateNameRecordRequest(

@@ -2,8 +2,10 @@ package com.backbase.accelerators.symitar.client.account;
 
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.account.model.GetAccountRestrictionStatusResponse;
+import com.backbase.accelerators.symitar.client.account.model.GetElectronicStatementsStatusResponse;
 import com.backbase.accelerators.symitar.client.account.model.GetProductsResponse;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
+import com.symitar.generated.symxchange.account.AccountRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
 import com.symitar.generated.symxchange.account.AccountService;
@@ -243,6 +245,30 @@ public class AccountClient {
 
         log.debug("Invoking getAccountSelectFieldsFilterChildren with request: {}", SymitarUtils.toXmlString(request));
         return mapToGetAccountRestrictionStatusResponse(accountService.getAccountSelectFieldsFilterChildren(request));
+    }
+
+    /**
+     * Returns the whether the account can access electronic statements.
+     * @param accountNumber the member account number
+     * @return
+     */
+    public GetElectronicStatementsStatusResponse getElectronicStatementsStatus(String accountNumber) {
+        AccountRequest request = new AccountRequest();
+        request.setAccountNumber(accountNumber);
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+
+        log.debug("Invoking getAccount with request: {}", SymitarUtils.toXmlString(request));
+        Account account = accountService.getAccount(request).getAccount();
+
+        boolean isElectronicStatementsEnabled = Optional.ofNullable(account.getEStmtEnable())
+            .map(value -> value.equals((short) 1) || value.equals((short) 2))
+            .orElse(false);
+
+        GetElectronicStatementsStatusResponse response = new GetElectronicStatementsStatusResponse();
+        response.setElectronicStatementsEnabled(isElectronicStatementsEnabled);
+        return response;
     }
 
     private void setShareFilterQuery(String shareFilter, AccountSelectFieldsFilterChildrenRequest request) {
