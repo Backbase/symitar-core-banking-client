@@ -1,14 +1,14 @@
 package com.backbase.accelerators.symitar.client.name
 
 import com.backbase.accelerators.symitar.client.TestData
-import com.backbase.accelerators.symitar.client.name.model.CreateNameRecordRequest
 import com.backbase.accelerators.symitar.client.name.model.GetNameRecordsResponse
-import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest
 import com.symitar.generated.symxchange.account.AccountService
 import com.symitar.generated.symxchange.account.NameCreateResponse
 import com.symitar.generated.symxchange.account.NameDeleteResponse
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse
+import com.symitar.generated.symxchange.account.dto.create.NameCreatableFields
 import com.symitar.generated.symxchange.account.dto.retrieve.Name
+import com.symitar.generated.symxchange.account.dto.update.NameUpdateableFields
 import spock.lang.Specification
 
 import javax.xml.datatype.DatatypeFactory
@@ -35,11 +35,12 @@ class NameClientSpec extends Specification {
     }
 
     void 'createNameRecord adds a new name record in the core'() {
-        given: 'An createNameRecordRequest'
-        CreateNameRecordRequest createNameRecordRequest = TestData.createNameRecordRequest
+        given: 'An account number and nameCreatableFields object'
+        String accountNumber = '518907'
+        NameCreatableFields nameCreatableFields = TestData.nameCreatableFields
 
         when: 'The nameClient is invoked'
-        NameCreateResponse result =  nameClient.createNameRecord(createNameRecordRequest)
+        NameCreateResponse result =  nameClient.createNameRecord(accountNumber, nameCreatableFields)
 
         then: 'The account service mock calls createName exactly 1 time'
         1 * accountService.createName(_) >> TestData.nameCreateResponse
@@ -49,11 +50,13 @@ class NameClientSpec extends Specification {
     }
 
     void 'updateNameRecord adds/updates attributes of a name record'() {
-        given: 'An updateNameRecordRequest'
-        UpdateNameRecordRequest updateNameRecordRequest = TestData.updateNameRecordRequest
+        given: 'An account number, name locator and nameUpdateableFields object'
+        String accountNumber = '518907'
+        int nameLocator = 78
+        NameUpdateableFields nameUpdateableFields = TestData.nameUpdateableFields
 
         when: 'The nameClient is invoked'
-        NameUpdateByIDResponse result =  nameClient.updateNameRecord(updateNameRecordRequest)
+        NameUpdateByIDResponse result =  nameClient.updateNameRecord(accountNumber, nameLocator, nameUpdateableFields)
 
         then: 'The account service mock calls updateNameByID exactly 1 time'
         1 * accountService.updateNameByID(_) >> TestData.nameUpdateByIDResponse

@@ -2,7 +2,6 @@ package com.backbase.accelerators.symitar.client.stopcheck;
 
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.constants.Filters;
-import com.backbase.accelerators.symitar.client.exception.SymitarCoreClientException;
 import com.backbase.accelerators.symitar.client.stopcheck.model.CheckType;
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckItem;
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest;
@@ -45,6 +44,7 @@ import com.symitar.generated.symxchange.account.dto.update.ShareHoldUpdateableFi
 import com.symitar.generated.symxchange.common.dto.common.PagingRequestContext;
 import com.symitar.generated.symxchange.transactions.TransactionsService;
 import com.symitar.generated.symxchange.transactions.dto.DonorIdType;
+import com.symitar.generated.symxchange.transactions.dto.GLCodes;
 import com.symitar.generated.symxchange.transactions.dto.TransactionsBaseResponse;
 import com.symitar.generated.symxchange.transactions.dto.WithdrawFeeRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -118,6 +118,7 @@ public class StopCheckClient {
     /**
      * Submits a request to stop a check payment for a single check or a range of checks. A withdrawal fee will also
      * be processed during this operation.
+     *
      * @param stopCheckPaymentRequest the request
      * @return
      */
@@ -236,9 +237,45 @@ public class StopCheckClient {
         return stopCheckItems;
     }
 
-    private ShareHoldCreatableFields createShareHoldCreatableFields(StopCheckPaymentRequest stopCheckPaymentRequest) {
-        processStopCheckPaymentWithdrawalFee(stopCheckPaymentRequest);
+    /**
+     * Performs a withdrawal of a stop check payment fee.
+     *
+     * @param accountNumber the member account number
+     * @param donorId the unique identifier of the share or loan from which the fee with be withdrawn from
+     * @param donorType the product type (SHARE, or LOAN)
+     * @return
+     */
+    public TransactionsBaseResponse doStopCheckPaymentFeeTransfer(
+        String accountNumber,
+        String donorId,
+        DonorIdType donorType) {
 
+        WithdrawFeeRequest request = new WithdrawFeeRequest();
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setAccountNumber(accountNumber);
+        request.setDonorId(donorId);
+        request.setDonorType(donorType);
+        request.setEffectiveDate(SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()).getValue());
+
+        Optional.ofNullable(symitarRequestSettings.getStopCheckPaymentSettings()).ifPresent(
+            stopCheckPaymentSettings -> {
+                GLCodes glCodes = new GLCodes();
+                glCodes.setClearingCode(stopCheckPaymentSettings.getGeneralLedgerClearingCode());
+
+                request.setTotalAmount(stopCheckPaymentSettings.getWithdrawalFeeAmount());
+                request.setFeeCode(stopCheckPaymentSettings.getWithdrawalFeeCode());
+                request.setComment(stopCheckPaymentSettings.getWithdrawalFeeReasonText());
+                request.setGLCodes(glCodes);
+            }
+        );
+
+        log.debug("Invoking withdrawFee with request: {}", SymitarUtils.toXmlString(request));
+        return transactionsService.withdrawFee(request);
+    }
+
+    private ShareHoldCreatableFields createShareHoldCreatableFields(StopCheckPaymentRequest stopCheckPaymentRequest) {
         ShareHoldCreatableFields shareHoldCreatableFields = new ShareHoldCreatableFields();
         shareHoldCreatableFields.setAmount(stopCheckPaymentRequest.getAmount());
         shareHoldCreatableFields.setFeeCode(stopCheckPaymentRequest.getFeeCode().shortValue());
@@ -282,8 +319,6 @@ public class StopCheckClient {
     }
 
     private LoanHoldCreatableFields createLoanHoldCreatableFields(StopCheckPaymentRequest stopCheckPaymentRequest) {
-        processStopCheckPaymentWithdrawalFee(stopCheckPaymentRequest);
-
         LoanHoldCreatableFields loanHoldCreatableFields = new LoanHoldCreatableFields();
         loanHoldCreatableFields.setAmount(stopCheckPaymentRequest.getAmount());
         loanHoldCreatableFields.setFeeCode(stopCheckPaymentRequest.getFeeCode().shortValue());
@@ -307,7 +342,6 @@ public class StopCheckClient {
                 stopCheckPaymentRequest.getStartingCheckNumber()).replace(' ', '0'));
 
         if (isNotBlank(stopCheckPaymentRequest.getEndingCheckNumber())) {
-
             loanHoldCreatableFields.setReference2(
                 String.format(
                     CHECK_NUMBER_FORMAT_PATTERN,
@@ -328,32 +362,6 @@ public class StopCheckClient {
         }
         log.debug("LoanHoldCreatableFields for stop check request: {}", SymitarUtils.toString(loanHoldCreatableFields));
         return loanHoldCreatableFields;
-    }
-
-    private void processStopCheckPaymentWithdrawalFee(StopCheckPaymentRequest stopCheckPaymentRequest) {
-
-        WithdrawFeeRequest withdrawFeeRequest = new WithdrawFeeRequest();
-        withdrawFeeRequest.setMessageId(symitarRequestSettings.getMessageId());
-        withdrawFeeRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
-        withdrawFeeRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
-        withdrawFeeRequest.setTotalAmount(symitarRequestSettings.getStopCheckPaymentWithdrawalFeeAmount());
-        withdrawFeeRequest.setFeeCode(symitarRequestSettings.getStopCheckPaymentWithdrawalFeeCode().shortValue());
-        withdrawFeeRequest.setComment(symitarRequestSettings.getStopCheckPaymentWithdrawalFeeReasonText());
-        withdrawFeeRequest.setAccountNumber(stopCheckPaymentRequest.getAccountNumber());
-        withdrawFeeRequest.setDonorId(stopCheckPaymentRequest.getProductId());
-        withdrawFeeRequest.setDonorType(DonorIdType.SHARE);
-        withdrawFeeRequest.setSourceCode(StringUtils.EMPTY);
-
-        withdrawFeeRequest.setEffectiveDate(
-            SymitarUtils.convertToXmlGregorianCalendar(stopCheckPaymentRequest.getEffectiveDate()).getValue());
-
-        log.debug("Invoking withdrawFee with request: {}", SymitarUtils.toXmlString(withdrawFeeRequest));
-        TransactionsBaseResponse transactionsBaseResponse = transactionsService.withdrawFee(withdrawFeeRequest);
-        log.debug("withdrawFee response: {}", SymitarUtils.toXmlString(transactionsBaseResponse));
-
-        if (StringUtils.isBlank(transactionsBaseResponse.getConfirmation())) {
-            throw new SymitarCoreClientException("Failed to process withdrawal fee for stop check payment request");
-        }
     }
 
     private AccountSelectableFields createAccountSelectableFields() {

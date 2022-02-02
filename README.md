@@ -124,3 +124,90 @@ public class SymitarCoreBankingClientConfiguration {
     }
 }
 ```
+
+### Additional configuration options:
+
+The `SymitarRequestSettings` supports additional nested configuration settings for the following:
+
+- Stop check payments
+
+This is done to promote feature-specific configurability that may vary across customers. For example, a stop check payment fee withdrawal code for one 
+institution may be `1`, but for another institution it may be `3`.
+
+Leveraging the example above, you can define additional properties for stop check payments in your `application.yml` as follows:
+
+```yaml
+symitar:
+  client:
+    baseUrl: http://symitar.webservice.host:8087/SymXchange/2020.00
+    admin-password: ADMIN_PASSWORD
+    device-type: DEVICE_TYPE
+    device-number: 12345
+    stopCheckPaymentOptions: # Adding stop check payment properties
+      withdrawalFeeAmount: 3.00
+      withdrawalFeeReasonText: Withdrawal fee for stop check payment
+      withdrawalFeeCode: 1
+      generalLedgerClearingCode: 33
+      
+```
+
+And update `SymitarCoreBankingClientProperties`:
+
+```java
+
+@Data
+@Configuration
+@ConfigurationProperties("symitar.client")
+public class SymitarCoreBankingClientProperties {
+
+    private String baseUrl;
+    private String adminPassword;
+    private String deviceType;
+    private short deviceNumber;
+    private StopCheckPaymentOptions stopCheckPaymentOptions; // New class member to bind application.yml properties to
+
+    // Static nested class to hold stop check payment configuration
+    @Data
+    public static class StopCheckPaymentOptions {
+        
+        private BigDecimal withdrawalFeeAmount;
+        private String withdrawalFeeReasonText;
+        private short withdrawalFeeCode;
+        private short generalLedgerClearingCode;
+    }
+
+    public SymitarRequestSettings toSymitarRequestSettings() {
+        AdministrativeCredentials administrativeCredentials = new AdministrativeCredentials();
+        administrativeCredentials.setPassword(adminPassword);
+
+        AdminCredentialsChoice adminCredentialsChoice = new AdminCredentialsChoice();
+        adminCredentialsChoice.setAdministrativeCredentials(administrativeCredentials);
+
+        CredentialsChoice credentialsChoice = new CredentialsChoice();
+        credentialsChoice.setAdministrativeCredentials(administrativeCredentials);
+
+        DeviceInformation deviceInformation = new DeviceInformation();
+        deviceInformation.setDeviceNumber(deviceNumber);
+        deviceInformation.setDeviceType(deviceType);
+
+        // Mapping stop check payment properties from application.yml to SymitarRequestSettings.StopCheckPaymentSettings object
+        SymitarRequestSettings.StopCheckPaymentSettings stopCheckPaymentSettings = new SymitarRequestSettings.StopCheckPaymentSettings();
+        stopCheckPaymentSettings.setWithdrawalFeeAmount(stopCheckPaymentOptions.getWithdrawalFeeAmount());
+        stopCheckPaymentSettings.setWithdrawalFeeReasonText(stopCheckPaymentOptions.getWithdrawalFeeReasonText());
+        stopCheckPaymentSettings.setWithdrawalFeeCode(stopCheckPaymentOptions.getWithdrawalFeeCode());
+        stopCheckPaymentSettings.setGeneralLedgerClearingCode(stopCheckPaymentOptions.getGeneralLedgerClearingCode());
+        
+        SymitarRequestSettings symitarRequestSettings = new SymitarRequestSettings();
+        symitarRequestSettings.setBaseUrl(baseUrl);
+        symitarRequestSettings.setAdminCredentialsChoice(adminCredentialsChoice);
+        symitarRequestSettings.setCredentialsChoice(credentialsChoice);
+        symitarRequestSettings.setDeviceInformation(deviceInformation);
+        symitarRequestSettings.setMessageId(UUID.randomUUID().toString());
+        symitarRequestSettings.setStopCheckPaymentSettings(stopCheckPaymentSettings);
+
+        return symitarRequestSettings;
+    }
+}
+```
+
+See `SymitarRequestSettings.java` class for all available configuration settings.

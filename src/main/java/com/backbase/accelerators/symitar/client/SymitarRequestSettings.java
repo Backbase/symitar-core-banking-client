@@ -15,7 +15,14 @@ public class SymitarRequestSettings {
     private DeviceInformation deviceInformation;
     private CredentialsChoice credentialsChoice;
     private AdminCredentialsChoice adminCredentialsChoice;
-    private BigDecimal stopCheckPaymentWithdrawalFeeAmount;
-    private Integer stopCheckPaymentWithdrawalFeeCode;
-    private String stopCheckPaymentWithdrawalFeeReasonText;
+    private StopCheckPaymentSettings stopCheckPaymentSettings;
+
+    @Data
+    public static class StopCheckPaymentSettings {
+
+        private BigDecimal withdrawalFeeAmount;
+        private String withdrawalFeeReasonText;
+        private short withdrawalFeeCode;
+        private short generalLedgerClearingCode;
+    }
 }

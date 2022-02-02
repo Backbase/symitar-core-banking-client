@@ -45,13 +45,13 @@ class AccountClientSpec extends Specification {
         verifyExternalLoans(result.externalLoans)
     }
 
-    void 'updateShareProductName updates the name of a share' () {
+    void 'updateShare updates a share in the core' () {
         given: 'An accountNumber, a shareId'
         String accountNumber = '621585'
         String shareId = '0010'
 
         when: 'The account client is invoked'
-        ShareUpdateByIDResponse result = accountClient.updateShareName(accountNumber, shareId, 'Fake Name')
+        ShareUpdateByIDResponse result = accountClient.updateShare(accountNumber, shareId, TestData.shareUpdateableFields)
 
         then: 'The account service mock calls updateShareByID exactly 1 time'
         1 * accountService.updateShareByID(_ as UpdateShareByIDRequest) >> TestData.updateShareByIDResponse

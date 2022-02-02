@@ -1,9 +1,7 @@
 package com.backbase.accelerators.symitar.client.name;
 
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
-import com.backbase.accelerators.symitar.client.name.model.CreateNameRecordRequest;
 import com.backbase.accelerators.symitar.client.name.model.GetNameRecordsResponse;
-import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
@@ -28,8 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static com.backbase.accelerators.symitar.client.util.SymitarUtils.DateType.NAME_UPDATABLE_FIELDS_EXPIRATION_DATE;
 
 @Slf4j
 public class NameClient {
@@ -77,35 +73,14 @@ public class NameClient {
 
     /**
      * Creates a new name record in the core.
-     * @param request a CreateNameRecordRequest
-     * @return a NameCreateResponse containing the name locator of the newly-created record
+     * @param accountNumber the member account number
+     * @param nameCreatableFields contains the properties that will be used to create the name record
+     * @return
      */
-    public NameCreateResponse createNameRecord(CreateNameRecordRequest request) {
-
-        NameCreatableFields nameCreatableFields = new NameCreatableFields();
-        nameCreatableFields.setWorkPhone(request.getWorkPhoneNumber());
-        nameCreatableFields.setWorkPhoneExtension(request.getWorkPhoneNumberExtension());
-        nameCreatableFields.setHomePhone(request.getHomePhoneNumber());
-        nameCreatableFields.setMobilePhone(request.getMobilePhoneNumber());
-        nameCreatableFields.setEmail(request.getEmailAddress());
-        nameCreatableFields.setAltEmail(request.getAlternateEmailAddress());
-        nameCreatableFields.setStreet(truncate(request.getStreetAddress(), 40));
-        nameCreatableFields.setExtraAddress(truncate(request.getStreetAddressLine2(), 40));
-        nameCreatableFields.setCity(truncate(request.getCity(), 40));
-        nameCreatableFields.setState(truncate(request.getState(), 10));
-        nameCreatableFields.setZipCode(truncate(request.getZipCode(), 10));
-        nameCreatableFields.setCountry(request.getCountry());
-        nameCreatableFields.setCountryCode(request.getCountryCode());
-        nameCreatableFields.setType(request.getType());
-        nameCreatableFields.setAddressType(request.getAddressType());
-        nameCreatableFields.setPreferredContactMethod(request.getPreferredContactMethod());
-
-        nameCreatableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(
-            request.getNamedRecordExpirationDate(),
-            NAME_UPDATABLE_FIELDS_EXPIRATION_DATE));
+    public NameCreateResponse createNameRecord(String accountNumber, NameCreatableFields nameCreatableFields) {
 
         CreateNameRequest createNameRequest = new CreateNameRequest();
-        createNameRequest.setAccountNumber(request.getAccountNumber());
+        createNameRequest.setAccountNumber(accountNumber);
         createNameRequest.setMessageId(symitarRequestSettings.getMessageId());
         createNameRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
         createNameRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
@@ -116,42 +91,23 @@ public class NameClient {
     }
 
     /**
-     * Adds, updates and deletes properties on a name record for an account. Properties marked for deletion should be
-     * set to empty strings.
-     *
-     * @param request contains the name record properties to update.
+     * Updates a name record in the core.
+     * @param accountNumber the member account number
+     * @param nameLocator the unique identifier of the name record
+     * @param nameUpdateableFields contains the properties that will be used to update the name record
      * @return
      */
-    public NameUpdateByIDResponse updateNameRecord(UpdateNameRecordRequest request) {
-
-        NameUpdateableFields nameUpdateableFields = new NameUpdateableFields();
-        nameUpdateableFields.setWorkPhone(request.getWorkPhoneNumber());
-        nameUpdateableFields.setWorkPhoneExtension(request.getWorkPhoneNumberExtension());
-        nameUpdateableFields.setHomePhone(request.getHomePhoneNumber());
-        nameUpdateableFields.setMobilePhone(request.getMobilePhoneNumber());
-        nameUpdateableFields.setEmail(request.getEmailAddress());
-        nameUpdateableFields.setAltEmail(request.getAlternateEmailAddress());
-        nameUpdateableFields.setStreet(truncate(request.getStreetAddress(), 40));
-        nameUpdateableFields.setExtraAddress(truncate(request.getStreetAddressLine2(), 40));
-        nameUpdateableFields.setCity(truncate(request.getCity(), 40));
-        nameUpdateableFields.setState(truncate(request.getState(), 10));
-        nameUpdateableFields.setZipCode(truncate(request.getZipCode(), 10));
-        nameUpdateableFields.setCountry(request.getCountry());
-        nameUpdateableFields.setCountryCode(request.getCountryCode());
-        nameUpdateableFields.setType(request.getType());
-        nameUpdateableFields.setAddressType(request.getAddressType());
-        nameUpdateableFields.setPreferredContactMethod(request.getPreferredContactMethod());
-
-        nameUpdateableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(
-            request.getNamedRecordExpirationDate(),
-            NAME_UPDATABLE_FIELDS_EXPIRATION_DATE));
+    public NameUpdateByIDResponse updateNameRecord(
+        String accountNumber,
+        int nameLocator,
+        NameUpdateableFields nameUpdateableFields) {
 
         UpdateNameByIDRequest updateNameByIdRequest = new UpdateNameByIDRequest();
-        updateNameByIdRequest.setAccountNumber(request.getAccountNumber());
         updateNameByIdRequest.setMessageId(symitarRequestSettings.getMessageId());
         updateNameByIdRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
         updateNameByIdRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
-        updateNameByIdRequest.setNameLocator(request.getNameLocator());
+        updateNameByIdRequest.setAccountNumber(accountNumber);
+        updateNameByIdRequest.setNameLocator(nameLocator);
         updateNameByIdRequest.setNameUpdateableFields(nameUpdateableFields);
 
         log.debug("Invoking updateNameByID with request: {}", SymitarUtils.toXmlString(updateNameByIdRequest));
@@ -193,16 +149,5 @@ public class NameClient {
         getNameRecordsResponse.setNameRecords(nameRecords);
 
         return getNameRecordsResponse;
-    }
-
-    /**
-     * Truncates the provided text to the given length to align the length requirements of the core.
-     *
-     * @param text   the text to truncate
-     * @param length the desired length of the truncated text
-     * @return a truncated string
-     */
-    private String truncate(String text, int length) {
-        return StringUtils.substring(text, 0, length);
     }
 }

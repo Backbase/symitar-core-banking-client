@@ -11,6 +11,8 @@ import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildre
 import com.symitar.generated.symxchange.account.AccountService;
 import com.symitar.generated.symxchange.account.LoanRequest;
 import com.symitar.generated.symxchange.account.LoanUpdateByIDResponse;
+import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsRequest;
+import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsResponse;
 import com.symitar.generated.symxchange.account.ShareRequest;
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.UpdateLoanByIDRequest;
@@ -29,6 +31,7 @@ import com.symitar.generated.symxchange.account.dto.retrieve.LoanList;
 import com.symitar.generated.symxchange.account.dto.retrieve.LoanSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.LoanTransferSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.Preference;
+import com.symitar.generated.symxchange.account.dto.retrieve.PreferenceAccessSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.PreferenceList;
 import com.symitar.generated.symxchange.account.dto.retrieve.PreferenceSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.Share;
@@ -176,18 +179,16 @@ public class AccountClient {
     }
 
     /**
-     * Updates the share name.
-     *
+     * Updates a share in the core.
      * @param accountNumber the member account number
-     * @param shareId that identifier if the share
-     * @param updatedName the updated name of the share
-     *
+     * @param shareId the unique identifier of the share product
+     * @param shareUpdateableFields contains the properties of the share to be updated
      * @return
      */
-    public ShareUpdateByIDResponse updateShareName(
+    public ShareUpdateByIDResponse updateShare(
         String accountNumber,
         String shareId,
-        String updatedName) {
+        ShareUpdateableFields shareUpdateableFields) {
 
         UpdateShareByIDRequest updateShareByIdRequest = new UpdateShareByIDRequest();
         updateShareByIdRequest.setMessageId(symitarRequestSettings.getMessageId());
@@ -195,9 +196,6 @@ public class AccountClient {
         updateShareByIdRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         updateShareByIdRequest.setShareId(shareId);
         updateShareByIdRequest.setAccountNumber(accountNumber);
-
-        ShareUpdateableFields shareUpdateableFields = new ShareUpdateableFields();
-        shareUpdateableFields.setDescription(updatedName);
         updateShareByIdRequest.setShareUpdateableFields(shareUpdateableFields);
 
         log.debug("Invoking updateShareByID with request: {}", SymitarUtils.toXmlString(updateShareByIdRequest));
@@ -205,18 +203,16 @@ public class AccountClient {
     }
 
     /**
-     * Updates the loan name.
-     *
+     * Updates a loan in the core.
      * @param accountNumber the member account number
-     * @param loanId that identifier if the loan
-     * @param updatedName the updated name of the loan
-     *
+     * @param loanId the unique identifier of the share product
+     * @param loanUpdateableFields contains the properties of the loan to be updated
      * @return
      */
     public LoanUpdateByIDResponse updateLoanName(
         String accountNumber,
         String loanId,
-        String updatedName) {
+        LoanUpdateableFields loanUpdateableFields) {
 
         UpdateLoanByIDRequest updateLoanByIdRequest = new UpdateLoanByIDRequest();
         updateLoanByIdRequest.setMessageId(symitarRequestSettings.getMessageId());
@@ -224,9 +220,6 @@ public class AccountClient {
         updateLoanByIdRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         updateLoanByIdRequest.setLoanId(loanId);
         updateLoanByIdRequest.setAccountNumber(accountNumber);
-
-        LoanUpdateableFields loanUpdateableFields = new LoanUpdateableFields();
-        loanUpdateableFields.setDescription(updatedName);
         updateLoanByIdRequest.setLoanUpdateableFields(loanUpdateableFields);
 
         log.debug("Invoking updateLoanByID with request: {}", SymitarUtils.toXmlString(updateLoanByIdRequest));
@@ -269,6 +262,22 @@ public class AccountClient {
         GetElectronicStatementsStatusResponse response = new GetElectronicStatementsStatusResponse();
         response.setElectronicStatementsEnabled(isElectronicStatementsEnabled);
         return response;
+    }
+
+    public PreferenceListSelectFieldsResponse getLinkedAccounts(String accountNumber)  {
+        PreferenceListSelectFieldsRequest request = new PreferenceListSelectFieldsRequest();
+        request.setAccountNumber(accountNumber);
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setSelectableFields(new PreferenceSelectableFields());
+
+        PreferenceAccessSelectableFields preferenceAccessSelectableFields = new PreferenceAccessSelectableFields();
+        preferenceAccessSelectableFields.setIncludeAllPreferenceAccessFields(true);
+        request.getSelectableFields().setPreferenceAccessSelectableFields(preferenceAccessSelectableFields);
+
+        log.debug("Invoking getPreferenceListSelectFields with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.getPreferenceListSelectFields(request);
     }
 
     private void setShareFilterQuery(String shareFilter, AccountSelectFieldsFilterChildrenRequest request) {

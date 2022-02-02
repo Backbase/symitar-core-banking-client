@@ -1,7 +1,6 @@
 package com.backbase.accelerators.symitar.client.stopcheck
 
 import com.backbase.accelerators.symitar.client.TestData
-import com.backbase.accelerators.symitar.client.exception.SymitarCoreClientException
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckItem
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest
@@ -14,7 +13,8 @@ import com.symitar.generated.symxchange.account.ShareHoldSearchPagedSelectFields
 import com.symitar.generated.symxchange.account.ShareHoldUpdateByIDResponse
 import com.symitar.generated.symxchange.account.UpdateShareHoldByIDRequest
 import com.symitar.generated.symxchange.transactions.TransactionsService
-import com.symitar.generated.symxchange.transactions.dto.WithdrawFeeRequest
+import com.symitar.generated.symxchange.transactions.dto.DonorIdType
+import com.symitar.generated.symxchange.transactions.dto.TransactionsBaseResponse
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -34,7 +34,6 @@ class StopCheckClientSpec extends Specification {
 
         then: 'the account service mock calls createShareHold exactly 1 time and the transaction service mock calls withdrawFee exactly 1 time'
         1 * accountService.createShareHold(_ as CreateShareHoldRequest) >> TestData.shareHoldCreateResponse
-        1 * transactionsService.withdrawFee(_ as WithdrawFeeRequest) >> TestData.transactionsBaseResponse
 
         and: 'the expected results are verified'
         verifyAll(result) {
@@ -52,31 +51,12 @@ class StopCheckClientSpec extends Specification {
 
         then: 'the account service mock calls createLoanHold exactly 1 time and the transaction service mock calls withdrawFee exactly 1 time'
         1 * accountService.createLoanHold(_ as CreateLoanHoldRequest) >> TestData.loanHoldCreateResponse
-        1 * transactionsService.withdrawFee(_ as WithdrawFeeRequest) >> TestData.transactionsBaseResponse
 
         and: 'the expected results are verified'
         verifyAll(result) {
             messageId == 'Success'
             loanHoldLocator == 1
         }
-    }
-
-    void 'stopShareCheckPayment throws an exception on withdrawal fee failure'() {
-        given: 'a stopCheckPaymentRequest'
-        StopCheckPaymentRequest stopCheckPaymentRequest = TestData.stopCheckPaymentRequest
-
-        when: 'stopCheckClient is invoked'
-        stopCheckClient.stopShareCheckPayment(stopCheckPaymentRequest)
-
-        then: 'the account service mock calls createShareHold 0 times and the transaction service mock calls withdrawFee exactly 1 time'
-        0 * accountService.createShareHold(_ as CreateShareHoldRequest)
-        1 * transactionsService.withdrawFee(_ as WithdrawFeeRequest) >> TestData.transactionsBaseResponse_withdrawalFeeFailure
-
-        and:
-        SymitarCoreClientException e = thrown()
-
-        and: 'the expected results are verified'
-        e.message == 'Failed to process withdrawal fee for stop check payment request'
     }
 
     void 'cancelStopCheckPayment cancels a pending stop check payment request'() {
@@ -90,7 +70,6 @@ class StopCheckClientSpec extends Specification {
 
         then: 'the account service mock calls updateShareHoldByID exactly 1 time'
         1 * accountService.updateShareHoldByID(_ as UpdateShareHoldByIDRequest) >> TestData.shareHoldUpdateByIDResponse
-        0 * transactionsService._
 
         and: 'the expected results are verified'
         verifyAll(result) {
@@ -127,6 +106,25 @@ class StopCheckClientSpec extends Specification {
             it[0].endingCheckNumber == '000443322'
             it[0].singleOrRange == 'R'
             it[0].status == 'Canceled'
+        }
+    }
+
+    void 'doStopCheckPaymentFeeTransfer performs a withdrawal of a stop check payment fee' () {
+        given: 'An accountNumber, donorId, donorType and effectiveDate'
+        String accountNumber = '518907'
+        String donorId = '0010'
+        DonorIdType donorType = DonorIdType.SHARE
+
+        when: 'stopCheckClient is invoked'
+        TransactionsBaseResponse result = stopCheckClient.doStopCheckPaymentFeeTransfer(accountNumber, donorId, donorType)
+
+        then: 'the transactionsService mock calls withdrawFee exactly 1 time'
+        1 * transactionsService.withdrawFee(_) >> TestData.transactionsBaseResponse
+
+        and: 'the results are verified'
+        verifyAll(result) {
+            messageId == 'Success'
+            confirmation == 'Withdrawal confirmed'
         }
     }
 }

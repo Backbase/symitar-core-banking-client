@@ -294,7 +294,7 @@ public class TransferClient {
     }
 
     private TransferRequest createImmediateTransferRequest(InitiateTransferRequest request) {
-        var transferRequest = new TransferRequest();
+        TransferRequest transferRequest = new TransferRequest();
         transferRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
         transferRequest.setMessageId(symitarRequestSettings.getMessageId());
         transferRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());

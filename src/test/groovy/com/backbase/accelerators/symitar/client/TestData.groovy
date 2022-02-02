@@ -1,7 +1,6 @@
 package com.backbase.accelerators.symitar.client
 
-import com.backbase.accelerators.symitar.client.name.model.CreateNameRecordRequest
-import com.backbase.accelerators.symitar.client.name.model.UpdateNameRecordRequest
+
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopPayCode
 import com.backbase.accelerators.symitar.client.transfer.model.InitiateTransferRequest
@@ -24,6 +23,7 @@ import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelec
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse
+import com.symitar.generated.symxchange.account.dto.create.NameCreatableFields
 import com.symitar.generated.symxchange.account.dto.retrieve.Account
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoan
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoanList
@@ -43,6 +43,8 @@ import com.symitar.generated.symxchange.account.dto.retrieve.ShareList
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransaction
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransfer
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransferList
+import com.symitar.generated.symxchange.account.dto.update.NameUpdateableFields
+import com.symitar.generated.symxchange.account.dto.update.ShareUpdateableFields
 import com.symitar.generated.symxchange.common.dto.common.AdminCredentialsChoice
 import com.symitar.generated.symxchange.common.dto.common.AdministrativeCredentials
 import com.symitar.generated.symxchange.common.dto.common.CredentialsChoice
@@ -63,8 +65,6 @@ class TestData {
     static SymitarRequestSettings symitarRequestSettings = new SymitarRequestSettings(
         baseUrl: 'http://10.0.111.21:8087/SymXchange/2020.00',
         messageId: 'Test',
-        stopCheckPaymentWithdrawalFeeCode: 1,
-        stopCheckPaymentWithdrawalFeeAmount: 100.00,
 
         deviceInformation: new DeviceInformation(
             deviceNumber: 20672,
@@ -81,6 +81,12 @@ class TestData {
             administrativeCredentials: new AdministrativeCredentials(
                 password: 'BB1234-4321'
             )
+        ),
+
+        stopCheckPaymentSettings: new SymitarRequestSettings.StopCheckPaymentSettings(
+            withdrawalFeeCode: 1,
+            withdrawalFeeAmount: 100.00,
+            withdrawalFeeReasonText: 'WITHDRAWAL FEE'
         )
     )
 
@@ -355,6 +361,10 @@ class TestData {
         ]
     )
 
+    static ShareUpdateableFields shareUpdateableFields = new ShareUpdateableFields(
+        description: 'Fake Name'
+    )
+
     static ShareUpdateByIDResponse updateShareByIDResponse = new ShareUpdateByIDResponse(
         messageId: 'Success',
         updateStatus: new UpdateStatus(
@@ -486,13 +496,12 @@ class TestData {
         )
     )
 
-    static CreateNameRecordRequest createNameRecordRequest = new CreateNameRecordRequest(
-        accountNumber: '000012323',
-        workPhoneNumber: '111-11-1111',
-        homePhoneNumber: '222-22-2222',
-        mobilePhoneNumber: '333-33-3333',
-        emailAddress: 'fake.user@email.com',
-        streetAddress: '123 Main ST',
+    static NameCreatableFields nameCreatableFields = new NameCreatableFields(
+        workPhone: '111-11-1111',
+        homePhone: '222-22-2222',
+        mobilePhone: '333-33-3333',
+        email: 'fake.user@email.com',
+        street: '123 Main ST',
         city: 'Atlanta',
         state: 'GA',
         preferredContactMethod: 3,
@@ -505,18 +514,17 @@ class TestData {
         nameLocator: 137
     )
 
-    static UpdateNameRecordRequest updateNameRecordRequest = new UpdateNameRecordRequest(
-        accountNumber: '000012323',
-        workPhoneNumber: '111-11-1111',
-        homePhoneNumber: '222-22-2222',
-        mobilePhoneNumber: '333-33-3333',
-        emailAddress: 'fake.user@email.com',
-        streetAddress: '123 Main ST',
+    static NameUpdateableFields nameUpdateableFields = new NameUpdateableFields(
+        workPhone: '111-11-1111',
+        homePhone: '222-22-2222',
+        mobilePhone: '333-33-3333',
+        email: 'fake.user@email.com',
+        street: '123 Main ST',
         city: 'Atlanta',
         state: 'GA',
-        nameLocator: 123,
         preferredContactMethod: 3,
         zipCode: '36579',
+        type: 1,
     )
 
     static NameUpdateByIDResponse nameUpdateByIDResponse = new NameUpdateByIDResponse(
@@ -544,4 +552,5 @@ class TestData {
         payeeName: 'John Doe',
         stopPayCode: StopPayCode.LOST
     )
+
 }
