@@ -208,15 +208,26 @@ public class StopCheckClient {
 
     /**
      * Returns a list of stop check payments items for shares and loans.
+     * <p>
+     * This method first retrieves the shares and loans with the provided accountNumber. The shareFilter and
+     * loanFilter can be used to restrict what shares and loans come back.
+     * </p>
+     * <p>
+     * Secondly, for each share and loan that is returned, an additional call to the core is made
+     * to retrieve the shareHold and loanHold records associated with each share and loan. These shareHolds & loanHolds
+     * are then mapped to a StopCheckItem.
+     * </p>
      *
      * @param accountNumber the member account number
-     * @return a list of stop check items.
+     * @param shareFilter an optional search filter for limiting which shares are returned
+     * @param loanFilter an optional search filter for limiting which loans are returned
+     * @return a list of StopCheckItems
      */
-    public List<StopCheckItem> getStopCheckPayments(String accountNumber) {
+    public List<StopCheckItem> getStopCheckPayments(String accountNumber, String shareFilter, String loanFilter) {
         log.debug("Getting stop check payment list for account number: {}", accountNumber);
 
         // First, fetch shares and loans
-        Pair<List<Share>, List<Loan>> sharesAndLoans = getSharesAndLoans(accountNumber);
+        Pair<List<Share>, List<Loan>> sharesAndLoans = getSharesAndLoans(accountNumber, shareFilter, loanFilter);
         List<Share> shares = sharesAndLoans.getLeft();
         List<Loan> loans = sharesAndLoans.getRight();
 
@@ -344,28 +355,28 @@ public class StopCheckClient {
         return request;
     }
 
-    private Pair<List<Share>, List<Loan>> getSharesAndLoans(String accountNumber) {
+    private Pair<List<Share>, List<Loan>> getSharesAndLoans(
+        String accountNumber,
+        String shareFilter,
+        String loanFilter) {
+
         AccountChildrenFilter accountChildrenFilter = new AccountChildrenFilter();
 
         // Optionally set search filter to restrict the shares we get back from the core
-        Optional.ofNullable(symitarRequestSettings.getStopCheckPaymentSettings())
-            .map(SymitarRequestSettings.StopCheckPaymentSettings::getShareSearchFilter)
-            .ifPresent(filter -> {
-                ShareFilter shareFilter = new ShareFilter();
-                shareFilter.setQuery(filter);
+        if (isNotBlank(shareFilter)) {
+            ShareFilter sf = new ShareFilter();
+            sf.setQuery(shareFilter);
 
-                accountChildrenFilter.setShareFilter(shareFilter);
-            });
+            accountChildrenFilter.setShareFilter(sf);
+        }
 
         // Optionally set search filter to restrict the loans we get back from the core
-        Optional.ofNullable(symitarRequestSettings.getStopCheckPaymentSettings())
-            .map(SymitarRequestSettings.StopCheckPaymentSettings::getLoanSearchFilter)
-            .ifPresent(filter -> {
-                LoanFilter loanFilter = new LoanFilter();
-                loanFilter.setQuery(filter);
+        if (isNotBlank(loanFilter)) {
+            LoanFilter lf = new LoanFilter();
+            lf.setQuery(loanFilter);
 
-                accountChildrenFilter.setLoanFilter(loanFilter);
-            });
+            accountChildrenFilter.setLoanFilter(lf);
+        }
 
         AccountSelectFieldsFilterChildrenRequest request =
             SymitarUtils.initializeAccountSelectFieldsFilterChildrenRequest(symitarRequestSettings, accountNumber);
