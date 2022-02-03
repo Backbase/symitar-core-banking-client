@@ -25,4 +25,8 @@ public class StopCheckItem {
     private String otherReason;
     private String singleOrRange;
     private String status;
+    private Short feeCode;
+    private String feeDescription;
+    private Short type;
+    private String memberBranch;
 }

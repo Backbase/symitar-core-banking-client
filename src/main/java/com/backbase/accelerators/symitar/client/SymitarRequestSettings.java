@@ -24,5 +24,7 @@ public class SymitarRequestSettings {
         private String withdrawalFeeReasonText;
         private short withdrawalFeeCode;
         private short generalLedgerClearingCode;
+        private String shareSearchFilter;
+        private String loanSearchFilter;
     }
 }

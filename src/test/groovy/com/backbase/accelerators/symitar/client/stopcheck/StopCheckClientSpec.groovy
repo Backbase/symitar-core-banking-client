@@ -2,7 +2,6 @@ package com.backbase.accelerators.symitar.client.stopcheck
 
 import com.backbase.accelerators.symitar.client.TestData
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckItem
-import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest
 import com.symitar.generated.symxchange.account.AccountService
 import com.symitar.generated.symxchange.account.CreateLoanHoldRequest
@@ -12,6 +11,8 @@ import com.symitar.generated.symxchange.account.ShareHoldCreateResponse
 import com.symitar.generated.symxchange.account.ShareHoldSearchPagedSelectFieldsRequest
 import com.symitar.generated.symxchange.account.ShareHoldUpdateByIDResponse
 import com.symitar.generated.symxchange.account.UpdateShareHoldByIDRequest
+import com.symitar.generated.symxchange.account.dto.create.LoanHoldCreatableFields
+import com.symitar.generated.symxchange.account.dto.create.ShareHoldCreatableFields
 import com.symitar.generated.symxchange.transactions.TransactionsService
 import com.symitar.generated.symxchange.transactions.dto.DonorIdType
 import com.symitar.generated.symxchange.transactions.dto.TransactionsBaseResponse
@@ -25,12 +26,14 @@ class StopCheckClientSpec extends Specification {
     private TransactionsService transactionsService = Mock()
     private StopCheckClient stopCheckClient = new StopCheckClient(accountService, transactionsService, TestData.symitarRequestSettings)
 
-    void 'stopShareCheckPayment halts the processing of a check payment'() {
-        given: 'a stopCheckPaymentRequest'
-        StopCheckPaymentRequest stopCheckPaymentRequest = TestData.stopCheckPaymentRequest
+    void 'stopCheckPayment halts the processing of a share check payment'() {
+        given: 'an accountNumber, a shareId a shareHoldCreatableFields object'
+        String accountNumber = '518907'
+        String shareId = '0010'
+        ShareHoldCreatableFields shareHoldCreatableFields = TestData.shareHoldCreatableFields
 
         when: 'stopCheckClient is invoked'
-        ShareHoldCreateResponse result = stopCheckClient.stopShareCheckPayment(stopCheckPaymentRequest)
+        ShareHoldCreateResponse result = stopCheckClient.stopCheckPayment(accountNumber, shareId, shareHoldCreatableFields)
 
         then: 'the account service mock calls createShareHold exactly 1 time and the transaction service mock calls withdrawFee exactly 1 time'
         1 * accountService.createShareHold(_ as CreateShareHoldRequest) >> TestData.shareHoldCreateResponse
@@ -42,12 +45,14 @@ class StopCheckClientSpec extends Specification {
         }
     }
 
-    void 'stopLoanCheckPayment halts the processing of a check payment for Loans'() {
-        given: 'a stopCheckPaymentRequest'
-        StopCheckPaymentRequest stopCheckPaymentRequest = TestData.stopCheckPaymentRequest
+    void 'stopCheckPayment halts the processing of a loan check payment'() {
+        given: 'an accountNumber, a loanId a loanHoldCreatableFields object'
+        String accountNumber = '518907'
+        String loanId = '0070'
+        LoanHoldCreatableFields loanHoldCreatableFields = TestData.loanHoldCreatableFields
 
         when: 'stopCheckClient is invoked'
-        LoanHoldCreateResponse result = stopCheckClient.stopLoanCheckPayment(stopCheckPaymentRequest)
+        LoanHoldCreateResponse result = stopCheckClient.stopCheckPayment(accountNumber, loanId, loanHoldCreatableFields)
 
         then: 'the account service mock calls createLoanHold exactly 1 time and the transaction service mock calls withdrawFee exactly 1 time'
         1 * accountService.createLoanHold(_ as CreateLoanHoldRequest) >> TestData.loanHoldCreateResponse
@@ -83,7 +88,7 @@ class StopCheckClientSpec extends Specification {
         String accountNumber = '000123453'
 
         when: 'stopCheckClient is invoked'
-        List<StopCheckItem> result = stopCheckClient.getStopCheckPaymentList(accountNumber)
+        List<StopCheckItem> result = stopCheckClient.getStopCheckPayments(accountNumber)
 
         then:
         1 * accountService.getAccountSelectFieldsFilterChildren(

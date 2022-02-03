@@ -1,10 +1,9 @@
 package com.backbase.accelerators.symitar.client
 
 
-import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest
-import com.backbase.accelerators.symitar.client.stopcheck.model.StopPayCode
 import com.backbase.accelerators.symitar.client.transfer.model.InitiateTransferRequest
 import com.backbase.accelerators.symitar.client.transfer.model.ProductType
+import com.backbase.accelerators.symitar.client.util.SymitarUtils
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse
 import com.symitar.generated.symxchange.account.ExternalLoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.LoanHoldCreateResponse
@@ -23,7 +22,9 @@ import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelec
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse
+import com.symitar.generated.symxchange.account.dto.create.LoanHoldCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.NameCreatableFields
+import com.symitar.generated.symxchange.account.dto.create.ShareHoldCreatableFields
 import com.symitar.generated.symxchange.account.dto.retrieve.Account
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoan
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoanList
@@ -443,11 +444,6 @@ class TestData {
         )
     )
 
-    static TransactionsBaseResponse transactionsBaseResponse_withdrawalFeeFailure = new TransactionsBaseResponse(
-        messageId: 'Failed',
-        confirmation: null
-    )
-
     static TransactionsOverdrawInformationResponse transactionsOverdrawInformationResponse = new TransactionsOverdrawInformationResponse(
         statusCode: 200,
         statusMessage: 'Success',
@@ -538,19 +534,30 @@ class TestData {
         messageId: 'Test'
     )
 
-    static StopCheckPaymentRequest stopCheckPaymentRequest = new StopCheckPaymentRequest(
-        type: 1,
-        amount: 200.00,
-        productId: '2352552',
-        accountNumber: '000012324',
-        effectiveDate: LocalDate.now(),
-        feeCode: 3,
-        feeAccountNumber: '000012324',
-        feeProductId: '2352552',
-        startingCheckNumber: '12345',
-        endingCheckNumber: '12346',
+    static ShareHoldCreatableFields shareHoldCreatableFields = new ShareHoldCreatableFields(
+        amount: 125.00,
+        feeCode: 1,
         payeeName: 'John Doe',
-        stopPayCode: StopPayCode.LOST
+        stopPayCode: 99,
+        type: 1,
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
+        reference1: '1234',
+        reference2: '1239',
+        reference3: 'This is a comment detailing the reason for the stop payment request'
+    )
+
+    static LoanHoldCreatableFields loanHoldCreatableFields = new LoanHoldCreatableFields(
+        amount: 125.00,
+        feeCode: 1,
+        payeeName: 'Jane Doe',
+        stopPayCode: 99,
+        type: 2,
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
+        reference1: '1234',
+        reference2: '1239',
+        reference3: 'This is a comment detailing the reason for the stop payment request'
     )
 
 }

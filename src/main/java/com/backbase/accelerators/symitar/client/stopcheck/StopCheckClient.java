@@ -4,7 +4,6 @@ import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.constants.Filters;
 import com.backbase.accelerators.symitar.client.stopcheck.model.CheckType;
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckItem;
-import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckPaymentRequest;
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopPayCode;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
@@ -48,7 +47,6 @@ import com.symitar.generated.symxchange.transactions.dto.GLCodes;
 import com.symitar.generated.symxchange.transactions.dto.TransactionsBaseResponse;
 import com.symitar.generated.symxchange.transactions.dto.WithdrawFeeRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.xml.datatype.DatatypeConstants;
@@ -62,12 +60,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 public class StopCheckClient {
-
-    private static final String CHECK_NUMBER_FORMAT_PATTERN = "%1$10s";
 
     private final SymitarRequestSettings symitarRequestSettings;
     private final AccountService accountService;
@@ -96,40 +93,50 @@ public class StopCheckClient {
     }
 
     /**
-     * Submits a request to stop a check payment for a single check or a range of checks. A withdrawal fee will also
-     * be processed during this operation.
+     * Submits a request to stop a check payment for a single check or a range of checks.
      *
-     * @param stopCheckPaymentRequest the request
+     * @param accountNumber            the member account number
+     * @param shareId                  the identifier of the share
+     * @param shareHoldCreatableFields contains the properties to create a share hold for the stop payment
      * @return
      */
-    public ShareHoldCreateResponse stopShareCheckPayment(StopCheckPaymentRequest stopCheckPaymentRequest) {
+    public ShareHoldCreateResponse stopCheckPayment(
+        String accountNumber,
+        String shareId,
+        ShareHoldCreatableFields shareHoldCreatableFields) {
+
         CreateShareHoldRequest request = new CreateShareHoldRequest();
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setMessageId(symitarRequestSettings.getMessageId());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
-        request.setAccountNumber(stopCheckPaymentRequest.getAccountNumber());
-        request.setShareId(stopCheckPaymentRequest.getProductId());
-        request.setShareHoldCreatableFields(createShareHoldCreatableFields(stopCheckPaymentRequest));
+        request.setAccountNumber(accountNumber);
+        request.setShareId(shareId);
+        request.setShareHoldCreatableFields(shareHoldCreatableFields);
 
         log.debug("Invoking createShareHold with request: {}", SymitarUtils.toXmlString(request));
         return accountService.createShareHold(request);
     }
 
     /**
-     * Submits a request to stop a check payment for a single check or a range of checks. A withdrawal fee will also
-     * be processed during this operation.
+     * Submits a request to stop a check payment for a single check or a range of checks.
      *
-     * @param stopCheckPaymentRequest the request
+     * @param accountNumber           the member account number
+     * @param loanId                  the identifier of the loan
+     * @param loanHoldCreatableFields contains the properties to create a share hold for the stop payment
      * @return
      */
-    public LoanHoldCreateResponse stopLoanCheckPayment(StopCheckPaymentRequest stopCheckPaymentRequest) {
+    public LoanHoldCreateResponse stopCheckPayment(
+        String accountNumber,
+        String loanId,
+        LoanHoldCreatableFields loanHoldCreatableFields) {
+
         CreateLoanHoldRequest request = new CreateLoanHoldRequest();
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setMessageId(symitarRequestSettings.getMessageId());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
-        request.setAccountNumber(stopCheckPaymentRequest.getAccountNumber());
-        request.setLoanId(stopCheckPaymentRequest.getProductId());
-        request.setLoanHoldCreatableFields(createLoanHoldCreatableFields(stopCheckPaymentRequest));
+        request.setAccountNumber(accountNumber);
+        request.setLoanId(loanId);
+        request.setLoanHoldCreatableFields(loanHoldCreatableFields);
 
         log.debug("Invoking createLoanHold with request: {}", SymitarUtils.toXmlString(request));
         return accountService.createLoanHold(request);
@@ -148,6 +155,7 @@ public class StopCheckClient {
         String shareId,
         Integer shareHoldLocator) {
 
+        // Updating the shareHold by setting an expiration date of today will effectively "cancel" the stop check
         ShareHoldUpdateableFields shareHoldUpdateableFields = new ShareHoldUpdateableFields();
         shareHoldUpdateableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()));
 
@@ -179,6 +187,7 @@ public class StopCheckClient {
         String loanId,
         Integer loanHoldLocator) {
 
+        // Updating the loanHold by setting an expiration date of today will effectively "cancel" the stop check
         LoanHoldUpdateableFields loanHoldUpdateableFields = new LoanHoldUpdateableFields();
         loanHoldUpdateableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(
             LocalDate.now(),
@@ -201,34 +210,37 @@ public class StopCheckClient {
      * Returns a list of stop check payments items for shares and loans.
      *
      * @param accountNumber the member account number
-     * @return
+     * @return a list of stop check items.
      */
-    public List<StopCheckItem> getStopCheckPaymentList(String accountNumber) {
+    public List<StopCheckItem> getStopCheckPayments(String accountNumber) {
         log.debug("Getting stop check payment list for account number: {}", accountNumber);
-        Pair<List<Share>, List<Loan>> sharesAndLoans = getSharesAndLoans(accountNumber);
 
+        // First, fetch shares and loans
+        Pair<List<Share>, List<Loan>> sharesAndLoans = getSharesAndLoans(accountNumber);
         List<Share> shares = sharesAndLoans.getLeft();
         List<Loan> loans = sharesAndLoans.getRight();
 
         List<StopCheckItem> stopCheckItems = new ArrayList<>();
 
+        // Fetch the shareHold records associated with each share, then map them to a StopCheckItem
         shares.forEach(share -> {
             List<StopCheckItem> list = getShareHolds(accountNumber, share.getId())
                 .map(ShareHoldSearchPagedSelectFieldsResponse::getShareHold)
                 .stream()
                 .flatMap(List::stream)
-                .map(shareHold -> mapToShareHoldStopCheck(shareHold, share))
+                .map(shareHold -> mapToStopCheckItem(shareHold, share))
                 .collect(Collectors.toList());
 
             stopCheckItems.addAll(list);
         });
 
+        // Fetch the loanHold records associated with each loan, then map them to a StopCheckItem
         loans.forEach(share -> {
             List<StopCheckItem> list = getLoanHolds(accountNumber, share.getId())
                 .map(LoanHoldSearchPagedSelectFieldsResponse::getLoanHold)
                 .stream()
                 .flatMap(List::stream)
-                .map(loanHold -> mapToLoanHoldStopCheck(loanHold, share))
+                .map(loanHold -> mapToStopCheckItem(loanHold, share))
                 .collect(Collectors.toList());
 
             stopCheckItems.addAll(list);
@@ -241,8 +253,8 @@ public class StopCheckClient {
      * Performs a withdrawal of a stop check payment fee.
      *
      * @param accountNumber the member account number
-     * @param donorId the unique identifier of the share or loan from which the fee with be withdrawn from
-     * @param donorType the product type (SHARE, or LOAN)
+     * @param donorId       the unique identifier of the share or loan from which the fee with be withdrawn from
+     * @param donorType     the product type (SHARE, or LOAN)
      * @return
      */
     public TransactionsBaseResponse doStopCheckPaymentFeeTransfer(
@@ -273,95 +285,6 @@ public class StopCheckClient {
 
         log.debug("Invoking withdrawFee with request: {}", SymitarUtils.toXmlString(request));
         return transactionsService.withdrawFee(request);
-    }
-
-    private ShareHoldCreatableFields createShareHoldCreatableFields(StopCheckPaymentRequest stopCheckPaymentRequest) {
-        ShareHoldCreatableFields shareHoldCreatableFields = new ShareHoldCreatableFields();
-        shareHoldCreatableFields.setAmount(stopCheckPaymentRequest.getAmount());
-        shareHoldCreatableFields.setFeeCode(stopCheckPaymentRequest.getFeeCode().shortValue());
-        shareHoldCreatableFields.setPayeeName(stopCheckPaymentRequest.getPayeeName());
-        shareHoldCreatableFields.setStopPayCode(stopCheckPaymentRequest.getStopPayCode().getValue());
-        shareHoldCreatableFields.setType(stopCheckPaymentRequest.getType().shortValue());
-
-        shareHoldCreatableFields.setEffectiveDate(
-            SymitarUtils.convertToXmlGregorianCalendar(stopCheckPaymentRequest.getEffectiveDate()));
-
-        shareHoldCreatableFields.setExpirationDate(
-            SymitarUtils.convertToXmlGregorianCalendar(stopCheckPaymentRequest.getEffectiveDate().plusYears(1)));
-
-        shareHoldCreatableFields.setReference1(
-            String.format(
-                CHECK_NUMBER_FORMAT_PATTERN,
-                stopCheckPaymentRequest.getStartingCheckNumber()).replace(' ', '0'));
-
-        if (isNotBlank(stopCheckPaymentRequest.getEndingCheckNumber())) {
-            shareHoldCreatableFields.setReference2(
-                String.format(
-                    CHECK_NUMBER_FORMAT_PATTERN,
-                    stopCheckPaymentRequest.getEndingCheckNumber()).replace(' ', '0'));
-        }
-
-        if (stopCheckPaymentRequest.getStopPayCode() == StopPayCode.OTHER
-            && isNotBlank(stopCheckPaymentRequest.getOtherReason())) {
-
-            String otherReason = stopCheckPaymentRequest.getOtherReason();
-            if (otherReason.length() <= 40) {
-                shareHoldCreatableFields.setReference3(otherReason);
-            } else {
-                // Splitting the reason text across two properties due to length restrictions in the core
-                shareHoldCreatableFields.setReference3(otherReason.substring(0, 40));
-                shareHoldCreatableFields.setReference4(otherReason.substring(40));
-            }
-        }
-
-        log.debug("Created ShareHoldCreatableFields: {}", SymitarUtils.toString(shareHoldCreatableFields));
-        return shareHoldCreatableFields;
-    }
-
-    private LoanHoldCreatableFields createLoanHoldCreatableFields(StopCheckPaymentRequest stopCheckPaymentRequest) {
-        LoanHoldCreatableFields loanHoldCreatableFields = new LoanHoldCreatableFields();
-        loanHoldCreatableFields.setAmount(stopCheckPaymentRequest.getAmount());
-        loanHoldCreatableFields.setFeeCode(stopCheckPaymentRequest.getFeeCode().shortValue());
-        loanHoldCreatableFields.setPayeeName(stopCheckPaymentRequest.getPayeeName());
-        loanHoldCreatableFields.setStopPayCode(stopCheckPaymentRequest.getStopPayCode().getValue());
-        loanHoldCreatableFields.setType(stopCheckPaymentRequest.getType().shortValue());
-
-        loanHoldCreatableFields.setEffectiveDate(
-            SymitarUtils.convertToXmlGregorianCalendar(
-                stopCheckPaymentRequest.getEffectiveDate(),
-                SymitarUtils.DateType.LOAN_HOLD_UPDATABLE_FIELDS_EFFECTIVE_DATE));
-
-        loanHoldCreatableFields.setExpirationDate(
-            SymitarUtils.convertToXmlGregorianCalendar(
-                stopCheckPaymentRequest.getEffectiveDate().plusYears(1),
-                SymitarUtils.DateType.LOAN_HOLD_UPDATABLE_FIELDS_EXPIRATION_DATE));
-
-        loanHoldCreatableFields.setReference1(
-            String.format(
-                CHECK_NUMBER_FORMAT_PATTERN,
-                stopCheckPaymentRequest.getStartingCheckNumber()).replace(' ', '0'));
-
-        if (isNotBlank(stopCheckPaymentRequest.getEndingCheckNumber())) {
-            loanHoldCreatableFields.setReference2(
-                String.format(
-                    CHECK_NUMBER_FORMAT_PATTERN,
-                    stopCheckPaymentRequest.getEndingCheckNumber()).replace(' ', '0'));
-        }
-
-        if (stopCheckPaymentRequest.getStopPayCode() == StopPayCode.OTHER
-            && isNotBlank(stopCheckPaymentRequest.getOtherReason())) {
-
-            String otherReason = stopCheckPaymentRequest.getOtherReason();
-            if (otherReason.length() <= 40) {
-                loanHoldCreatableFields.setReference3(otherReason);
-            } else {
-                // Splitting the reason text across two properties due to length restrictions in the core
-                loanHoldCreatableFields.setReference3(otherReason.substring(0, 40));
-                loanHoldCreatableFields.setReference4(otherReason.substring(40));
-            }
-        }
-        log.debug("LoanHoldCreatableFields for stop check request: {}", SymitarUtils.toString(loanHoldCreatableFields));
-        return loanHoldCreatableFields;
     }
 
     private AccountSelectableFields createAccountSelectableFields() {
@@ -422,15 +345,27 @@ public class StopCheckClient {
     }
 
     private Pair<List<Share>, List<Loan>> getSharesAndLoans(String accountNumber) {
-        ShareFilter shareFilter = new ShareFilter();
-        shareFilter.setQuery(Filters.STOP_CHECK_SHARE_CODE_FILTER);
-
-        LoanFilter loanFilter = new LoanFilter();
-        loanFilter.setQuery(Filters.STOP_CHECK_LOAN_CODE_FILTER);
-
         AccountChildrenFilter accountChildrenFilter = new AccountChildrenFilter();
-        accountChildrenFilter.setShareFilter(shareFilter);
-        accountChildrenFilter.setLoanFilter(loanFilter);
+
+        // Optionally set search filter to restrict the shares we get back from the core
+        Optional.ofNullable(symitarRequestSettings.getStopCheckPaymentSettings())
+            .map(SymitarRequestSettings.StopCheckPaymentSettings::getShareSearchFilter)
+            .ifPresent(filter -> {
+                ShareFilter shareFilter = new ShareFilter();
+                shareFilter.setQuery(filter);
+
+                accountChildrenFilter.setShareFilter(shareFilter);
+            });
+
+        // Optionally set search filter to restrict the loans we get back from the core
+        Optional.ofNullable(symitarRequestSettings.getStopCheckPaymentSettings())
+            .map(SymitarRequestSettings.StopCheckPaymentSettings::getLoanSearchFilter)
+            .ifPresent(filter -> {
+                LoanFilter loanFilter = new LoanFilter();
+                loanFilter.setQuery(filter);
+
+                accountChildrenFilter.setLoanFilter(loanFilter);
+            });
 
         AccountSelectFieldsFilterChildrenRequest request =
             SymitarUtils.initializeAccountSelectFieldsFilterChildrenRequest(symitarRequestSettings, accountNumber);
@@ -467,7 +402,7 @@ public class StopCheckClient {
             accountService.searchLoanHoldPagedSelectFields(createGetLoanHoldsRequest(accountNumber, loanId)));
     }
 
-    private StopCheckItem mapToShareHoldStopCheck(ShareHold shareHold, Share share) {
+    private StopCheckItem mapToStopCheckItem(ShareHold shareHold, Share share) {
         StopCheckItem stopCheckItem = StopCheckItem.builder()
             .productId(share.getId())
             .description(share.getDescription())
@@ -481,9 +416,13 @@ public class StopCheckClient {
             .startingCheckNumber(shareHold.getReference1())
             .stopPayCode(Integer.parseInt(shareHold.getStopPayCode().toString()))
             .status(getStopCheckStatus(shareHold))
+            .feeCode(shareHold.getFeeCode())
+            .feeDescription(shareHold.getFeeDescription())
+            .type(shareHold.getType())
+            .memberBranch(shareHold.getMemberBranch())
             .build();
 
-        if (StringUtils.isBlank(shareHold.getReference2())) {
+        if (isBlank(shareHold.getReference2())) {
             stopCheckItem.setSingleOrRange(CheckType.SINGLE.getValue());
         } else {
             stopCheckItem.setEndingCheckNumber(shareHold.getReference2());
@@ -501,7 +440,7 @@ public class StopCheckClient {
         return stopCheckItem;
     }
 
-    private StopCheckItem mapToLoanHoldStopCheck(LoanHold loanHold, Loan loan) {
+    private StopCheckItem mapToStopCheckItem(LoanHold loanHold, Loan loan) {
         StopCheckItem stopCheckItem = StopCheckItem.builder()
             .productId(loan.getId())
             .description(loan.getDescription())
@@ -515,9 +454,13 @@ public class StopCheckClient {
             .startingCheckNumber(loanHold.getReference1())
             .stopPayCode(Integer.parseInt(loanHold.getStopPayCode().toString()))
             .status(getStopCheckStatus(loanHold))
+            .feeCode(loanHold.getFeeCode())
+            .feeDescription(loanHold.getFeeDescription())
+            .type(loanHold.getType())
+            .memberBranch(loanHold.getMemberBranch())
             .build();
 
-        if (StringUtils.isBlank(loanHold.getReference2())) {
+        if (isBlank(loanHold.getReference2())) {
             stopCheckItem.setSingleOrRange(CheckType.SINGLE.getValue());
         } else {
             stopCheckItem.setEndingCheckNumber(loanHold.getReference2());
