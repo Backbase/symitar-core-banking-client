@@ -281,6 +281,8 @@ public class AccountClient {
     }
 
     private void setShareFilterQuery(String shareFilter, AccountSelectFieldsFilterChildrenRequest request) {
+        log.debug("Setting share search filter on AccountSelectFieldsFilterChildrenRequest: {}", shareFilter);
+
         ShareFilter sf = new ShareFilter();
         sf.setQuery(shareFilter);
 
@@ -288,6 +290,8 @@ public class AccountClient {
     }
 
     private void setLoanFilterQuery(String loanFilter, AccountSelectFieldsFilterChildrenRequest request) {
+        log.debug("Setting loan search filter on AccountSelectFieldsFilterChildrenRequest: {}", loanFilter);
+
         LoanFilter lf = new LoanFilter();
         lf.setQuery(loanFilter);
 
@@ -295,6 +299,8 @@ public class AccountClient {
     }
 
     private void setExternalLoanFilterQuery(String loanFilter, AccountSelectFieldsFilterChildrenRequest request) {
+        log.debug("Setting external loan search filter on AccountSelectFieldsFilterChildrenRequest: {}", loanFilter);
+
         ExternalLoanFilter lf = new ExternalLoanFilter();
         lf.setQuery(loanFilter);
 
