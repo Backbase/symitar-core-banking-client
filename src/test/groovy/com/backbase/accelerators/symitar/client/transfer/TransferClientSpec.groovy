@@ -2,13 +2,13 @@ package com.backbase.accelerators.symitar.client.transfer
 
 import com.backbase.accelerators.symitar.client.TestData
 import com.backbase.accelerators.symitar.client.transfer.model.GetTransferListResponse
-import com.backbase.accelerators.symitar.client.transfer.model.InitiateTransferRequest
 import com.symitar.generated.symxchange.account.AccountService
 import com.symitar.generated.symxchange.account.CreateShareTransferRequest
 import com.symitar.generated.symxchange.account.ExternalLoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.LoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
+import com.symitar.generated.symxchange.account.dto.create.ShareTransferCreatableFields
 import com.symitar.generated.symxchange.transactions.TransactionsService
 import com.symitar.generated.symxchange.transactions.dto.TransactionsOverdrawInformationResponse
 import com.symitar.generated.symxchange.transactions.dto.TransferRequest
@@ -28,7 +28,7 @@ class TransferClientSpec extends Specification {
         String accountNumber = '000123453'
 
         when: 'paymentClient is invoked'
-        GetTransferListResponse result = transferClient.getTransferList(accountNumber)
+        GetTransferListResponse result = transferClient.getTransferList(accountNumber, null, null, null)
 
         then: 'accountService.getAccountSelectFieldsFilterChildren() is invoked 1 time'
         1 * accountService.getAccountSelectFieldsFilterChildren(_) >> TestData.accountSelectFieldsFilterChildrenResponse
@@ -80,12 +80,14 @@ class TransferClientSpec extends Specification {
         }
     }
 
-    void 'initiateScheduledShareTransfer submits a scheduled transfer to the core'() {
-        given: 'a initiateShareTransferRequest'
-        InitiateTransferRequest initiateTransferRequest = TestData.initiateTransferRequest_scheduledTransfer
+    void 'createRecurringOrScheduledTransfer submits a scheduled transfer to the core'() {
+        given: 'an accountNumber, shareId and a shareTransferCreatableFields object'
+        String accountNumber = '518907'
+        String shareId = '0020'
+        ShareTransferCreatableFields shareTransferCreatableFields = TestData.shareTransferCreatableFields
 
         when: 'paymentClient is invoked'
-        ShareTransferCreateResponse result = transferClient.initiateScheduledShareTransfer(initiateTransferRequest)
+        ShareTransferCreateResponse result = transferClient.createRecurringOrScheduledShareTransfer(accountNumber, shareId, shareTransferCreatableFields)
 
         then: 'the account service mock calls createShareTransfer exactly 1 time'
         1 * accountService.createShareTransfer(_ as CreateShareTransferRequest) >> TestData.shareTransferCreateResponse
@@ -98,12 +100,12 @@ class TransferClientSpec extends Specification {
         }
     }
 
-    void 'initiateImmediateTransfer submits a immediate transfer to the core'() {
-        given: 'a initiateShareTransferRequest'
-        InitiateTransferRequest initiateTransferRequest = TestData.initiateTransferRequest_immediateTransfer
+    void 'createImmediateTransfer submits an immediate transfer to the core'() {
+        given: 'a transferRequest'
+        TransferRequest transferRequest = TestData.transferRequest
 
         when: 'paymentClient is invoked'
-        TransactionsOverdrawInformationResponse result = transferClient.initiateImmediateTransfer(initiateTransferRequest)
+        TransactionsOverdrawInformationResponse result = transferClient.createImmediateTransfer(transferRequest)
 
         then: 'the transaction service mock calls transfer exactly 1 time'
         1 * transactionsService.transfer(_ as TransferRequest) >> TestData.transactionsOverdrawInformationResponse

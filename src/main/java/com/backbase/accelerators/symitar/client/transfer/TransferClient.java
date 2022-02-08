@@ -3,13 +3,7 @@ package com.backbase.accelerators.symitar.client.transfer;
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.account.AccountClient;
 import com.backbase.accelerators.symitar.client.account.model.GetProductsResponse;
-import com.backbase.accelerators.symitar.client.constants.Filters;
-import com.backbase.accelerators.symitar.client.exception.SymitarCoreClientException;
 import com.backbase.accelerators.symitar.client.transfer.model.GetTransferListResponse;
-import com.backbase.accelerators.symitar.client.transfer.model.InitiateTransferRequest;
-import com.backbase.accelerators.symitar.client.transfer.model.PaymentType;
-import com.backbase.accelerators.symitar.client.transfer.model.ProductType;
-import com.backbase.accelerators.symitar.client.transfer.model.TransferType;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountService;
 import com.symitar.generated.symxchange.account.CreateExternalLoanTransferRequest;
@@ -37,8 +31,6 @@ import com.symitar.generated.symxchange.account.dto.update.ExternalLoanTransferU
 import com.symitar.generated.symxchange.account.dto.update.LoanTransferUpdateableFields;
 import com.symitar.generated.symxchange.account.dto.update.ShareTransferUpdateableFields;
 import com.symitar.generated.symxchange.transactions.TransactionsService;
-import com.symitar.generated.symxchange.transactions.dto.DonorIdType;
-import com.symitar.generated.symxchange.transactions.dto.RecipientIdType;
 import com.symitar.generated.symxchange.transactions.dto.TransactionsOverdrawInformationResponse;
 import com.symitar.generated.symxchange.transactions.dto.TransferRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -53,13 +45,9 @@ import java.util.stream.Collectors;
 
 import static com.backbase.accelerators.symitar.client.util.SymitarUtils.DateType.EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EFFECTIVE_DATE;
 import static com.backbase.accelerators.symitar.client.util.SymitarUtils.DateType.EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE;
-import static com.backbase.accelerators.symitar.client.util.SymitarUtils.DateType.EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_NEXT_DATE;
 
 @Slf4j
 public class TransferClient {
-
-    public static final short SHARE = 0;
-    public static final short LOAN = 1;
 
     private final SymitarRequestSettings symitarRequestSettings;
     private final AccountService accountService;
@@ -89,11 +77,34 @@ public class TransferClient {
 
     /**
      * Returns a list of share, loan and external loan transfer records for the given account number.
-     * @param accountNumber the member account number
-     * @return
+     *
+     * <p>
+     * This method first retrieves the shares and loans with the provided accountNumber. The shareFilter,
+     * loanFilter and externalLoanFilter can be used to restrict what shares, loans and external loans come back.
+     * </p>
+     *
+     * <p>
+     * The transfer records are extracted for each share, loan, and external loan and returned
+     * </p>
+     *
+     * @param accountNumber      the member account number
+     * @param shareFilter        an optional search filter for limiting which shares are returned
+     * @param loanFilter         an optional search filter for limiting which loans are returned
+     * @param externalLoanFilter an optional search filter for limiting which external loans are returned
+     * @return GetTransferListResponse containing a list of share, loan and external loan records.
      */
-    public GetTransferListResponse getTransferList(String accountNumber) {
-        GetProductsResponse getProductsResponse = getLoansAndShares(accountNumber);
+    public GetTransferListResponse getTransferList(
+        String accountNumber,
+        String shareFilter,
+        String loanFilter,
+        String externalLoanFilter) {
+
+        // Transfer records are found on the share, loan and external loans, so fetch them first.
+        GetProductsResponse getProductsResponse = getLoansAndShares(
+            accountNumber,
+            shareFilter,
+            loanFilter,
+            externalLoanFilter);
 
         List<ShareTransfer> shareTransfers = extractShareTransfers(getProductsResponse.getShares());
         List<LoanTransfer> loanTransfers = extractLoanTransfers(getProductsResponse.getLoans());
@@ -109,94 +120,66 @@ public class TransferClient {
     }
 
     /**
-     * Submits a scheduled/recurring transfer to the core.
-     * @param initiateTransferRequest the request
-     * @return
+     * Creates a scheduled/recurring transfer from a share to another product.
+     *
+     * @param accountNumber                the member account number of the share which the transfer is originating from
+     * @param shareId                      the identifier of the share which the transfer is originating from
+     * @param shareTransferCreatableFields contains the transfer details such as the date,
+     *                                     amount and destination of the transfer
+     * @return a ShareTransferCreateResponse containing the transfer locator
      */
-    public ShareTransferCreateResponse initiateScheduledShareTransfer(InitiateTransferRequest initiateTransferRequest) {
+    public ShareTransferCreateResponse createRecurringOrScheduledShareTransfer(
+        String accountNumber,
+        String shareId,
+        ShareTransferCreatableFields shareTransferCreatableFields) {
+
         CreateShareTransferRequest request = new CreateShareTransferRequest();
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         request.setMessageId(symitarRequestSettings.getMessageId());
-        request.setShareId(initiateTransferRequest.getSourceProductId());
-        request.setAccountNumber(leftPadAccountNumber(initiateTransferRequest.getSourceAccountNumber()));
-        request.setShareTransferCreatableFields(createShareTransferCreatableFields(initiateTransferRequest));
+        request.setAccountNumber(accountNumber);
+        request.setShareId(shareId);
+        request.setShareTransferCreatableFields(shareTransferCreatableFields);
 
         log.debug("Invoking createShareTransfer with request: {}", SymitarUtils.toXmlString(request));
         return accountService.createShareTransfer(request);
     }
 
     /**
-     * Submits an immediate one-time transfer to the core.
-     * @param request the request
-     * @return
+     * Creates an immediate one-time transfer from one product to another.
+     *
+     * @param transferRequest contains the transfer details such as the amount, source and destination of the transfer
+     * @return a TransactionsOverdrawInformationResponse
      */
-    public TransactionsOverdrawInformationResponse initiateImmediateTransfer(InitiateTransferRequest request) {
-        TransferRequest transferRequest = createImmediateTransferRequest(request);
-        TransactionsOverdrawInformationResponse response = transactionsService.transfer(transferRequest);
+    public TransactionsOverdrawInformationResponse createImmediateTransfer(TransferRequest transferRequest) {
+        transferRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        transferRequest.setMessageId(symitarRequestSettings.getMessageId());
+        transferRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
 
-        if (hasError(response)) {
-            var stringBuilder = new StringBuilder()
-                .append("sourceAccountNumber=").append(request.getSourceAccountNumber()).append("; ")
-                .append("sourceShareId=").append(request.getSourceProductId()).append("; ")
-                .append("destinationAccountNumber=").append(request.getDestinationAccountNumber()).append("; ")
-                .append("destinationProductId=").append(request.getDestinationProductId()).append("; ")
-                .append("destinationProductType=").append(request.getDestinationProductType()).append("; ")
-                .append("amount=").append(request.getAmount()).append("; ")
-                .append("symxErrorMessage=").append(response.getStatusMessage());
-
-            log.error("Immediate transfer failed: {}", stringBuilder.toString());
-            throw new SymitarCoreClientException(response.getStatusMessage());
-        }
-
-        return response;
+        log.debug("Invoking transfer with request: {}", SymitarUtils.toXmlString(transferRequest));
+        return transactionsService.transfer(transferRequest);
     }
 
     /**
-     * Submits an external loan (credit card) transfers to the core.
-     * @param initiateTransferRequest the request
-     * @return
+     * Creates scheduled/recurring transfer from an external loan (credit card) to another product.
+     *
+     * @param accountNumber                       the member account number
+     * @param externalLoanLocator                 the identifier of the external loan
+     * @param externalLoanTransferCreatableFields contains the transfer details such as the date,
+     *                                            amount and destination of the transfer
+     * @return a ExternalLoanTransferCreateResponse
      */
-    public ExternalLoanTransferCreateResponse initiateExternalLoanTransfer(
-        InitiateTransferRequest initiateTransferRequest) {
-
-        ExternalLoanTransferCreatableFields externalLoanTransferCreatableFields
-            = new ExternalLoanTransferCreatableFields();
-
-        externalLoanTransferCreatableFields.setAccountNumber(
-            leftPadAccountNumber(initiateTransferRequest.getSourceAccountNumber()));
-
-        externalLoanTransferCreatableFields.setIdType(initiateTransferRequest.getSourceProductType().getValue());
-        externalLoanTransferCreatableFields.setId(initiateTransferRequest.getSourceProductId());
-        externalLoanTransferCreatableFields.setAmount(initiateTransferRequest.getAmount());
-
-        externalLoanTransferCreatableFields.setEffectiveDate(
-            SymitarUtils.convertToXmlGregorianCalendar(
-                initiateTransferRequest.getEffectiveDate(),
-                EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EFFECTIVE_DATE));
-
-        externalLoanTransferCreatableFields.setExpirationDate(
-            SymitarUtils.convertToXmlGregorianCalendar(
-                initiateTransferRequest.getExpirationDate(),
-                EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE));
-
-        externalLoanTransferCreatableFields.setFrequency(initiateTransferRequest.getFrequency());
-        externalLoanTransferCreatableFields.setDay1(initiateTransferRequest.getDay1());
-        externalLoanTransferCreatableFields.setDay2(initiateTransferRequest.getDay2());
-
-        externalLoanTransferCreatableFields.setNextDate(
-            SymitarUtils.convertToXmlGregorianCalendar(
-                initiateTransferRequest.getEffectiveDate(),
-                EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_NEXT_DATE));
-
-        externalLoanTransferCreatableFields.setType(TransferType.OFF_CYCLE.getValue());
+    public ExternalLoanTransferCreateResponse createRecurringOrScheduledExternalLoanTransfer(
+        String accountNumber,
+        int externalLoanLocator,
+        ExternalLoanTransferCreatableFields externalLoanTransferCreatableFields) {
 
         CreateExternalLoanTransferRequest request = new CreateExternalLoanTransferRequest();
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         request.setMessageId(symitarRequestSettings.getMessageId());
-        request.setAccountNumber(leftPadAccountNumber(initiateTransferRequest.getDestinationAccountNumber()));
-        request.setExternalLoanLocator(initiateTransferRequest.getExternalLoanLocator());
+        request.setAccountNumber(leftPadAccountNumber(accountNumber));
+        request.setExternalLoanLocator(externalLoanLocator);
         request.setExternalLoanTransferCreatableFields(externalLoanTransferCreatableFields);
 
         log.debug("Invoking createExternalLoanTransfer with request: {}", SymitarUtils.toXmlString(request));
@@ -208,6 +191,8 @@ public class TransferClient {
         String shareId,
         int transferLocator) {
 
+        /* Updating the transfer record by setting the expiration and effective date
+        to today will effectively "cancel" the transfer. */
         JAXBElement<XMLGregorianCalendar> expirationDate = SymitarUtils.convertToXmlGregorianCalendar(
             LocalDate.now(),
             SymitarUtils.DateType.SHARE_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE);
@@ -238,6 +223,8 @@ public class TransferClient {
         String loanId,
         int transferLocator) {
 
+        /* Updating the transfer record by setting the expiration and effective date
+        to today will effectively "cancel" the transfer. */
         JAXBElement<XMLGregorianCalendar> expirationDate = SymitarUtils.convertToXmlGregorianCalendar(
             LocalDate.now(),
             SymitarUtils.DateType.LOAN_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE);
@@ -268,6 +255,8 @@ public class TransferClient {
         int externalLoanLocator,
         int transferLocator) {
 
+        /* Updating the transfer record by setting the expiration and effective date
+        to today will effectively "cancel" the transfer. */
         JAXBElement<XMLGregorianCalendar> expirationDate = SymitarUtils.convertToXmlGregorianCalendar(
             LocalDate.now(),
             EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE);
@@ -293,70 +282,14 @@ public class TransferClient {
         return accountService.updateExternalLoanTransferByID(request);
     }
 
-    private TransferRequest createImmediateTransferRequest(InitiateTransferRequest request) {
-        TransferRequest transferRequest = new TransferRequest();
-        transferRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
-        transferRequest.setMessageId(symitarRequestSettings.getMessageId());
-        transferRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
-        transferRequest.setDonorAccountNumber(leftPadAccountNumber(request.getSourceAccountNumber()));
-        transferRequest.setDonorId(request.getSourceProductId());
-        transferRequest.setDonorType(getDonorIdType(request));
-        transferRequest.setRecipientAccountNumber(leftPadAccountNumber(request.getDestinationAccountNumber()));
-        transferRequest.setRecipientId(request.getDestinationProductId());
-        transferRequest.setTransferAmount(request.getAmount());
-        transferRequest.setRecipientType(getRecipientIdType(request));
+    private GetProductsResponse getLoansAndShares(
+        String accountNumber,
+        String shareFilter,
+        String loanFilter,
+        String externalLoanFilter) {
 
-        return transferRequest;
-    }
-
-    private DonorIdType getDonorIdType(InitiateTransferRequest request) {
-        if (request.getSourceProductType() == ProductType.SHARE) {
-            return DonorIdType.SHARE;
-        }
-
-        return DonorIdType.LOAN;
-    }
-
-    private RecipientIdType getRecipientIdType(InitiateTransferRequest initiateTransferRequest) {
-        if (initiateTransferRequest.getDestinationProductType() == ProductType.SHARE) {
-            return RecipientIdType.SHARE;
-        }
-
-        return RecipientIdType.LOAN;
-    }
-
-    private ShareTransferCreatableFields createShareTransferCreatableFields(InitiateTransferRequest request) {
-        ShareTransferCreatableFields shareTransferCreatableFields = new ShareTransferCreatableFields();
-        shareTransferCreatableFields.setAccountNumber(leftPadAccountNumber(request.getDestinationAccountNumber()));
-        shareTransferCreatableFields.setAmount(request.getAmount());
-        shareTransferCreatableFields.setFrequency(request.getFrequency());
-        shareTransferCreatableFields.setId(request.getDestinationProductId());
-        shareTransferCreatableFields.setIdType(request.getDestinationProductType().getValue());
-        shareTransferCreatableFields.setDay1(request.getDay1());
-        shareTransferCreatableFields.setDay1(request.getDay2());
-        shareTransferCreatableFields.setType(TransferType.AUTO_SHARE_TRANSFER.getValue());
-
-        shareTransferCreatableFields.setEffectiveDate(
-            SymitarUtils.convertToXmlGregorianCalendar(request.getEffectiveDate()));
-
-        shareTransferCreatableFields.setExpirationDate(
-            SymitarUtils.convertToXmlGregorianCalendar(request.getExpirationDate()));
-
-        shareTransferCreatableFields.setNextDate(
-            SymitarUtils.convertToXmlGregorianCalendar(request.getNextDate()));
-
-        if (request.getDestinationProductType() == ProductType.LOAN) {
-            shareTransferCreatableFields.setPaymentType(PaymentType.STANDARD_PAYMENT.getValue());
-        }
-
-        return shareTransferCreatableFields;
-    }
-
-    private GetProductsResponse getLoansAndShares(String accountNumber) {
         return new AccountClient(accountService, symitarRequestSettings)
-            .getProducts(
-                accountNumber,
-                Filters.SHARE_FILTER, Filters.LOAN_FILTER, Filters.EXTERNAL_LOAN_FILTER);
+            .getProducts(accountNumber, shareFilter, loanFilter, externalLoanFilter);
     }
 
     private List<ShareTransfer> extractShareTransfers(List<Share> shares) {
@@ -365,7 +298,6 @@ public class TransferClient {
             .filter(Objects::nonNull)
             .map(ShareTransferList::getShareTransfer)
             .flatMap(List::parallelStream)
-            .filter(shareTransfer -> shareTransfer.getType() == TransferType.AUTO_SHARE_TRANSFER.getValue())
             .peek(transfer -> log.debug("Fetched share transfer record: {}", SymitarUtils.toXmlString(transfer)))
             .collect(Collectors.toList());
     }
@@ -376,7 +308,6 @@ public class TransferClient {
             .filter(Objects::nonNull)
             .map(LoanTransferList::getLoanTransfer)
             .flatMap(List::parallelStream)
-            .filter(loanTransfer -> loanTransfer.getType() == TransferType.AUTO_SHARE_TRANSFER.getValue())
             .peek(transfer -> log.debug("Fetched loan transfer record: {}", SymitarUtils.toXmlString(transfer)))
             .collect(Collectors.toList());
     }
@@ -387,7 +318,6 @@ public class TransferClient {
             .filter(Objects::nonNull)
             .map(ExternalLoanTransferList::getExternalLoanTransfer)
             .flatMap(List::parallelStream)
-            .filter(extLoanTransfer -> extLoanTransfer.getType() == TransferType.AUTO_SHARE_TRANSFER.getValue())
             .peek(transfer ->
                 log.debug("Fetched external loan transfer record: {}", SymitarUtils.toXmlString(transfer)))
             .collect(Collectors.toList());
@@ -399,11 +329,5 @@ public class TransferClient {
         }
 
         return String.format("%010d", Integer.parseInt(accountNumber));
-    }
-
-    private boolean hasError(TransactionsOverdrawInformationResponse response) {
-        return Objects.nonNull(response)
-            && response.getStatusCode() != 0
-            && StringUtils.isEmpty(response.getConfirmation());
     }
 }

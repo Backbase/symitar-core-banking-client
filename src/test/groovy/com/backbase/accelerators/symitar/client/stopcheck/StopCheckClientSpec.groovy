@@ -88,7 +88,7 @@ class StopCheckClientSpec extends Specification {
         String accountNumber = '000123453'
 
         when: 'stopCheckClient is invoked'
-        List<StopCheckItem> result = stopCheckClient.getStopCheckPayments(accountNumber, null, null)
+        List<StopCheckItem> result = stopCheckClient.getStopCheckPayments(accountNumber, null, null, null, null)
 
         then:
         1 * accountService.getAccountSelectFieldsFilterChildren(

@@ -1,7 +1,6 @@
 package com.backbase.accelerators.symitar.client.stopcheck;
 
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
-import com.backbase.accelerators.symitar.client.constants.Filters;
 import com.backbase.accelerators.symitar.client.stopcheck.model.CheckType;
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopCheckItem;
 import com.backbase.accelerators.symitar.client.stopcheck.model.StopPayCode;
@@ -221,9 +220,17 @@ public class StopCheckClient {
      * @param accountNumber the member account number
      * @param shareFilter an optional search filter for limiting which shares are returned
      * @param loanFilter an optional search filter for limiting which loans are returned
+     * @param shareHoldFilter an optional search filter for limiting which shareHolds are returned
+     * @param loanHoldFilter an optional search filter for limiting which loanHolds are returned
      * @return a list of StopCheckItems
      */
-    public List<StopCheckItem> getStopCheckPayments(String accountNumber, String shareFilter, String loanFilter) {
+    public List<StopCheckItem> getStopCheckPayments(
+        String accountNumber,
+        String shareFilter,
+        String loanFilter,
+        String shareHoldFilter,
+        String loanHoldFilter) {
+
         log.debug("Getting stop check payment list for account number: {}", accountNumber);
 
         // First, fetch shares and loans
@@ -235,7 +242,7 @@ public class StopCheckClient {
 
         // Fetch the shareHold records associated with each share, then map them to a StopCheckItem
         shares.forEach(share -> {
-            List<StopCheckItem> list = getShareHolds(accountNumber, share.getId())
+            List<StopCheckItem> list = getShareHolds(accountNumber, share.getId(), shareHoldFilter)
                 .map(ShareHoldSearchPagedSelectFieldsResponse::getShareHold)
                 .stream()
                 .flatMap(List::stream)
@@ -247,7 +254,7 @@ public class StopCheckClient {
 
         // Fetch the loanHold records associated with each loan, then map them to a StopCheckItem
         loans.forEach(share -> {
-            List<StopCheckItem> list = getLoanHolds(accountNumber, share.getId())
+            List<StopCheckItem> list = getLoanHolds(accountNumber, share.getId(), loanHoldFilter)
                 .map(LoanHoldSearchPagedSelectFieldsResponse::getLoanHold)
                 .stream()
                 .flatMap(List::stream)
@@ -311,45 +318,51 @@ public class StopCheckClient {
         return accountSelectableFields;
     }
 
-    private ShareHoldSearchPagedSelectFieldsRequest createGetShareHoldsRequest(String accountNumber, String shareId) {
+    private ShareHoldSearchPagedSelectFieldsRequest createGetShareHoldsRequest(
+        String accountNumber,
+        String shareId,
+        String shareHoldFilter) {
+
+        ShareHoldSingleSelectableFields selectableFields = new ShareHoldSingleSelectableFields();
+        selectableFields.setIncludeAllShareHoldFields(true);
+
+        PagingRequestContext pagingRequestContext = new PagingRequestContext();
+        pagingRequestContext.setNumberOfRecordsToSkip(0);
+        pagingRequestContext.setNumberOfRecordsToReturn(100);
+
         ShareHoldSearchPagedSelectFieldsRequest request = new ShareHoldSearchPagedSelectFieldsRequest();
         request.setMessageId(symitarRequestSettings.getMessageId());
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         request.setAccountNumber(accountNumber);
         request.setShareId(shareId);
-
-        ShareHoldSingleSelectableFields selectableFields = new ShareHoldSingleSelectableFields();
-        selectableFields.setIncludeAllShareHoldFields(true);
-
         request.setSelectableFields(selectableFields);
-        request.setQuery(Filters.STOP_CHECK_SHARE_HOLD_FILTER);
-
-        PagingRequestContext pagingRequestContext = new PagingRequestContext();
-        pagingRequestContext.setNumberOfRecordsToSkip(0);
-        pagingRequestContext.setNumberOfRecordsToReturn(100);
+        request.setQuery(shareHoldFilter);
         request.setPagingRequestContext(pagingRequestContext);
 
         return request;
     }
 
-    private LoanHoldSearchPagedSelectFieldsRequest createGetLoanHoldsRequest(String accountNumber, String loanId) {
+    private LoanHoldSearchPagedSelectFieldsRequest createGetLoanHoldsRequest(
+        String accountNumber,
+        String loanId,
+        String loanHoldFilter) {
+
+        LoanHoldSingleSelectableFields selectableFields = new LoanHoldSingleSelectableFields();
+        selectableFields.setIncludeAllLoanHoldFields(true);
+
+        PagingRequestContext pagingRequestContext = new PagingRequestContext();
+        pagingRequestContext.setNumberOfRecordsToSkip(0);
+        pagingRequestContext.setNumberOfRecordsToReturn(100);
+
         LoanHoldSearchPagedSelectFieldsRequest request = new LoanHoldSearchPagedSelectFieldsRequest();
         request.setMessageId(symitarRequestSettings.getMessageId());
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         request.setAccountNumber(accountNumber);
         request.setLoanId(loanId);
-
-        LoanHoldSingleSelectableFields selectableFields = new LoanHoldSingleSelectableFields();
-        selectableFields.setIncludeAllLoanHoldFields(true);
-
         request.setSelectableFields(selectableFields);
-        request.setQuery(Filters.STOP_CHECK_SHARE_HOLD_FILTER);
-
-        PagingRequestContext pagingRequestContext = new PagingRequestContext();
-        pagingRequestContext.setNumberOfRecordsToSkip(0);
-        pagingRequestContext.setNumberOfRecordsToReturn(100);
+        request.setQuery(loanHoldFilter);
         request.setPagingRequestContext(pagingRequestContext);
 
         return request;
@@ -403,14 +416,24 @@ public class StopCheckClient {
         return Pair.of(shares, loans);
     }
 
-    private Optional<ShareHoldSearchPagedSelectFieldsResponse> getShareHolds(String accountNumber, String shareId) {
+    private Optional<ShareHoldSearchPagedSelectFieldsResponse> getShareHolds(
+        String accountNumber,
+        String shareId,
+        String shareHoldFilter) {
+
         return Optional.ofNullable(
-            accountService.searchShareHoldPagedSelectFields(createGetShareHoldsRequest(accountNumber, shareId)));
+            accountService.searchShareHoldPagedSelectFields(
+                createGetShareHoldsRequest(accountNumber, shareId, shareHoldFilter)));
     }
 
-    private Optional<LoanHoldSearchPagedSelectFieldsResponse> getLoanHolds(String accountNumber, String loanId) {
+    private Optional<LoanHoldSearchPagedSelectFieldsResponse> getLoanHolds(
+        String accountNumber,
+        String loanId,
+        String loanHoldFilter) {
+
         return Optional.ofNullable(
-            accountService.searchLoanHoldPagedSelectFields(createGetLoanHoldsRequest(accountNumber, loanId)));
+            accountService.searchLoanHoldPagedSelectFields(
+                createGetLoanHoldsRequest(accountNumber, loanId, loanHoldFilter)));
     }
 
     private StopCheckItem mapToStopCheckItem(ShareHold shareHold, Share share) {

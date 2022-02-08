@@ -22,9 +22,11 @@ import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelec
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse
+import com.symitar.generated.symxchange.account.dto.create.ExternalLoanTransferCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.LoanHoldCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.NameCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.ShareHoldCreatableFields
+import com.symitar.generated.symxchange.account.dto.create.ShareTransferCreatableFields
 import com.symitar.generated.symxchange.account.dto.retrieve.Account
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoan
 import com.symitar.generated.symxchange.account.dto.retrieve.ExternalLoanList
@@ -55,8 +57,11 @@ import com.symitar.generated.symxchange.findby.dto.LookupByActiveCardResponse
 import com.symitar.generated.symxchange.findby.dto.LookupBySSNResponse
 import com.symitar.generated.symxchange.poweron.dto.ExecutionResponseBody
 import com.symitar.generated.symxchange.poweron.dto.PowerOnExecutionResponse
+import com.symitar.generated.symxchange.transactions.dto.DonorIdType
+import com.symitar.generated.symxchange.transactions.dto.RecipientIdType
 import com.symitar.generated.symxchange.transactions.dto.TransactionsBaseResponse
 import com.symitar.generated.symxchange.transactions.dto.TransactionsOverdrawInformationResponse
+import com.symitar.generated.symxchange.transactions.dto.TransferRequest
 
 import javax.xml.datatype.DatatypeFactory
 import java.time.LocalDate
@@ -558,6 +563,44 @@ class TestData {
         reference1: '1234',
         reference2: '1239',
         reference3: 'This is a comment detailing the reason for the stop payment request'
+    )
+
+    static ShareTransferCreatableFields shareTransferCreatableFields = new ShareTransferCreatableFields(
+        accountNumber: '0000518907',
+        amount: 100.00,
+        frequency: 1,
+        id: '0040',
+        idType: 1,
+        day1: 15,
+        type: 0,
+        paymentType: 0,
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
+        nextDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusMonths(1)),
+    )
+
+    static TransferRequest transferRequest = new TransferRequest(
+        donorAccountNumber: '0000518907',
+        donorId: '0010',
+        donorType: DonorIdType.SHARE,
+        recipientAccountNumber: '0000518907',
+        recipientId: '0020',
+        recipientType: RecipientIdType.SHARE,
+        transferAmount: 100.00
+    )
+
+    static ExternalLoanTransferCreatableFields externalLoanTransferCreatableFields = new ExternalLoanTransferCreatableFields(
+        accountNumber: '0000518907',
+        id: '0054',
+        idType: 4,
+        amount: 20.00,
+        day1: 15,
+        type: 2,
+        paymentType: 0,
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
+        nextDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusMonths(1)),
+
     )
 
 }
