@@ -3,12 +3,20 @@ package com.backbase.accelerators.symitar.client.transaction;
 import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountService;
+import com.symitar.generated.symxchange.account.LoanHoldPagedListRequest;
+import com.symitar.generated.symxchange.account.LoanHoldPagedListResponse;
 import com.symitar.generated.symxchange.account.LoanHoldSearchPagedSelectFieldsRequest;
 import com.symitar.generated.symxchange.account.LoanHoldSearchPagedSelectFieldsResponse;
+import com.symitar.generated.symxchange.account.LoanTransactionPagedListRequest;
+import com.symitar.generated.symxchange.account.LoanTransactionPagedListResponse;
 import com.symitar.generated.symxchange.account.LoanTransactionSearchPagedSelectFieldsRequest;
 import com.symitar.generated.symxchange.account.LoanTransactionSearchPagedSelectFieldsResponse;
+import com.symitar.generated.symxchange.account.ShareHoldPagedListRequest;
+import com.symitar.generated.symxchange.account.ShareHoldPagedListResponse;
 import com.symitar.generated.symxchange.account.ShareHoldSearchPagedSelectFieldsRequest;
 import com.symitar.generated.symxchange.account.ShareHoldSearchPagedSelectFieldsResponse;
+import com.symitar.generated.symxchange.account.ShareTransactionPagedListRequest;
+import com.symitar.generated.symxchange.account.ShareTransactionPagedListResponse;
 import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelectFieldsRequest;
 import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelectFieldsResponse;
 import com.symitar.generated.symxchange.account.dto.retrieve.LoanHoldSingleSelectableFields;
@@ -40,7 +48,45 @@ public class TransactionClient {
         this.symitarRequestSettings = symitarRequestSettings;
     }
 
-    public ShareTransactionSearchPagedSelectFieldsResponse getShareTransactions(
+    /**
+     * Returns a paginated list of share transactions.
+     *
+     * @param accountNumber the member account number
+     * @param shareId       the identifier of the share
+     * @param token         the pagination token specifying where to start the retrieval from
+     * @param pageSize      the page size to return
+     * @return
+     */
+    public ShareTransactionPagedListResponse getShareTransactions(
+        String accountNumber,
+        String shareId,
+        String token,
+        int pageSize) {
+
+        ShareTransactionPagedListRequest request = new ShareTransactionPagedListRequest();
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setAccountNumber(accountNumber);
+        request.setShareId(shareId);
+        request.setPagingRequestContext(getPagingRequestContext(token, pageSize));
+
+        log.debug("Invoking getShareTransactionPagedList with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.getShareTransactionPagedList(request);
+    }
+
+    /**
+     * Returns a paginated list of share transactions with an optional search filter.
+     *
+     * @param accountNumber          the member account number
+     * @param shareId                the identifier of the share
+     * @param token                  the pagination token specifying where to start the retrieval from
+     * @param pageSize               the page size to return
+     * @param shareTransactionFilter the search filter used to restrict which transactions are returned
+     * @return
+     */
+    public ShareTransactionSearchPagedSelectFieldsResponse searchShareTransactions(
         String accountNumber,
         String shareId,
         String token,
@@ -71,7 +117,44 @@ public class TransactionClient {
         return accountService.searchShareTransactionPagedSelectFields(request);
     }
 
-    public ShareHoldSearchPagedSelectFieldsResponse getShareHolds(
+    /**
+     * Returns a paginated list of share hold transactions.
+     *
+     * @param accountNumber the member account number
+     * @param shareId       the identifier of the share
+     * @param token         the pagination token specifying where to start the retrieval from
+     * @param pageSize      the page size to return
+     * @return
+     */
+    public ShareHoldPagedListResponse getShareHolds(
+        String accountNumber,
+        String shareId,
+        String token,
+        int pageSize) {
+
+        ShareHoldPagedListRequest request = new ShareHoldPagedListRequest();
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setAccountNumber(accountNumber);
+        request.setShareId(shareId);
+        request.setPagingRequestContext(getPagingRequestContext(token, pageSize));
+
+        log.debug("Invoking getShareHoldPagedList with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.getShareHoldPagedList(request);
+    }
+
+    /**
+     * Returns a paginated list of share hold transactions with an optional search filter.
+     *
+     * @param accountNumber   the member account number
+     * @param shareId         the identifier of the share
+     * @param token           the pagination token specifying where to start the retrieval from
+     * @param pageSize        the page size to return
+     * @param shareHoldFilter the search filter used to restrict which transactions are returned
+     * @return
+     */
+    public ShareHoldSearchPagedSelectFieldsResponse searchShareHolds(
         String accountNumber,
         String shareId,
         String token,
@@ -99,7 +182,45 @@ public class TransactionClient {
         return accountService.searchShareHoldPagedSelectFields(request);
     }
 
-    public LoanTransactionSearchPagedSelectFieldsResponse getLoanTransactions(
+    /**
+     * Returns a paginated list of loan transactions.
+     *
+     * @param accountNumber the member account number
+     * @param loanId        the identifier of the loan
+     * @param token         the pagination token specifying where to start the retrieval from
+     * @param pageSize      the page size to return
+     * @return
+     */
+    public LoanTransactionPagedListResponse getLoanTransactions(
+        String accountNumber,
+        String loanId,
+        String token,
+        int pageSize) {
+
+        LoanTransactionPagedListRequest request = new LoanTransactionPagedListRequest();
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setAccountNumber(accountNumber);
+        request.setLoanId(loanId);
+        request.setPagingRequestContext(getPagingRequestContext(token, pageSize));
+
+        log.debug("Invoking getLoanTransactionPagedList with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.getLoanTransactionPagedList(request);
+    }
+
+    /**
+     * Returns a paginated list of loan transactions with an optional search filter.
+     *
+     * @param accountNumber         the member account number
+     * @param loanId                the identifier of the loan
+     * @param token                 the pagination token specifying where to start the retrieval from
+     * @param pageSize              the page size to return
+     * @param loanTransactionFilter the search filter use to restrict which transactions are returned
+     * @return
+     */
+    public LoanTransactionSearchPagedSelectFieldsResponse searchLoanTransactions(
         String accountNumber,
         String loanId,
         String token,
@@ -129,7 +250,44 @@ public class TransactionClient {
         return accountService.searchLoanTransactionPagedSelectFields(request);
     }
 
-    public LoanHoldSearchPagedSelectFieldsResponse getLoanHolds(
+    /**
+     * Returns a paginated list of loan hold transactions.
+     *
+     * @param accountNumber the member account number
+     * @param loanId       the identifier of the loan
+     * @param token         the pagination token specifying where to start the retrieval from
+     * @param pageSize      the page size to return
+     * @return
+     */
+    public LoanHoldPagedListResponse getLoanHolds(
+        String accountNumber,
+        String loanId,
+        String token,
+        int pageSize) {
+
+        LoanHoldPagedListRequest request = new LoanHoldPagedListRequest();
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setAccountNumber(accountNumber);
+        request.setLoanId(loanId);
+        request.setPagingRequestContext(getPagingRequestContext(token, pageSize));
+
+        log.debug("Invoking getLoanHoldPagedList with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.getLoanHoldPagedList(request);
+    }
+
+    /**
+     * Returns a paginated list of loan hold transactions with an optional search filter.
+     *
+     * @param accountNumber  the member account number
+     * @param loanId         the identifier of the loan
+     * @param token          the pagination token
+     * @param pageSize       the page size to return
+     * @param loanHoldFilter the search filter use to restrict which transactions are returned
+     * @return
+     */
+    public LoanHoldSearchPagedSelectFieldsResponse searchLoanHolds(
         String accountNumber,
         String loanId,
         String token,

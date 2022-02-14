@@ -7,17 +7,21 @@ import com.backbase.accelerators.symitar.client.util.SymitarUtils
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse
 import com.symitar.generated.symxchange.account.ExternalLoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.LoanHoldCreateResponse
+import com.symitar.generated.symxchange.account.LoanHoldPagedListResponse
 import com.symitar.generated.symxchange.account.LoanHoldSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.LoanResponse
+import com.symitar.generated.symxchange.account.LoanTransactionPagedListResponse
 import com.symitar.generated.symxchange.account.LoanTransactionSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.LoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.NameCreateResponse
 import com.symitar.generated.symxchange.account.NameDeleteResponse
 import com.symitar.generated.symxchange.account.NameUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareHoldCreateResponse
+import com.symitar.generated.symxchange.account.ShareHoldPagedListResponse
 import com.symitar.generated.symxchange.account.ShareHoldSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.ShareHoldUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareResponse
+import com.symitar.generated.symxchange.account.ShareTransactionPagedListResponse
 import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelectFieldsResponse
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
@@ -302,6 +306,20 @@ class TestData {
         )
     )
 
+    static ShareTransactionPagedListResponse shareTransactionPagedListResponse = new ShareTransactionPagedListResponse(
+        messageId: 'Test',
+        token: 'Test',
+        shareTransaction: [
+            new ShareTransaction(
+                id: '11111-11111',
+                accountNumber: '123456789',
+                activityDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+                description: 'Fake transaction record',
+                tranAmount: 10.00
+            )
+        ]
+    )
+
     static ShareTransactionSearchPagedSelectFieldsResponse shareTransactionSearchPagedSelectFieldsResponse = new ShareTransactionSearchPagedSelectFieldsResponse(
         messageId: 'Test',
         token: 'Test',
@@ -312,6 +330,28 @@ class TestData {
                 activityDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
                 description: 'Fake transaction record',
                 tranAmount: 10.00
+            )
+        ]
+    )
+
+    static ShareHoldPagedListResponse shareHoldPagedListResponse = new ShareHoldPagedListResponse(
+        messageId: 'Test',
+        token: null,
+        shareHold: [
+            new ShareHold(
+                locator: 45,
+                amount: 50.00,
+                achRecurringStop: 0,
+                availableBalance: 100.00,
+                feeCode: 1,
+                feeDescription: 'Fake share hold transaction record',
+                payeeName: 'John Doe',
+                stopPayCode: 23,
+                holdCreationDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-03-02').toString()),
+                effectiveDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-03-02').toString()),
+                expirationDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-04-02').toString()),
+                reference1: '000223344',
+                reference2: '000443322'
             )
         ]
     )
@@ -338,6 +378,20 @@ class TestData {
         ]
     )
 
+    static LoanTransactionPagedListResponse loanTransactionPagedListResponse = new LoanTransactionPagedListResponse(
+        messageId: 'Test',
+        token: 'Test',
+        loanTransaction: [
+            new LoanTransaction(
+                id: '22222-22222',
+                accountNumber: '123456789',
+                activityDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
+                description: 'Fake loan transaction record',
+                tranAmount: 100.00
+            )
+        ]
+    )
+
     static LoanTransactionSearchPagedSelectFieldsResponse loanTransactionSearchPagedSelectFieldsResponse = new LoanTransactionSearchPagedSelectFieldsResponse(
         messageId: 'Test',
         token: 'Test',
@@ -348,6 +402,21 @@ class TestData {
                 activityDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString()),
                 description: 'Fake loan transaction record',
                 tranAmount: 100.00
+            )
+        ]
+    )
+
+    static LoanHoldPagedListResponse loanHoldPagedListResponse = new LoanHoldPagedListResponse(
+        messageId: 'Test',
+        token: null,
+        loanHold: [
+            new LoanHold(
+                amount: 33.00,
+                availableBalance: 100.00,
+                feeDescription: 'Fake loan hold transaction record',
+                locator: 3,
+                feeCode: 1,
+                effectiveDate: DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-05-02').toString())
             )
         ]
     )
