@@ -4,6 +4,7 @@ import com.backbase.accelerators.symitar.client.SymitarRequestSettings;
 import com.backbase.accelerators.symitar.client.account.model.GetAccountRestrictionStatusResponse;
 import com.backbase.accelerators.symitar.client.account.model.GetElectronicStatementsStatusResponse;
 import com.backbase.accelerators.symitar.client.account.model.GetProductsResponse;
+import com.backbase.accelerators.symitar.client.account.model.GetTrackingRecordsResponse;
 import com.backbase.accelerators.symitar.client.util.SymitarUtils;
 import com.symitar.generated.symxchange.account.AccountRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
@@ -39,6 +40,10 @@ import com.symitar.generated.symxchange.account.dto.retrieve.ShareFilter;
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareList;
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransferSelectableFields;
+import com.symitar.generated.symxchange.account.dto.retrieve.Tracking;
+import com.symitar.generated.symxchange.account.dto.retrieve.TrackingFilter;
+import com.symitar.generated.symxchange.account.dto.retrieve.TrackingList;
+import com.symitar.generated.symxchange.account.dto.retrieve.TrackingSelectableFields;
 import com.symitar.generated.symxchange.account.dto.update.LoanUpdateableFields;
 import com.symitar.generated.symxchange.account.dto.update.ShareUpdateableFields;
 import lombok.extern.slf4j.Slf4j;
@@ -76,12 +81,12 @@ public class AccountClient {
      * - A list of card records
      * - Account-level preferences
      * </pre>
-     * @param accountNumber the member account number
-     * @param shareFilter filter parameter to restrict which share products are returned
-     * @param loanFilter filter parameter to restrict which loan products are returned
-     * @param externalLoanFilter filter parameter to restrict which external loan products are returned
      *
-     * @return a list of share, loan and external loan products.
+     * @param accountNumber      the member account number
+     * @param shareFilter        filter parameter to restrict which share products are returned
+     * @param loanFilter         filter parameter to restrict which loan products are returned
+     * @param externalLoanFilter filter parameter to restrict which external loan products are returned
+     * @return a list of share, loan, external loan and card products.
      */
     public GetProductsResponse getProducts(
         String accountNumber,
@@ -144,8 +149,9 @@ public class AccountClient {
 
     /**
      * Returns a single share with the given account number and share ID.
+     *
      * @param accountNumber the member account number
-     * @param shareId the ID of the share
+     * @param shareId       the ID of the share
      * @return
      */
     public Share getShare(String accountNumber, String shareId) {
@@ -162,8 +168,9 @@ public class AccountClient {
 
     /**
      * Returns a single loan with the given account number and loan ID.
+     *
      * @param accountNumber the member account number
-     * @param loanId the ID of the loan
+     * @param loanId        the ID of the loan
      * @return
      */
     public Loan getLoan(String accountNumber, String loanId) {
@@ -180,8 +187,9 @@ public class AccountClient {
 
     /**
      * Updates a share in the core.
-     * @param accountNumber the member account number
-     * @param shareId the unique identifier of the share product
+     *
+     * @param accountNumber         the member account number
+     * @param shareId               the unique identifier of the share product
      * @param shareUpdateableFields contains the properties of the share to be updated
      * @return
      */
@@ -204,8 +212,9 @@ public class AccountClient {
 
     /**
      * Updates a loan in the core.
-     * @param accountNumber the member account number
-     * @param loanId the unique identifier of the share product
+     *
+     * @param accountNumber        the member account number
+     * @param loanId               the unique identifier of the share product
      * @param loanUpdateableFields contains the properties of the loan to be updated
      * @return
      */
@@ -228,6 +237,7 @@ public class AccountClient {
 
     /**
      * Returns whether the account has a restriction imposed on it by checking the frozenMode property.
+     *
      * @param accountNumber the member account number
      * @return
      */
@@ -242,6 +252,7 @@ public class AccountClient {
 
     /**
      * Returns the whether the account can access electronic statements.
+     *
      * @param accountNumber the member account number
      * @return
      */
@@ -264,7 +275,7 @@ public class AccountClient {
         return response;
     }
 
-    public PreferenceListSelectFieldsResponse getLinkedAccounts(String accountNumber)  {
+    public PreferenceListSelectFieldsResponse getLinkedAccounts(String accountNumber) {
         PreferenceListSelectFieldsRequest request = new PreferenceListSelectFieldsRequest();
         request.setAccountNumber(accountNumber);
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
@@ -278,6 +289,29 @@ public class AccountClient {
 
         log.debug("Invoking getPreferenceListSelectFields with request: {}", SymitarUtils.toXmlString(request));
         return accountService.getPreferenceListSelectFields(request);
+    }
+
+    /**
+     * Returns a list of tracking records associated with the account.
+     * @param accountNumber the member account number
+     * @param trackingFilter an optional search filter that can be used to restrict which records are returned
+     * @return
+     */
+    public GetTrackingRecordsResponse getTrackingRecords(String accountNumber, String trackingFilter) {
+        AccountSelectFieldsFilterChildrenRequest request =
+            SymitarUtils.initializeAccountSelectFieldsFilterChildrenRequest(symitarRequestSettings, accountNumber);
+
+        if (StringUtils.isNotBlank(trackingFilter)) {
+            setTrackingFilterQuery(trackingFilter, request);
+        }
+
+        TrackingSelectableFields trackingSelectableFields = new TrackingSelectableFields();
+        trackingSelectableFields.setIncludeAllTrackingFields(true);
+
+        request.getSelectableFields().setTrackingSelectableFields(trackingSelectableFields);
+
+        log.debug("Invoking getAccountSelectFieldsFilterChildren with request: {}", SymitarUtils.toXmlString(request));
+        return mapToGetTrackingRecordsResponse(accountService.getAccountSelectFieldsFilterChildren(request));
     }
 
     private void setShareFilterQuery(String shareFilter, AccountSelectFieldsFilterChildrenRequest request) {
@@ -305,6 +339,16 @@ public class AccountClient {
         lf.setQuery(loanFilter);
 
         request.getChildrenSearchFilter().setExternalLoanFilter(lf);
+
+    }
+
+    private void setTrackingFilterQuery(String trackingFilter, AccountSelectFieldsFilterChildrenRequest request) {
+        log.debug("Setting tracking search filter on AccountSelectFieldsFilterChildrenRequest: {}", trackingFilter);
+
+        TrackingFilter tf = new TrackingFilter();
+        tf.setQuery(trackingFilter);
+
+        request.getChildrenSearchFilter().setTrackingFilter(tf);
 
     }
 
@@ -343,6 +387,25 @@ public class AccountClient {
         getProductsResponse.setCards(cards);
 
         return getProductsResponse;
+    }
+
+    private GetTrackingRecordsResponse mapToGetTrackingRecordsResponse(
+        AccountSelectFieldsFilterChildrenResponse response) {
+
+        Optional<Account> account = Optional.ofNullable(response.getAccount());
+
+        Short accountType = account.map(Account::getType)
+            .orElse(null);
+
+        List<Tracking> trackingRecords = account.map(Account::getTrackingList)
+            .map(TrackingList::getTracking)
+            .orElse(Collections.emptyList());
+
+        GetTrackingRecordsResponse getTrackingRecordsResponse = new GetTrackingRecordsResponse();
+        getTrackingRecordsResponse.setAccountType(accountType);
+        getTrackingRecordsResponse.setTrackingRecords(trackingRecords);
+
+        return getTrackingRecordsResponse;
     }
 
     private GetAccountRestrictionStatusResponse mapToGetAccountRestrictionStatusResponse(

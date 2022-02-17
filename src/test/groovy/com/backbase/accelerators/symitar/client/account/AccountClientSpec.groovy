@@ -2,6 +2,7 @@ package com.backbase.accelerators.symitar.client.account
 
 import com.backbase.accelerators.symitar.client.TestData
 import com.backbase.accelerators.symitar.client.account.model.GetProductsResponse
+import com.backbase.accelerators.symitar.client.account.model.GetTrackingRecordsResponse
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest
 import com.symitar.generated.symxchange.account.AccountService
 import com.symitar.generated.symxchange.account.LoanRequest
@@ -118,6 +119,28 @@ class AccountClientSpec extends Specification {
             availableCredit == null
             micrAcctNumber == '02'
             maturityDate == DatatypeFactory.newInstance().newXMLGregorianCalendar(LocalDate.parse('2020-02-02').toString())
+        }
+    }
+
+    void 'getTrackingRecords returns a list of tracking records associated with the account' () {
+        given: 'An accountNumber'
+        String accountNumber = '518907'
+
+        when: 'The account client is invoked'
+        GetTrackingRecordsResponse result = accountClient.getTrackingRecords(accountNumber, null)
+
+        then: 'The account service mock calls getAccountSelectFieldsFilterChildren exactly 1 time'
+        1 * accountService.getAccountSelectFieldsFilterChildren(
+            _ as AccountSelectFieldsFilterChildrenRequest) >> TestData.accountSelectFieldsFilterChildrenResponse
+
+        and: 'The expected results are returned'
+        verifyAll(result) {
+            accountType == 20
+
+            trackingRecords[0].id == '0070'
+            trackingRecords[0].idType == 0
+            trackingRecords[0].locator == 526
+            trackingRecords[0].trackingCode == 40
         }
     }
 

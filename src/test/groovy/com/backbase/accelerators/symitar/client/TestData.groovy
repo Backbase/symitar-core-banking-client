@@ -50,6 +50,8 @@ import com.symitar.generated.symxchange.account.dto.retrieve.ShareList
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransaction
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransfer
 import com.symitar.generated.symxchange.account.dto.retrieve.ShareTransferList
+import com.symitar.generated.symxchange.account.dto.retrieve.Tracking
+import com.symitar.generated.symxchange.account.dto.retrieve.TrackingList
 import com.symitar.generated.symxchange.account.dto.update.NameUpdateableFields
 import com.symitar.generated.symxchange.account.dto.update.ShareUpdateableFields
 import com.symitar.generated.symxchange.common.dto.common.AdminCredentialsChoice
@@ -202,6 +204,16 @@ class TestData {
                                 )
                             ]
                         )
+                    )
+                ]
+            ),
+            trackingList: new TrackingList(
+                tracking: [
+                    new Tracking(
+                        id: '0070',
+                        idType: 0,
+                        locator: 526,
+                        trackingCode: 40
                     )
                 ]
             )
