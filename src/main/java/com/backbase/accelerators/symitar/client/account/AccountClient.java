@@ -218,7 +218,7 @@ public class AccountClient {
      * @param loanUpdateableFields contains the properties of the loan to be updated
      * @return
      */
-    public LoanUpdateByIDResponse updateLoanName(
+    public LoanUpdateByIDResponse updateLoan(
         String accountNumber,
         String loanId,
         LoanUpdateableFields loanUpdateableFields) {
