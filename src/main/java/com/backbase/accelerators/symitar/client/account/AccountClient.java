@@ -10,6 +10,7 @@ import com.symitar.generated.symxchange.account.AccountRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
 import com.symitar.generated.symxchange.account.AccountService;
+import com.symitar.generated.symxchange.account.ExternalLoanRequest;
 import com.symitar.generated.symxchange.account.LoanRequest;
 import com.symitar.generated.symxchange.account.LoanUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsRequest;
@@ -186,6 +187,25 @@ public class AccountClient {
     }
 
     /**
+     * Returns a single external loan with the given account number and external loan locator.
+     *
+     * @param accountNumber       the member account number
+     * @param externalLoanLocator the locator (identifier) of the external loan
+     * @return
+     */
+    public ExternalLoan getExternalLoan(String accountNumber, int externalLoanLocator) {
+        ExternalLoanRequest externalLoanRequest = new ExternalLoanRequest();
+        externalLoanRequest.setAccountNumber(accountNumber);
+        externalLoanRequest.setExternalLoanLocator(externalLoanLocator);
+        externalLoanRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        externalLoanRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        externalLoanRequest.setMessageId(symitarRequestSettings.getMessageId());
+
+        log.debug("Invoking getExternalLoan with request: {}", SymitarUtils.toXmlString(externalLoanRequest));
+        return accountService.getExternalLoan(externalLoanRequest).getExternalLoan();
+    }
+
+    /**
      * Updates a share in the core.
      *
      * @param accountNumber         the member account number
@@ -293,7 +313,8 @@ public class AccountClient {
 
     /**
      * Returns a list of tracking records associated with the account.
-     * @param accountNumber the member account number
+     *
+     * @param accountNumber  the member account number
      * @param trackingFilter an optional search filter that can be used to restrict which records are returned
      * @return
      */
