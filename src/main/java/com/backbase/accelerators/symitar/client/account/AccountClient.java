@@ -256,6 +256,23 @@ public class AccountClient {
     }
 
     /**
+     * Returns the account-level details for the given account number.
+     *
+     * @param accountNumber the member account number
+     * @return
+     */
+    public Account getAccount(String accountNumber) {
+        AccountRequest request = new AccountRequest();
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setAccountNumber(accountNumber);
+
+        log.debug("Invoking getAccount with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.getAccount(request).getAccount();
+    }
+
+    /**
      * Returns whether the account has a restriction imposed on it by checking the frozenMode property.
      *
      * @param accountNumber the member account number
