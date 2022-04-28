@@ -12,6 +12,7 @@ import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildre
 import com.symitar.generated.symxchange.account.AccountService;
 import com.symitar.generated.symxchange.account.CreateShareHoldRequest;
 import com.symitar.generated.symxchange.account.ExternalLoanRequest;
+import com.symitar.generated.symxchange.account.ExternalLoanUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.LoanRequest;
 import com.symitar.generated.symxchange.account.LoanUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsRequest;
@@ -19,6 +20,7 @@ import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsRespon
 import com.symitar.generated.symxchange.account.ShareHoldCreateResponse;
 import com.symitar.generated.symxchange.account.ShareRequest;
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse;
+import com.symitar.generated.symxchange.account.UpdateExternalLoanByIDRequest;
 import com.symitar.generated.symxchange.account.UpdateLoanByIDRequest;
 import com.symitar.generated.symxchange.account.UpdateShareByIDRequest;
 import com.symitar.generated.symxchange.account.dto.create.ShareHoldCreatableFields;
@@ -48,6 +50,7 @@ import com.symitar.generated.symxchange.account.dto.retrieve.Tracking;
 import com.symitar.generated.symxchange.account.dto.retrieve.TrackingFilter;
 import com.symitar.generated.symxchange.account.dto.retrieve.TrackingList;
 import com.symitar.generated.symxchange.account.dto.retrieve.TrackingSelectableFields;
+import com.symitar.generated.symxchange.account.dto.update.ExternalLoanUpdateableFields;
 import com.symitar.generated.symxchange.account.dto.update.LoanUpdateableFields;
 import com.symitar.generated.symxchange.account.dto.update.ShareUpdateableFields;
 import lombok.extern.slf4j.Slf4j;
@@ -256,6 +259,33 @@ public class AccountClient {
 
         log.debug("Invoking updateLoanByID with request: {}", SymitarUtils.toXmlString(updateLoanByIdRequest));
         return accountService.updateLoanByID(updateLoanByIdRequest);
+    }
+
+    /**
+     * Updates an external loan in the core.
+     *
+     * @param accountNumber the member account number
+     * @param externalLoanLocator the unique identifier of the external loan
+     * @param externalLoanUpdateableFields contains the properties of the external loan to be updated
+     * @return
+     */
+    public ExternalLoanUpdateByIDResponse updateExternalLoan(
+        String accountNumber,
+        int externalLoanLocator,
+        ExternalLoanUpdateableFields externalLoanUpdateableFields) {
+
+        UpdateExternalLoanByIDRequest updateExternalLoanByIdRequest = new UpdateExternalLoanByIDRequest();
+        updateExternalLoanByIdRequest.setMessageId(symitarRequestSettings.getMessageId());
+        updateExternalLoanByIdRequest.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        updateExternalLoanByIdRequest.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        updateExternalLoanByIdRequest.setExternalLoanLocator(externalLoanLocator);
+        updateExternalLoanByIdRequest.setAccountNumber(accountNumber);
+        updateExternalLoanByIdRequest.setExternalLoanUpdateableFields(externalLoanUpdateableFields);
+
+        log.debug("Invoking updateExternalLoanByID with request: {}",
+            SymitarUtils.toXmlString(updateExternalLoanByIdRequest));
+
+        return accountService.updateExternalLoanByID(updateExternalLoanByIdRequest);
     }
 
     /**
