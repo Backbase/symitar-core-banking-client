@@ -30,7 +30,7 @@ from your customer.
 symitar:
   client:
     baseUrl: http://symitar.webservice.host:8087/SymXchange/2020.00
-    admin-password: ADMIN_PASSWORD
+    admin-credientials: ADMIN_CREDENTIALS
     device-type: DEVICE_TYPE
     device-number: 12345
 ```
@@ -43,13 +43,17 @@ symitar:
 public class SymitarCoreBankingClientProperties {
 
     private String baseUrl;
-    private String adminPassword;
+    private String adminCredentials;
     private String deviceType;
     private short deviceNumber;
 
     public SymitarRequestSettings toSymitarRequestSettings() {
+        /* This example uses AdministrativeCredentials, but there are other credential types such as 
+        UserNumberCredentials, TokenCredentials, AccountNumberCredentials, etc. 
+        Review the AdminCredentialsChoice and CredentialsChoice classes to understand what options are available to set */
+
         AdministrativeCredentials administrativeCredentials = new AdministrativeCredentials();
-        administrativeCredentials.setPassword(adminPassword);
+        administrativeCredentials.setPassword(adminCredentials);
 
         AdminCredentialsChoice adminCredentialsChoice = new AdminCredentialsChoice();
         adminCredentialsChoice.setAdministrativeCredentials(administrativeCredentials);
@@ -118,7 +122,7 @@ public class SymitarCoreBankingClientConfiguration {
         String url = buildFinalUrl(symitarCoreBankingClientProperties.getBaseUrl(), Endpoints.TRANSACTIONS_ENDPOINT);
         return new TransactionsService_Service(new URL(url)).getTransactionsServicePort();
     }
-    
+
     private String buildFinalUrl(String baseUrl, String endpoint) {
         return baseUrl.concat(endpoint);
     }
@@ -132,10 +136,11 @@ The `SymitarRequestSettings` supports additional nested configuration settings f
 - Stop check payments
 - Wire transfers
 
-This is done to promote feature-specific configurability that may vary across customers. For example, a stop check payment fee withdrawal code for one 
-institution may be `1`, but for another institution it may be `3`.
+This is done to promote feature-specific configurability that may vary across customers. For example, a stop check
+payment fee withdrawal code for one institution may be `1`, but for another institution it may be `3`.
 
-Leveraging the example above, you can define additional properties in your `application.yml` as follows (this example will use stop check payments):
+Leveraging the example above, you can define additional properties in your `application.yml` as follows (this example
+will use stop check payments):
 
 ```yaml
 symitar:
@@ -149,7 +154,7 @@ symitar:
       withdrawalFeeReasonText: Withdrawal fee for stop check payment
       withdrawalFeeCode: 1
       generalLedgerClearingCode: 33
-      
+
 ```
 
 And update `SymitarCoreBankingClientProperties`:
@@ -170,7 +175,7 @@ public class SymitarCoreBankingClientProperties {
     // Static nested class to hold stop check payment configuration
     @Data
     public static class StopCheckPaymentOptions {
-        
+
         private BigDecimal withdrawalFeeAmount;
         private String withdrawalFeeReasonText;
         private short withdrawalFeeCode;
@@ -197,7 +202,7 @@ public class SymitarCoreBankingClientProperties {
         stopCheckPaymentSettings.setWithdrawalFeeReasonText(stopCheckPaymentOptions.getWithdrawalFeeReasonText());
         stopCheckPaymentSettings.setWithdrawalFeeCode(stopCheckPaymentOptions.getWithdrawalFeeCode());
         stopCheckPaymentSettings.setGeneralLedgerClearingCode(stopCheckPaymentOptions.getGeneralLedgerClearingCode());
-        
+
         SymitarRequestSettings symitarRequestSettings = new SymitarRequestSettings();
         symitarRequestSettings.setBaseUrl(baseUrl);
         symitarRequestSettings.setAdminCredentialsChoice(adminCredentialsChoice);
