@@ -6,7 +6,9 @@ import com.symitar.generated.symxchange.account.dto.retrieve.AccountChildrenFilt
 import com.symitar.generated.symxchange.account.dto.retrieve.AccountSelectableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.CardSelectableFields;
 import com.symitar.generated.symxchange.account.dto.update.ObjectFactory;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -36,6 +38,16 @@ public class SymitarUtils {
         EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EFFECTIVE_DATE,
         EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_NEXT_DATE,
         NAME_UPDATABLE_FIELDS_EXPIRATION_DATE,
+        EFT_UPDATABLE_FIELDS_EFFECTIVE_DATE,
+        EFT_UPDATABLE_FIELDS_EXPIRATION_DATE
+    }
+
+    public String leftPadAccountNumber(String accountNumber) {
+        if (StringUtils.isEmpty(accountNumber)) {
+            return null;
+        }
+
+        return String.format("%010d", Integer.parseInt(accountNumber));
     }
 
     public String toString(Object object) {
@@ -78,18 +90,9 @@ public class SymitarUtils {
         return request;
     }
 
-    public JAXBElement<XMLGregorianCalendar> convertToXmlGregorianCalendar(LocalDate localDate) {
-        if (Objects.isNull(localDate)) {
-            return null;
-        }
-
-        return new ObjectFactory().createShareTransferUpdateableFieldsEffectiveDate(
-            DatatypeFactory.newDefaultInstance()
-                .newXMLGregorianCalendarDate(
-                    localDate.getYear(),
-                    localDate.getMonthValue(),
-                    localDate.getDayOfMonth(),
-                    DatatypeConstants.FIELD_UNDEFINED));
+    @SneakyThrows
+    public XMLGregorianCalendar convertToXmlGregorianCalendar(LocalDate localDate) {
+        return DatatypeFactory.newInstance().newXMLGregorianCalendar(localDate.toString());
     }
 
     public JAXBElement<XMLGregorianCalendar> convertToXmlGregorianCalendar(LocalDate localDate, DateType dateType) {
@@ -204,6 +207,22 @@ public class SymitarUtils {
 
         } else if (dateType == DateType.NAME_UPDATABLE_FIELDS_EXPIRATION_DATE) {
             return new ObjectFactory().createNameUpdateableFieldsExpirationDate(
+                DatatypeFactory.newDefaultInstance()
+                    .newXMLGregorianCalendarDate(
+                        localDate.getYear(),
+                        localDate.getMonthValue(),
+                        localDate.getDayOfMonth(),
+                        DatatypeConstants.FIELD_UNDEFINED));
+        } else if (dateType == DateType.EFT_UPDATABLE_FIELDS_EFFECTIVE_DATE) {
+            return new ObjectFactory().createEftTransferUpdateableFieldsEffectiveDate(
+                DatatypeFactory.newDefaultInstance()
+                    .newXMLGregorianCalendarDate(
+                        localDate.getYear(),
+                        localDate.getMonthValue(),
+                        localDate.getDayOfMonth(),
+                        DatatypeConstants.FIELD_UNDEFINED));
+        } else if (dateType == DateType.EFT_UPDATABLE_FIELDS_EXPIRATION_DATE) {
+            return new ObjectFactory().createEftUpdateableFieldsExpirationDate(
                 DatatypeFactory.newDefaultInstance()
                     .newXMLGregorianCalendarDate(
                         localDate.getYear(),

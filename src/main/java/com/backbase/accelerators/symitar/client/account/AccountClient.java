@@ -10,15 +10,18 @@ import com.symitar.generated.symxchange.account.AccountRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenRequest;
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse;
 import com.symitar.generated.symxchange.account.AccountService;
+import com.symitar.generated.symxchange.account.CreateShareHoldRequest;
 import com.symitar.generated.symxchange.account.ExternalLoanRequest;
 import com.symitar.generated.symxchange.account.LoanRequest;
 import com.symitar.generated.symxchange.account.LoanUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsRequest;
 import com.symitar.generated.symxchange.account.PreferenceListSelectFieldsResponse;
+import com.symitar.generated.symxchange.account.ShareHoldCreateResponse;
 import com.symitar.generated.symxchange.account.ShareRequest;
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse;
 import com.symitar.generated.symxchange.account.UpdateLoanByIDRequest;
 import com.symitar.generated.symxchange.account.UpdateShareByIDRequest;
+import com.symitar.generated.symxchange.account.dto.create.ShareHoldCreatableFields;
 import com.symitar.generated.symxchange.account.dto.retrieve.Account;
 import com.symitar.generated.symxchange.account.dto.retrieve.Card;
 import com.symitar.generated.symxchange.account.dto.retrieve.CardList;
@@ -253,6 +256,31 @@ public class AccountClient {
 
         log.debug("Invoking updateLoanByID with request: {}", SymitarUtils.toXmlString(updateLoanByIdRequest));
         return accountService.updateLoanByID(updateLoanByIdRequest);
+    }
+
+    /**
+     * Create a share hold record in the core.
+     *
+     * @param accountNumber the member account number
+     * @param shareId the unique identifier of the share product
+     * @param shareHoldCreatableFields contains the properties of the share hold
+     * @return
+     */
+    public ShareHoldCreateResponse createShareHold(
+        String accountNumber,
+        String shareId,
+        ShareHoldCreatableFields shareHoldCreatableFields) {
+
+        var request = new CreateShareHoldRequest();
+        request.setCredentials(symitarRequestSettings.getCredentialsChoice());
+        request.setMessageId(symitarRequestSettings.getMessageId());
+        request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
+        request.setAccountNumber(SymitarUtils.leftPadAccountNumber(accountNumber));
+        request.setShareId(shareId);
+        request.setShareHoldCreatableFields(shareHoldCreatableFields);
+
+        log.debug("Invoking createShareHold() with request: {}", SymitarUtils.toXmlString(request));
+        return accountService.createShareHold(request);
     }
 
     /**

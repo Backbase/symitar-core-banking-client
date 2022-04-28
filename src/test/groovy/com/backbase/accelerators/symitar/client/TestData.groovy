@@ -1,10 +1,10 @@
 package com.backbase.accelerators.symitar.client
 
 
-import com.backbase.accelerators.symitar.client.transfer.model.InitiateTransferRequest
-import com.backbase.accelerators.symitar.client.transfer.model.ProductType
 import com.backbase.accelerators.symitar.client.util.SymitarUtils
 import com.symitar.generated.symxchange.account.AccountSelectFieldsFilterChildrenResponse
+import com.symitar.generated.symxchange.account.EftCreateResponse
+import com.symitar.generated.symxchange.account.EftUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ExternalLoanTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.LoanHoldCreateResponse
 import com.symitar.generated.symxchange.account.LoanHoldPagedListResponse
@@ -26,6 +26,7 @@ import com.symitar.generated.symxchange.account.ShareTransactionSearchPagedSelec
 import com.symitar.generated.symxchange.account.ShareTransferCreateResponse
 import com.symitar.generated.symxchange.account.ShareTransferUpdateByIDResponse
 import com.symitar.generated.symxchange.account.ShareUpdateByIDResponse
+import com.symitar.generated.symxchange.account.dto.create.EftCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.ExternalLoanTransferCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.LoanHoldCreatableFields
 import com.symitar.generated.symxchange.account.dto.create.NameCreatableFields
@@ -536,27 +537,6 @@ class TestData {
         confirmation: '1'
     )
 
-    static InitiateTransferRequest initiateTransferRequest_scheduledTransfer = new InitiateTransferRequest(
-        sourceAccountNumber: '000012345',
-        sourceProductId: '0010',
-        sourceProductType: ProductType.LOAN,
-        destinationAccountNumber: '000054321',
-        destinationProductId: '0020',
-        amount: 10000,
-        frequency: 1,
-        day1: 12,
-        destinationProductType: ProductType.SHARE
-    )
-
-    static InitiateTransferRequest initiateTransferRequest_immediateTransfer = new InitiateTransferRequest(
-        sourceAccountNumber: '000012345',
-        sourceProductId: '0010',
-        sourceProductType: ProductType.LOAN,
-        destinationAccountNumber: '000054321',
-        destinationProductId: '0020',
-        amount: 10000
-    )
-
     static ShareTransferUpdateByIDResponse shareTransferUpdateByIDResponse = new ShareTransferUpdateByIDResponse(
         messageId: 'Test',
         updateStatus: new UpdateStatus(
@@ -626,8 +606,8 @@ class TestData {
         payeeName: 'John Doe',
         stopPayCode: 99,
         type: 1,
-        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
-        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now(), SymitarUtils.DateType.SHARE_HOLD_UPDATABLE_FIELDS_EFFECTIVE_DATE),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1), SymitarUtils.DateType.SHARE_HOLD_UPDATABLE_FIELDS_EXPIRATION_DATE),
         reference1: '1234',
         reference2: '1239',
         reference3: 'This is a comment detailing the reason for the stop payment request'
@@ -639,8 +619,8 @@ class TestData {
         payeeName: 'Jane Doe',
         stopPayCode: 99,
         type: 2,
-        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
-        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now(), SymitarUtils.DateType.LOAN_HOLD_UPDATABLE_FIELDS_EFFECTIVE_DATE),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1), SymitarUtils.DateType.LOAN_HOLD_UPDATABLE_FIELDS_EXPIRATION_DATE),
         reference1: '1234',
         reference2: '1239',
         reference3: 'This is a comment detailing the reason for the stop payment request'
@@ -655,9 +635,9 @@ class TestData {
         day1: 15,
         type: 0,
         paymentType: 0,
-        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
-        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
-        nextDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusMonths(1)),
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now(), SymitarUtils.DateType.SHARE_TRANSFER_UPDATABLE_FIELDS_EFFECTIVE_DATE),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1),  SymitarUtils.DateType.SHARE_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE),
+        nextDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusMonths(1),  SymitarUtils.DateType.SHARE_TRANSFER_UPDATABLE_FIELDS_NEXT_DATE),
     )
 
     static TransferRequest transferRequest = new TransferRequest(
@@ -678,10 +658,29 @@ class TestData {
         day1: 15,
         type: 2,
         paymentType: 0,
-        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()),
-        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1)),
-        nextDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusMonths(1)),
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now(), SymitarUtils.DateType.EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EFFECTIVE_DATE),
+        expirationDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusYears(1), SymitarUtils.DateType.EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_EXPIRATION_DATE),
+        nextDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now().plusMonths(1), SymitarUtils.DateType.EXTERNAL_LOAN_TRANSFER_UPDATABLE_FIELDS_NEXT_DATE),
 
+    )
+
+    static EftCreatableFields eftCreatableFields = new EftCreatableFields(
+        postAmount: 100.00,
+        amountCode: 23,
+        id: '0010',
+        idType: 0,
+        payee: '061000052',
+        reference: '447000046777',
+        frequency: 0,
+        effectiveDate: SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now(), SymitarUtils.DateType.EFT_UPDATABLE_FIELDS_EFFECTIVE_DATE)
+    )
+
+    static EftCreateResponse eftCreateResponse = new EftCreateResponse(
+        eftLocator: 5453
+    )
+
+    static EftUpdateByIDResponse eftUpdateByIDResponse = new EftUpdateByIDResponse(
+        updateStatus: new UpdateStatus(isAllFieldsUpdateSuccess: true)
     )
 
 }

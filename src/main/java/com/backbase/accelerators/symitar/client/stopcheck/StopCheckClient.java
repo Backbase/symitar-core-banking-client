@@ -59,6 +59,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.backbase.accelerators.symitar.client.util.SymitarUtils.DateType.SHARE_HOLD_UPDATABLE_FIELDS_EXPIRATION_DATE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -156,7 +157,10 @@ public class StopCheckClient {
 
         // Updating the shareHold by setting an expiration date of today will effectively "cancel" the stop check
         ShareHoldUpdateableFields shareHoldUpdateableFields = new ShareHoldUpdateableFields();
-        shareHoldUpdateableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()));
+
+        shareHoldUpdateableFields.setExpirationDate(
+            SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now(),
+                SHARE_HOLD_UPDATABLE_FIELDS_EXPIRATION_DATE));
 
         UpdateShareHoldByIDRequest updateShareHoldByIdRequest = new UpdateShareHoldByIDRequest();
         updateShareHoldByIdRequest.setMessageId(symitarRequestSettings.getMessageId());
@@ -188,6 +192,7 @@ public class StopCheckClient {
 
         // Updating the loanHold by setting an expiration date of today will effectively "cancel" the stop check
         LoanHoldUpdateableFields loanHoldUpdateableFields = new LoanHoldUpdateableFields();
+
         loanHoldUpdateableFields.setExpirationDate(SymitarUtils.convertToXmlGregorianCalendar(
             LocalDate.now(),
             SymitarUtils.DateType.LOAN_HOLD_UPDATABLE_FIELDS_EXPIRATION_DATE));
@@ -287,7 +292,7 @@ public class StopCheckClient {
         request.setAccountNumber(accountNumber);
         request.setDonorId(donorId);
         request.setDonorType(donorType);
-        request.setEffectiveDate(SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()).getValue());
+        request.setEffectiveDate(SymitarUtils.convertToXmlGregorianCalendar(LocalDate.now()));
 
         Optional.ofNullable(symitarRequestSettings.getStopCheckPaymentSettings()).ifPresent(
             stopCheckPaymentSettings -> {

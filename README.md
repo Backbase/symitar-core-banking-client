@@ -130,11 +130,12 @@ public class SymitarCoreBankingClientConfiguration {
 The `SymitarRequestSettings` supports additional nested configuration settings for the following:
 
 - Stop check payments
+- Wire transfers
 
 This is done to promote feature-specific configurability that may vary across customers. For example, a stop check payment fee withdrawal code for one 
 institution may be `1`, but for another institution it may be `3`.
 
-Leveraging the example above, you can define additional properties for stop check payments in your `application.yml` as follows:
+Leveraging the example above, you can define additional properties in your `application.yml` as follows (this example will use stop check payments):
 
 ```yaml
 symitar:

@@ -34,7 +34,6 @@ import com.symitar.generated.symxchange.transactions.TransactionsService;
 import com.symitar.generated.symxchange.transactions.dto.TransactionsOverdrawInformationResponse;
 import com.symitar.generated.symxchange.transactions.dto.TransferRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -178,7 +177,7 @@ public class TransferClient {
         request.setCredentials(symitarRequestSettings.getCredentialsChoice());
         request.setDeviceInformation(symitarRequestSettings.getDeviceInformation());
         request.setMessageId(symitarRequestSettings.getMessageId());
-        request.setAccountNumber(leftPadAccountNumber(accountNumber));
+        request.setAccountNumber(SymitarUtils.leftPadAccountNumber(accountNumber));
         request.setExternalLoanLocator(externalLoanLocator);
         request.setExternalLoanTransferCreatableFields(externalLoanTransferCreatableFields);
 
@@ -321,13 +320,5 @@ public class TransferClient {
             .peek(transfer ->
                 log.debug("Fetched external loan transfer record: {}", SymitarUtils.toXmlString(transfer)))
             .collect(Collectors.toList());
-    }
-
-    private String leftPadAccountNumber(String accountNumber) {
-        if (StringUtils.isEmpty(accountNumber)) {
-            return null;
-        }
-
-        return String.format("%010d", Integer.parseInt(accountNumber));
     }
 }
