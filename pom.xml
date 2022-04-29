@@ -31,7 +31,7 @@
         <!-- Plugin Versions -->
         <cxf-codegen-plugin>3.4.2</cxf-codegen-plugin>
         <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-        <puppycrawl.version>8.23</puppycrawl.version>
+        <puppycrawl.version>8.29</puppycrawl.version>
         <gmavenplus-plugin.version>1.12.1</gmavenplus-plugin.version>
     </properties>
 
